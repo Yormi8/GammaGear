@@ -1,0 +1,190 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <RootNamespace>GammaGear</RootNamespace>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+    <StartupObject>GammaGear.App</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Amulet.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Athame.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Boots.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_CircleJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Deck.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Hat.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Mount.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Pet.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquarePower.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareShield.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareSword.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Ring.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Robe.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_SquareJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_StarJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_TearJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_TriangleJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_Wand.png" />
+    <None Remove="Assets\Images\%28Icon%29_Help.png" />
+    <None Remove="Assets\Images\%28Icon%29_Pet_Agility.png" />
+    <None Remove="Assets\Images\%28Icon%29_Pet_Intellect.png" />
+    <None Remove="Assets\Images\%28Icon%29_Pet_Power.png" />
+    <None Remove="Assets\Images\%28Icon%29_Pet_Strength.png" />
+    <None Remove="Assets\Images\%28Icon%29_Pet_Will.png" />
+    <None Remove="Assets\Images\%28Icon%29_Realms.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Balance.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Death.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Fire.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Global.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Ice.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Life.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Myth.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Balance.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Death.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Fire.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Ice.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Life.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Myth.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Shadow.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Not_Storm.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Shadow.png" />
+    <None Remove="Assets\Images\%28Icon%29_School_Storm.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Accuracy.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Archmastery.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Armor_Piercing.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Critical.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Critical_Block.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Damage.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Energy.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Fishing_Luck.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Flat_Damage.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Flat_Resistance.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Healing.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Health.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Incoming.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Mana.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Outgoing.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Pip_Conversion.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Power_Pip.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Resistance.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Shadow_Pip.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Stun_Resistance.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_XP.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stat_Stun_Resistance.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Character.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Eye.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Flask.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Furniture.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Inventory.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_Pet.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_PvP.png" />
+    <None Remove="Assets\Images\%28Icon%29_Tab_World.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Amulet.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Athame.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Boots.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_CircleJewel.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Deck.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Hat.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Mount.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Pet.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquarePower.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareShield.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareSword.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Ring.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Robe.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_SquareJewel.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_StarJewel.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_TearJewel.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_TriangleJewel.png" />
+    <Resource Include="Assets\Images\(Icon)_Equipment_Wand.png" />
+    <Resource Include="Assets\Images\(Icon)_Help.png" />
+    <Resource Include="Assets\Images\(Icon)_Pet_Agility.png" />
+    <Resource Include="Assets\Images\(Icon)_Pet_Intellect.png" />
+    <Resource Include="Assets\Images\(Icon)_Pet_Power.png" />
+    <Resource Include="Assets\Images\(Icon)_Pet_Strength.png" />
+    <Resource Include="Assets\Images\(Icon)_Pet_Will.png" />
+    <Resource Include="Assets\Images\(Icon)_Realms.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Balance.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Death.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Fire.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Global.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Ice.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Life.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Myth.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Balance.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Death.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Fire.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Ice.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Life.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Myth.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Shadow.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Not_Storm.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Shadow.png" />
+    <Resource Include="Assets\Images\(Icon)_School_Storm.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Accuracy.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Archmastery.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Armor_Piercing.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Critical.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Critical_Block.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Damage.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Energy.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Fishing_Luck.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Damage.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Resistance.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Healing.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Health.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Incoming.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Mana.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Outgoing.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Pip_Conversion.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Power_Pip.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Resistance.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Shadow_Pip.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_Stun_Resistance.png" />
+    <Resource Include="Assets\Images\(Icon)_Stats_XP.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Character.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Eye.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Flask.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Furniture.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Inventory.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_Pet.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_PvP.png" />
+    <Resource Include="Assets\Images\(Icon)_Tab_World.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
