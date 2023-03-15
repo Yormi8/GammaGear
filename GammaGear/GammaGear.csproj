@@ -18,6 +18,7 @@
   </PropertyGroup>
     
   <ItemGroup>
+    <None Remove="Assets\Data\level_based_stats.csv" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Amulet.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Athame.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Boots.png" />
@@ -99,6 +100,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Data\level_based_stats.csv" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Amulet.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Athame.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Boots.png" />

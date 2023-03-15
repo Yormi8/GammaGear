@@ -126,29 +126,29 @@ namespace GammaGear.Source
         public int SwordPinSlots { get; set; } = 0;
         public int SetBonusLevel { get; set; } = -1;
         public ItemSetBonus SetBonus { get; set; }
-        public List<KeyValuePair<School, int>> Accuracies { get; set; }
-        public List<KeyValuePair<School, int>> Damages { get; set; }
-        public List<KeyValuePair<School, int>> Resists { get; set; }
-        public List<KeyValuePair<School, int>> Criticals { get; set; }
-        public List<KeyValuePair<School, int>> Blocks { get; set; }
-        public List<KeyValuePair<School, int>> Pierces { get; set; }
-        public List<KeyValuePair<School, int>> FlatDamages { get; set; }
-        public List<KeyValuePair<School, int>> FlatResists { get; set; }
-        public List<KeyValuePair<School, int>> PipConversions { get; set; }
-        public List<KeyValuePair<string, int>> ItemCards { get; set; }
+        public Dictionary<School, int> Accuracies { get; set; }
+        public Dictionary<School, int> Damages { get; set; }
+        public Dictionary<School, int> Resists { get; set; }
+        public Dictionary<School, int> Criticals { get; set; }
+        public Dictionary<School, int> Blocks { get; set; }
+        public Dictionary<School, int> Pierces { get; set; }
+        public Dictionary<School, int> FlatDamages { get; set; }
+        public Dictionary<School, int> FlatResists { get; set; }
+        public Dictionary<School, int> PipConversions { get; set; }
+        public Dictionary<string, int> ItemCards { get; set; }
 
         public Item(Guid ID)
         {
-            Accuracies = new List<KeyValuePair<School, int>>();
-            Damages = new List<KeyValuePair<School, int>>();
-            Resists = new List<KeyValuePair<School, int>>();
-            Criticals = new List<KeyValuePair<School, int>>();
-            Blocks = new List<KeyValuePair<School, int>>();
-            Pierces = new List<KeyValuePair<School, int>>();
-            FlatDamages = new List<KeyValuePair<School, int>>();
-            FlatResists = new List<KeyValuePair<School, int>>();
-            PipConversions = new List<KeyValuePair<School, int>>();
-            ItemCards = new List<KeyValuePair<string, int>>();
+            Accuracies = new Dictionary<School, int>();
+            Damages = new Dictionary<School, int>();
+            Resists = new Dictionary<School, int>();
+            Criticals = new Dictionary<School, int>();
+            Blocks = new Dictionary<School, int>();
+            Pierces = new Dictionary<School, int>();
+            FlatDamages = new Dictionary<School, int>();
+            FlatResists = new Dictionary<School, int>();
+            PipConversions = new Dictionary<School, int>();
+            ItemCards = new Dictionary<string, int>();
 
             this.ID = ID;
             KI_ID = Guid.Empty;

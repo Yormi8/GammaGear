@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -44,7 +45,6 @@ namespace GammaGear
                 cvItems.SortDescriptions.Add(new SortDescription("LevelRequirement", ListSortDirection.Ascending));
             }
         }
-
         private void OnWikiMenuItemClicked(object sender, ExecutedRoutedEventArgs e)
         {
             ProcessStartInfo wiki = new ProcessStartInfo
@@ -102,7 +102,7 @@ namespace GammaGear
                     eventArgs.Accepted = false;
                 }
             }
-
+            
         }
     }
 
@@ -209,16 +209,16 @@ namespace GammaGear
             };
 
             item.SchoolRestriction = item.SchoolRequirement != School.Any ? School.Any : (School)rand.Next((int)School.Any, (int)School.Shadow);
-            item.Accuracies.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.Blocks.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.Damages.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.Criticals.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.FlatDamages.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.FlatResists.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.Pierces.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.PipConversions.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.Resists.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
-            item.FlatResists.Add(new KeyValuePair<School, int>(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20)));
+            item.Accuracies.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Blocks.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Damages.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Criticals.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.FlatDamages.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.FlatResists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Pierces.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.PipConversions.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Resists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.FlatResists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
 
 
             string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
@@ -259,11 +259,72 @@ namespace GammaGear
 
     public class ItemLoadout
     {
+        protected List<ItemDisplay> EquippedItems;
+
+        public Item.School WizardSchool { get; set; }
+        public int WizardLevel { get; set; }
+
+        public ItemDisplay CustomStats = null;
+        public bool UseCustomStats = false;
+
+        private static Dictionary<FileLevelStats, int[]> ConstantStatValues;
+        public ItemLoadout()
+        {
+            EquippedItems = new List<ItemDisplay>();
+
+            if (ConstantStatValues == null)
+            {
+                ConstantStatValues = new Dictionary<FileLevelStats, int[]>((int)FileLevelStats._Count);
+            }
+        }
+        enum FileLevelStats
+        {
+            Level,
+            Fire,
+            Ice,
+            Storm,
+            Myth,
+            Life,
+            Death,
+            Balance,
+            Mana,
+            Pip,
+            Energy,
+            Shadow,
+            Arch,
+            _Count
+        }
+        private static void ReadLevelStats()
+        {
+            for (FileLevelStats i = 0; i < FileLevelStats._Count; i++)
+            {
+                ConstantStatValues[i] = new int[160];
+            }
+
+            using StreamReader sr = File.OpenText("Assets/Data/level_based_stats.csv");
+            string line;
+            line = sr.ReadLine(); // Discard header.
+
+            for (int i = 0; (line = sr.ReadLine()) != null; i++)
+            {
+                string[] X = line.Split(',');
+
+                for (int j = 0; j < X.Length; j++)
+                {
+                    ConstantStatValues[(FileLevelStats)j][i] = int.Parse(X[j]);
+                }
+            }
+        }
         private int GetCurrentJewelSlots(Item.ItemType jewelType)
         {
             int jewelSlots = 0;
             foreach (ItemDisplay item in EquippedItems)
             {
+                // Skip jewel slots. Jewels shouldn't have jewel slots. Prevents odd dependencies with jewel slots.
+                if (item.Type >= Item.ItemType.TearJewel && item.Type <= Item.ItemType.PinSquareSword)
+                {
+                    continue;
+                }
                 switch (jewelType)
                 {
                     case Item.ItemType.TearJewel:
@@ -322,24 +383,79 @@ namespace GammaGear
                     return -1;
             }
         }
-
         public int GetNumberOfEquipped(Item.ItemType type)
         {
             return EquippedItems.Count(i => i.Type == type);
         }
-
-
-        protected List<ItemDisplay> EquippedItems;
-        public ItemDisplay Stats { get; private set; }
-
-        public ItemLoadout()
-        {
-            EquippedItems = new List<ItemDisplay>();
-        }
-
         public void EquipItem(ItemDisplay item)
         {
+            if (GetNumberOfEquipped(item.Type) >= GetNumberAllowedEquipped(item.Type))
+            {
+                return;
+            }
+
+            EquippedItems.Add(item);
+        }
+        public ItemDisplay CalculateStats()
+        {
             
+            static void SumDicts<T>(Dictionary<T, int> a, Dictionary<T, int> b)
+            {
+                foreach (var pair in b)
+                {
+                    if (a.ContainsKey(pair.Key))
+                    {
+                        a[pair.Key] += pair.Value;
+                    }
+                    else
+                    {
+                        a.Add(pair.Key, pair.Value);
+                    }
+                }
+            }
+
+            ItemDisplay Stats = new ItemDisplay();
+
+            if (!UseCustomStats)
+            {
+                Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool + 1][WizardLevel];
+                Stats.MaxMana = ConstantStatValues[FileLevelStats.Mana][WizardLevel];
+                Stats.MaxEnergy = ConstantStatValues[FileLevelStats.Energy][WizardLevel];
+                Stats.PowerpipChance = ConstantStatValues[FileLevelStats.Pip][WizardLevel];
+                Stats.ShadowpipRating = ConstantStatValues[FileLevelStats.Shadow][WizardLevel];
+                Stats.ArchmasteryRating = ConstantStatValues[FileLevelStats.Arch][WizardLevel];
+            }
+
+            foreach (ItemDisplay item in EquippedItems)
+            {
+                Stats.MaxHealth += item.MaxHealth;
+                Stats.MaxMana += item.MaxMana;
+                Stats.MaxEnergy += item.MaxEnergy;
+
+                Stats.PowerpipChance += item.PowerpipChance;
+                Stats.ShadowpipRating += item.ShadowpipRating;
+                Stats.ArchmasteryRating += item.ArchmasteryRating;
+                Stats.FishingLuck += item.FishingLuck;
+                Stats.IncomingHealing += item.IncomingHealing;
+                Stats.OutgoingHealing += item.OutgoingHealing;
+                Stats.PipsGiven += item.PipsGiven;
+                Stats.PowerpipsGiven += item.PowerpipsGiven;
+                Stats.SpeedBonus += item.SpeedBonus;
+                Stats.StunResistChance += item.StunResistChance;
+
+                SumDicts(Stats.Damages, item.Damages);
+                SumDicts(Stats.FlatDamages, item.FlatDamages);
+                SumDicts(Stats.Resists, item.Resists);
+                SumDicts(Stats.FlatResists, item.FlatResists);
+                SumDicts(Stats.Accuracies, item.Accuracies);
+                SumDicts(Stats.Pierces, item.Pierces);
+                SumDicts(Stats.Criticals, item.Criticals);
+                SumDicts(Stats.Blocks, item.Blocks);
+                SumDicts(Stats.PipConversions, item.PipConversions);
+                SumDicts(Stats.ItemCards, item.ItemCards);
+            }
+
+            return Stats;
         }
     }
 }
