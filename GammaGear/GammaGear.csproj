@@ -100,78 +100,222 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Data\level_based_stats.csv" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Amulet.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Athame.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Boots.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_CircleJewel.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Deck.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Hat.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Mount.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Pet.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquarePower.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareShield.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareSword.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Ring.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Robe.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_SquareJewel.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_StarJewel.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_TearJewel.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_TriangleJewel.png" />
-    <Resource Include="Assets\Images\(Icon)_Equipment_Wand.png" />
-    <Resource Include="Assets\Images\(Icon)_Help.png" />
-    <Resource Include="Assets\Images\(Icon)_Pet_Agility.png" />
-    <Resource Include="Assets\Images\(Icon)_Pet_Intellect.png" />
-    <Resource Include="Assets\Images\(Icon)_Pet_Power.png" />
-    <Resource Include="Assets\Images\(Icon)_Pet_Strength.png" />
-    <Resource Include="Assets\Images\(Icon)_Pet_Will.png" />
-    <Resource Include="Assets\Images\(Icon)_Realms.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Balance.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Death.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Fire.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Global.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Ice.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Life.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Myth.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Balance.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Death.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Fire.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Ice.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Life.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Myth.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Shadow.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Not_Storm.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Shadow.png" />
-    <Resource Include="Assets\Images\(Icon)_School_Storm.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Accuracy.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Archmastery.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Armor_Piercing.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Critical.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Critical_Block.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Damage.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Energy.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Fishing_Luck.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Damage.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Resistance.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Healing.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Health.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Incoming.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Mana.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Outgoing.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Pip_Conversion.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Power_Pip.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Resistance.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Shadow_Pip.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_Stun_Resistance.png" />
-    <Resource Include="Assets\Images\(Icon)_Stats_XP.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Character.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Eye.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Flask.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Furniture.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Inventory.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_Pet.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_PvP.png" />
-    <Resource Include="Assets\Images\(Icon)_Tab_World.png" />
+    <Content Include="Assets\Data\level_based_stats.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Amulet.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Athame.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Boots.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_CircleJewel.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Deck.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Hat.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Mount.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Pet.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquarePower.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareShield.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareSword.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Ring.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Robe.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_SquareJewel.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_StarJewel.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_TearJewel.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_TriangleJewel.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_Wand.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Help.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Pet_Agility.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Pet_Intellect.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Pet_Power.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Pet_Strength.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Pet_Will.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Realms.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Balance.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Death.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Fire.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Global.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Ice.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Life.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Myth.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Balance.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Death.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Fire.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Ice.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Life.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Myth.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Shadow.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Not_Storm.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Shadow.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_School_Storm.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Accuracy.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Archmastery.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Armor_Piercing.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Critical.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Critical_Block.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Damage.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Energy.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Fishing_Luck.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Damage.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Flat_Resistance.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Healing.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Health.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Incoming.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Mana.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Outgoing.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Pip_Conversion.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Power_Pip.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Resistance.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Shadow_Pip.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Stun_Resistance.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_XP.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Character.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Eye.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Flask.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Furniture.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Inventory.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_Pet.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_PvP.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\(Icon)_Tab_World.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

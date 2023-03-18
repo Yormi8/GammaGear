@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace GammaGear
     public partial class MainWindow : Window
     {
         private readonly ItemFilter DBItemFilters = new ItemFilter();
+        private ItemLoadout mainLoadout = new ItemLoadout();
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +46,108 @@ namespace GammaGear
                 cvItems.SortDescriptions.Add(new SortDescription("DisplaySchool", ListSortDirection.Ascending));
                 cvItems.SortDescriptions.Add(new SortDescription("LevelRequirement", ListSortDirection.Ascending));
             }
+
+            DamageTextBoxes = new TextBox[]
+            {
+                StatsFireDamage,
+                StatsIceDamage,
+                StatsStormDamage,
+                StatsMythDamage,
+                StatsLifeDamage,
+                StatsDeathDamage,
+                StatsBalanceDamage,
+                StatsShadowDamage,
+            };
+            FlatDamageTextBoxes = new TextBox[]
+            {
+                StatsFireFlatDamage,
+                StatsIceFlatDamage,
+                StatsStormFlatDamage,
+                StatsMythFlatDamage,
+                StatsLifeFlatDamage,
+                StatsDeathFlatDamage,
+                StatsBalanceFlatDamage,
+                StatsShadowFlatDamage,
+            };
+            ResistTextBoxes = new TextBox[]
+            {
+                StatsFireResistance,
+                StatsIceResistance,
+                StatsStormResistance,
+                StatsMythResistance,
+                StatsLifeResistance,
+                StatsDeathResistance,
+                StatsBalanceResistance,
+                StatsShadowResistance,
+            };
+            FlatResistanceTextBoxes = new TextBox[]
+            {
+                StatsFireFlatResistance,
+                StatsIceFlatResistance,
+                StatsStormFlatResistance,
+                StatsMythFlatResistance,
+                StatsLifeFlatResistance,
+                StatsDeathFlatResistance,
+                StatsBalanceFlatResistance,
+                StatsShadowFlatResistance,
+            };
+            AccuracyTextBoxes = new TextBox[]
+            {
+                StatsFireAccuracy,
+                StatsIceAccuracy,
+                StatsStormAccuracy,
+                StatsMythAccuracy,
+                StatsLifeAccuracy,
+                StatsDeathAccuracy,
+                StatsBalanceAccuracy,
+                StatsShadowAccuracy,
+            };
+            CriticalTextBoxes = new TextBox[]
+            {
+                StatsFireCritical,
+                StatsIceCritical,
+                StatsStormCritical,
+                StatsMythCritical,
+                StatsLifeCritical,
+                StatsDeathCritical,
+                StatsBalanceCritical,
+                StatsShadowCritical,
+            };
+            CriticalBlockTextBoxes = new TextBox[]
+            {
+                StatsFireCriticalBlock,
+                StatsIceCriticalBlock,
+                StatsStormCriticalBlock,
+                StatsMythCriticalBlock,
+                StatsLifeCriticalBlock,
+                StatsDeathCriticalBlock,
+                StatsBalanceCriticalBlock,
+                StatsShadowCriticalBlock,
+            };
+            PierceTextBoxes = new TextBox[]
+            {
+                StatsFirePierce,
+                StatsIcePierce,
+                StatsStormPierce,
+                StatsMythPierce,
+                StatsLifePierce,
+                StatsDeathPierce,
+                StatsBalancePierce,
+                StatsShadowPierce,
+            }; 
+            PipConversionTextBoxes = new TextBox[]
+            {
+                StatsFirePipConversion,
+                StatsIcePipConversion,
+                StatsStormPipConversion,
+                StatsMythPipConversion,
+                StatsLifePipConversion,
+                StatsDeathPipConversion,
+                StatsBalancePipConversion,
+                StatsShadowPipConversion,
+            };
+
+            UpdateStatsTab();
         }
         private void OnWikiMenuItemClicked(object sender, ExecutedRoutedEventArgs e)
         {
@@ -80,6 +184,36 @@ namespace GammaGear
             ICollectionView cvItems = CollectionViewSource.GetDefaultView(ItemDatabaseGrid.ItemsSource);
             cvItems.Refresh();
         }
+        private void SetItemContent(ItemDisplay item, StackPanel parent)
+        {
+            parent.Children.Clear();
+            TextBlock tb = item.GetStatDisplay();
+            parent.Children.Add(tb);
+        }
+        private void DBItemSelected(object sender, RoutedEventArgs eventArgs)
+        {
+            if (!IsVisible) return;
+            if ((sender as DataGrid).SelectedItem is not ItemDisplay item) return;
+            //MessageBox.Show(item.Name);
+
+            DBSelectedItemName.Text = item.Name;
+            SetItemContent(item, DBSelectedItemContent);
+
+            if (mainLoadout.GetNumberAllowedEquipped(item.Type) == 1 && mainLoadout.GetNumberOfEquipped(item.Type) == 1)
+            {
+                DBEquippedItemName.Text = mainLoadout.GetEquippedFromType(item.Type).Name;
+                SetItemContent(mainLoadout.GetEquippedFromType(item.Type), DBEquippedItemContent);
+            }
+            else
+            {
+                DBEquippedItemName.Text = "None";
+                DBEquippedItemContent.Children.Clear();
+            }
+        }
+        private void DBItemUnselected(object sender, RoutedEventArgs eventArgs)
+        {
+            
+        }
         private void CollectionViewSource_Filter(object sender, FilterEventArgs eventArgs)
         {
             if (eventArgs.Item is ItemDisplay item)
@@ -102,7 +236,81 @@ namespace GammaGear
                     eventArgs.Accepted = false;
                 }
             }
-            
+        }
+
+        readonly TextBox[] DamageTextBoxes;
+        readonly TextBox[] FlatDamageTextBoxes;
+        readonly TextBox[] ResistTextBoxes;
+        readonly TextBox[] FlatResistanceTextBoxes;
+        readonly TextBox[] AccuracyTextBoxes;
+        readonly TextBox[] CriticalTextBoxes;
+        readonly TextBox[] CriticalBlockTextBoxes;
+        readonly TextBox[] PierceTextBoxes;
+        readonly TextBox[] PipConversionTextBoxes;
+        private void UpdateStatsTab()
+        {
+            const string fw = "#,0";
+            const string fp = "0\\%";
+
+            mainLoadout.WizardLevel = (int)WizardLevelBox.Value;
+            mainLoadout.WizardSchool = (Item.School)WizardSchoolBox.SelectedIndex;
+
+            ItemDisplay Output = mainLoadout.CalculateStats();
+
+            BasicStatsMaxHealth.Text = Output.MaxHealth.ToString(fw);
+            BasicStatsMaxMana.Text = Output.MaxMana.ToString(fw);
+            BasicStatsMaxEnergy.Text = Output.MaxEnergy.ToString(fw);
+            BasicStatsPipChance.Text = Output.PowerpipChance.ToString(fp);
+            BasicStatsShadowRating.Text = Output.ShadowpipRating.ToString(fw);
+            BasicStatsArchmastery.Text = Output.ArchmasteryRating.ToString(fw);
+            BasicStatsStunResist.Text = Output.StunResistChance.ToString(fp);
+            BasicStatsIncHealing.Text = Output.IncomingHealing.ToString(fp);
+            BasicStatsOutHealing.Text = Output.OutgoingHealing.ToString(fp);
+            BasicStatsFishingLuck.Text = Output.FishingLuck.ToString(fp);
+
+            // Add the school damage and universal damage to the output textboxes.
+            for (int i = 0; i < 8; i++)
+            {
+                DamageTextBoxes[i].Text =           (Output.Damages.GetValueOrDefault((Item.School)i) +         Output.Damages.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatDamageTextBoxes[i].Text =       (Output.FlatDamages.GetValueOrDefault((Item.School)i) +     Output.FlatDamages.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                ResistTextBoxes[i].Text =           (Output.Resists.GetValueOrDefault((Item.School)i) +         Output.Resists.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatResistanceTextBoxes[i].Text =   (Output.FlatResists.GetValueOrDefault((Item.School)i) +     Output.FlatResists.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                AccuracyTextBoxes[i].Text =         (Output.Accuracies.GetValueOrDefault((Item.School)i) +      Output.Accuracies.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                CriticalTextBoxes[i].Text =         (Output.Criticals.GetValueOrDefault((Item.School)i) +       Output.Criticals.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                CriticalBlockTextBoxes[i].Text =    (Output.Blocks.GetValueOrDefault((Item.School)i) +          Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                PierceTextBoxes[i].Text =           (Output.Pierces.GetValueOrDefault((Item.School)i) +         Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+            }
+        }
+        private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
+        {
+            if (!this.IsVisible) return;
+
+            string tabItem = ((sender as TabControl)?.SelectedItem as TabItem)?.Name;
+
+            switch (tabItem)
+            {
+                case "StatsTab":
+                    UpdateStatsTab();
+                    break;
+                default:
+                    return;
+            }
+        }
+        private void DBEquipButton(object sender, RoutedEventArgs eventArgs)
+        {
+            ItemDisplay selectedItem = ItemDatabaseGrid.SelectedItem as ItemDisplay;
+
+            mainLoadout.EquipItem(selectedItem);
+
+            DBItemSelected(ItemDatabaseGrid, null);
+        }
+        private void UpdateStatsTabEvent(object sender, RoutedEventArgs eventArgs)
+        {
+            if (this.IsVisible)
+            {
+                UpdateStatsTab();
+            }
         }
     }
 
@@ -187,6 +395,82 @@ namespace GammaGear
             "Assets/Images/(Icon)_School_Global.png",
             _ => "Assets/Images/(Icon)_School_" + SchoolRequirement.ToString() + ".png"
         };
+        private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
+        {
+            { "Health",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Health.png", UriKind.Absolute)) },
+            { "Mana",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Mana.png", UriKind.Absolute)) },
+            { "Energy",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Energy.png", UriKind.Absolute)) },
+            { "PowerPip",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Power_Pip.png", UriKind.Absolute)) },
+            { "Accuracy",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Accuracy.png", UriKind.Absolute)) },
+            { "Archmastery",    new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Archmastery.png", UriKind.Absolute)) },
+            { "ArmorPiercing",  new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Armor_Piercing.png", UriKind.Absolute)) },
+            { "Block",          new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Critical_Block.png", UriKind.Absolute)) },
+            { "Critical",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Critical.png", UriKind.Absolute)) },
+            { "Damage",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Damage.png", UriKind.Absolute)) },
+            { "FishingLuck",    new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Fishing_Luck.png", UriKind.Absolute)) },
+            { "FlatDamage",     new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Flat_Damage.png", UriKind.Absolute)) },
+            { "FlatResistance", new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Flat_Resistance.png", UriKind.Absolute)) },
+            { "Healing",        new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Healing.png", UriKind.Absolute)) },
+            { "Incoming",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Incoming.png", UriKind.Absolute)) },
+            { "Outgoing",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Outgoing.png", UriKind.Absolute)) },
+            { "PipConversion",  new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Pip_Conversion.png", UriKind.Absolute)) },
+            { "Resistance",     new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Resistance.png", UriKind.Absolute)) },
+            { "ShadowPip",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Shadow_Pip.png", UriKind.Absolute)) },
+            { "StunResistance", new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Stun_Resistance.png", UriKind.Absolute)) },
+            { "Fire",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Fire.png", UriKind.Absolute)) },
+            { "Ice",            new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Ice.png", UriKind.Absolute)) },
+            { "Storm",          new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Storm.png", UriKind.Absolute)) },
+            { "Myth",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Myth.png", UriKind.Absolute)) },
+            { "Life",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Life.png", UriKind.Absolute)) },
+            { "Death",          new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Death.png", UriKind.Absolute)) },
+            { "Balance",        new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Balance.png", UriKind.Absolute)) },
+            { "Shadow",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Shadow.png", UriKind.Absolute)) },
+            { "Universal",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png", UriKind.Absolute)) },
+        };
+
+        public TextBlock GetStatDisplay()
+        {
+            void AddSingle(TextBlock tb, string before, BitmapImage img1 = null, BitmapImage img2 = null, string after = null)
+            {
+                if (!string.IsNullOrEmpty(before))
+                {
+                    Run run = new Run(before);
+                    tb.Inlines.Add(run);
+                }
+                if (img1 != null)
+                {
+                    Image img = new Image();
+                    img.Source = img1;
+                    img.Width = 15;
+                    img.Height = 15;
+                    InlineUIContainer iuc = new InlineUIContainer(img);
+                    tb.Inlines.Add(iuc);
+                }
+                if (img2 != null)
+                {
+                    Image img = new Image();
+                    img.Source = img2;
+                    img.Width = 15;
+                    img.Height = 15;
+                    InlineUIContainer iuc = new InlineUIContainer(img);
+                    tb.Inlines.Add(iuc);
+                }
+                if (!string.IsNullOrEmpty(after))
+                {
+                    Run run = new Run(after);
+                    tb.Inlines.Add(run);
+                }
+            }
+
+            TextBlock tb = new TextBlock();
+
+            if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max", StatImages["Health"], null, "\n");
+            if (MaxMana > 0) AddSingle(tb, $"+{MaxMana} Max", StatImages["Mana"], null, "\n");
+            if (MaxEnergy > 0) AddSingle(tb, $"+{MaxEnergy} Max", StatImages["Energy"], null, "\n");
+            if (PowerpipChance> 0) AddSingle(tb, $"+{PowerpipChance}%", StatImages["PowerPip"], null, "Chance\n");
+
+            return tb;
+        }
 
 
         public static ItemDisplay MakeRandomItem()
@@ -218,7 +502,6 @@ namespace GammaGear
             item.Pierces.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
             item.PipConversions.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
             item.Resists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.FlatResists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
 
 
             string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
@@ -226,13 +509,13 @@ namespace GammaGear
             string name = "";
             name += consonants[rand.Next(consonants.Length)].ToUpper();
             name += vowels[rand.Next(vowels.Length)];
-            int b = 2; //b tells how many times a new letter has been added. It's 2 right now because the first two letters are already in the name.
-            while (b < rand.Next(8, 31))
+            int b = rand.Next(8, 31); //b tells how many times a new letter has been added. It's 2 right now because the first two letters are already in the name.
+            while (b > 0)
             {
                 name += consonants[rand.Next(consonants.Length)];
-                b++;
+                b--;
                 name += vowels[rand.Next(vowels.Length)];
-                b++;
+                b--;
             }
 
             item.Name = name;
@@ -275,6 +558,8 @@ namespace GammaGear
             if (ConstantStatValues == null)
             {
                 ConstantStatValues = new Dictionary<FileLevelStats, int[]>((int)FileLevelStats._Count);
+
+                ReadLevelStats();
             }
         }
         enum FileLevelStats
@@ -387,11 +672,18 @@ namespace GammaGear
         {
             return EquippedItems.Count(i => i.Type == type);
         }
+        public ItemDisplay GetEquippedFromType(Item.ItemType type)
+        {
+            return EquippedItems.First(i => i.Type == type);
+        }
         public void EquipItem(ItemDisplay item)
         {
+            // Use EquipJewel or CalculateItemSetBonus for this...
+            if (item.Type > Item.ItemType.Mount) return;
+
             if (GetNumberOfEquipped(item.Type) >= GetNumberAllowedEquipped(item.Type))
             {
-                return;
+                EquippedItems.Remove(GetEquippedFromType(item.Type));
             }
 
             EquippedItems.Add(item);
@@ -418,12 +710,18 @@ namespace GammaGear
 
             if (!UseCustomStats)
             {
-                Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool + 1][WizardLevel];
-                Stats.MaxMana = ConstantStatValues[FileLevelStats.Mana][WizardLevel];
-                Stats.MaxEnergy = ConstantStatValues[FileLevelStats.Energy][WizardLevel];
-                Stats.PowerpipChance = ConstantStatValues[FileLevelStats.Pip][WizardLevel];
-                Stats.ShadowpipRating = ConstantStatValues[FileLevelStats.Shadow][WizardLevel];
-                Stats.ArchmasteryRating = ConstantStatValues[FileLevelStats.Arch][WizardLevel];
+                if (WizardLevel > 0)
+                {
+                    if (WizardSchool != Item.School.Any)
+                    {
+                        Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool][WizardLevel - 1];
+                    }
+                    Stats.MaxMana = ConstantStatValues[FileLevelStats.Mana][WizardLevel - 1];
+                    Stats.MaxEnergy = ConstantStatValues[FileLevelStats.Energy][WizardLevel - 1];
+                    Stats.PowerpipChance = ConstantStatValues[FileLevelStats.Pip][WizardLevel - 1];
+                    Stats.ShadowpipRating = ConstantStatValues[FileLevelStats.Shadow][WizardLevel - 1];
+                    Stats.ArchmasteryRating = ConstantStatValues[FileLevelStats.Arch][WizardLevel - 1];
+                }
             }
 
             foreach (ItemDisplay item in EquippedItems)
