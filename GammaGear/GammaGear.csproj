@@ -76,10 +76,12 @@
     <None Remove="Assets\Images\%28Icon%29_Stats_Incoming.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Mana.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Outgoing.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_Pip.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Pip_Conversion.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Power_Pip.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Resistance.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Shadow_Pip.png" />
+    <None Remove="Assets\Images\%28Icon%29_Stats_SpeedBonus.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_Stun_Resistance.png" />
     <None Remove="Assets\Images\%28Icon%29_Stats_XP.png" />
     <None Remove="Assets\Images\%28Icon%29_Stat_Stun_Resistance.png" />
@@ -274,6 +276,7 @@
     <Resource Include="Assets\Images\(Icon)_Stats_Outgoing.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_Pip.png" />
     <Resource Include="Assets\Images\(Icon)_Stats_Pip_Conversion.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -286,6 +289,7 @@
     <Resource Include="Assets\Images\(Icon)_Stats_Shadow_Pip.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Stats_SpeedBonus.png" />
     <Resource Include="Assets\Images\(Icon)_Stats_Stun_Resistance.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>

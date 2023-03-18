@@ -11,7 +11,6 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="local:W101Commands.OpenWiki" Executed="OnWikiMenuItemClicked"></CommandBinding>
-        <CommandBinding Command="local:W101Commands.SelectTabItem" Executed="OnSelectDatabaseTabItem"></CommandBinding>
     </Window.CommandBindings>
 
     <Window.Resources>
@@ -298,7 +297,6 @@
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Width" Value="300"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
-                                    <Setter Property="Command" Value="local:W101Commands.SelectTabItem"></Setter>
                                 </Style>
                                 <Style TargetType="{x:Type xctk:IntegerUpDown}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -377,16 +375,16 @@
                                                 TextAlignment="Center" 
                                                 DisplayDefaultValueOnEmptyText="True"
                                                 ValueChanged="UpdateStatsTabEvent"/>
-                            <Button x:Name="WizardHatBox" Grid.Column="1" Grid.Row="2">None</Button>
-                            <Button x:Name="WizardRobeBox" Grid.Column="1" Grid.Row="3">None</Button>
-                            <Button x:Name="WizardBootsBox" Grid.Column="1" Grid.Row="4">None</Button>
-                            <Button x:Name="WizardWandBox" Grid.Column="1" Grid.Row="5">None</Button>
-                            <Button x:Name="WizardAthameBox" Grid.Column="1" Grid.Row="6">None</Button>
-                            <Button x:Name="WizardAmuletBox" Grid.Column="1" Grid.Row="7">None</Button>
-                            <Button x:Name="WizardRingBox" Grid.Column="1" Grid.Row="8">None</Button>
-                            <Button x:Name="WizardPetBox" Grid.Column="1" Grid.Row="9">None</Button>
-                            <Button x:Name="WizardDeckBox" Grid.Column="1" Grid.Row="10">None</Button>
-                            <Button x:Name="WizardMountBox" Grid.Column="1" Grid.Row="11">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardHatBox" Grid.Column="1" Grid.Row="2">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRobeBox" Grid.Column="1" Grid.Row="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardBootsBox" Grid.Column="1" Grid.Row="4">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardWandBox" Grid.Column="1" Grid.Row="5">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAthameBox" Grid.Column="1" Grid.Row="6">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAmuletBox" Grid.Column="1" Grid.Row="7">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRingBox" Grid.Column="1" Grid.Row="8">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardPetBox" Grid.Column="1" Grid.Row="9">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardDeckBox" Grid.Column="1" Grid.Row="10">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardMountBox" Grid.Column="1" Grid.Row="11">None</Button>
 
                         </Grid>
 
@@ -576,7 +574,7 @@
                                     <Separator/>
                                     <TextBlock x:Name="DBSelectedItemName">
                                         <Run Text="Hello!"/>
-                                        <!--<InlineUIContainer>
+                                        <!--<InlineUIContainer BaselineAlignment="Center">
                                             <Image Source="Assets/Images/(Icon)_School_Fire.png"
                                                    Height="15"
                                                    Width="15"/>

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -33,6 +34,7 @@ namespace GammaGear
     {
         private readonly ItemFilter DBItemFilters = new ItemFilter();
         private ItemLoadout mainLoadout = new ItemLoadout();
+        private bool showDBItemIDs = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -158,9 +160,48 @@ namespace GammaGear
             };
             Process.Start(wiki);
         }
-        private void OnSelectDatabaseTabItem(object sender, ExecutedRoutedEventArgs e)
+        private void OnSelectDatabaseTabItem(object sender, RoutedEventArgs e)
         {
             DatabaseTabItem.IsSelected = true;
+            if (sender is Button button)
+            {
+                switch (button.Name)
+                {
+                    case "WizardHatBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Hat + 1;
+                        break;
+                    case "WizardRobeBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Robe + 1;
+                        break;
+                    case "WizardBootsBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Boots + 1;
+                        break;
+                    case "WizardWandBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Wand + 1;
+                        break;
+                    case "WizardAthameBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Athame + 1;
+                        break;
+                    case "WizardAmuletBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Amulet + 1;
+                        break;
+                    case "WizardRingBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Ring + 1;
+                        break;
+                    case "WizardPetBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Pet + 1;
+                        break;
+                    case "WizardDeckBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Deck + 1;
+                        break;
+                    case "WizardMountBox":
+                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Mount + 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            DBSearchButtonOnClick(null, null);
         }
 
         private void DBResetButtonOnClick(object sender, RoutedEventArgs eventArgs)
@@ -187,7 +228,7 @@ namespace GammaGear
         private void SetItemContent(ItemDisplay item, StackPanel parent)
         {
             parent.Children.Clear();
-            TextBlock tb = item.GetStatDisplay();
+            TextBlock tb = item.GetStatDisplay(showDBItemIDs);
             parent.Children.Add(tb);
         }
         private void DBItemSelected(object sender, RoutedEventArgs eventArgs)
@@ -271,16 +312,28 @@ namespace GammaGear
             // Add the school damage and universal damage to the output textboxes.
             for (int i = 0; i < 8; i++)
             {
-                DamageTextBoxes[i].Text =           (Output.Damages.GetValueOrDefault((Item.School)i) +         Output.Damages.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                FlatDamageTextBoxes[i].Text =       (Output.FlatDamages.GetValueOrDefault((Item.School)i) +     Output.FlatDamages.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                ResistTextBoxes[i].Text =           (Output.Resists.GetValueOrDefault((Item.School)i) +         Output.Resists.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                FlatResistanceTextBoxes[i].Text =   (Output.FlatResists.GetValueOrDefault((Item.School)i) +     Output.FlatResists.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                AccuracyTextBoxes[i].Text =         (Output.Accuracies.GetValueOrDefault((Item.School)i) +      Output.Accuracies.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                CriticalTextBoxes[i].Text =         (Output.Criticals.GetValueOrDefault((Item.School)i) +       Output.Criticals.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                CriticalBlockTextBoxes[i].Text =    (Output.Blocks.GetValueOrDefault((Item.School)i) +          Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                PierceTextBoxes[i].Text =           (Output.Pierces.GetValueOrDefault((Item.School)i) +         Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                DamageTextBoxes[i].Text =           (Output.Damages.GetValueOrDefault((Item.School)i + 1) +         Output.Damages.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatDamageTextBoxes[i].Text =       (Output.FlatDamages.GetValueOrDefault((Item.School)i + 1) +     Output.FlatDamages.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                ResistTextBoxes[i].Text =           (Output.Resists.GetValueOrDefault((Item.School)i + 1) +         Output.Resists.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatResistanceTextBoxes[i].Text =   (Output.FlatResists.GetValueOrDefault((Item.School)i + 1) +     Output.FlatResists.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                AccuracyTextBoxes[i].Text =         (Output.Accuracies.GetValueOrDefault((Item.School)i + 1) +      Output.Accuracies.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                CriticalTextBoxes[i].Text =         (Output.Criticals.GetValueOrDefault((Item.School)i + 1) +       Output.Criticals.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                CriticalBlockTextBoxes[i].Text =    (Output.Blocks.GetValueOrDefault((Item.School)i + 1) +          Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                PierceTextBoxes[i].Text =           (Output.Pierces.GetValueOrDefault((Item.School)i + 1) +         Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i + 1) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
             }
+
+            // Update the button's text
+            WizardHatBox.Content    = mainLoadout.GetEquippedFromType(Item.ItemType.Hat)?.Name ?? "None";
+            WizardRobeBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Robe)?.Name ?? "None";
+            WizardBootsBox.Content  = mainLoadout.GetEquippedFromType(Item.ItemType.Boots)?.Name ?? "None";
+            WizardWandBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Wand)?.Name ?? "None";
+            WizardAthameBox.Content = mainLoadout.GetEquippedFromType(Item.ItemType.Athame)?.Name ?? "None";
+            WizardAmuletBox.Content = mainLoadout.GetEquippedFromType(Item.ItemType.Amulet)?.Name ?? "None";
+            WizardRingBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Ring)?.Name ?? "None";
+            WizardPetBox.Content    = mainLoadout.GetEquippedFromType(Item.ItemType.Pet)?.Name ?? "None";
+            WizardDeckBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Deck)?.Name ?? "None";
+            WizardMountBox.Content  = mainLoadout.GetEquippedFromType(Item.ItemType.Mount)?.Name ?? "None";
         }
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
         {
@@ -320,13 +373,6 @@ namespace GammaGear
         (
             "Opens the W101 Wiki in the user's browser.",
             "OpenWiki",
-            typeof(W101Commands)
-        );
-
-        public static readonly RoutedUICommand SelectTabItem = new RoutedUICommand
-        (
-            "Selects a tab item.",
-            "SelectTabItem",
             typeof(W101Commands)
         );
     }
@@ -401,6 +447,7 @@ namespace GammaGear
             { "Mana",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Mana.png", UriKind.Absolute)) },
             { "Energy",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Energy.png", UriKind.Absolute)) },
             { "PowerPip",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Power_Pip.png", UriKind.Absolute)) },
+            { "Pip",            new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Pip.png", UriKind.Absolute)) },
             { "Accuracy",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Accuracy.png", UriKind.Absolute)) },
             { "Archmastery",    new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Archmastery.png", UriKind.Absolute)) },
             { "ArmorPiercing",  new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Armor_Piercing.png", UriKind.Absolute)) },
@@ -415,7 +462,7 @@ namespace GammaGear
             { "Outgoing",       new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Outgoing.png", UriKind.Absolute)) },
             { "PipConversion",  new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Pip_Conversion.png", UriKind.Absolute)) },
             { "Resistance",     new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Resistance.png", UriKind.Absolute)) },
-            { "ShadowPip",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Shadow_Pip.png", UriKind.Absolute)) },
+            { "Shadowpip",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Shadow_Pip.png", UriKind.Absolute)) },
             { "StunResistance", new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Stun_Resistance.png", UriKind.Absolute)) },
             { "Fire",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Fire.png", UriKind.Absolute)) },
             { "Ice",            new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Ice.png", UriKind.Absolute)) },
@@ -426,9 +473,17 @@ namespace GammaGear
             { "Balance",        new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Balance.png", UriKind.Absolute)) },
             { "Shadow",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Shadow.png", UriKind.Absolute)) },
             { "Universal",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png", UriKind.Absolute)) },
+            { "TearJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TearJewel.png", UriKind.Absolute)) },
+            { "CircleJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_CircleJewel.png", UriKind.Absolute)) },
+            { "SquareJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_SquareJewel.png", UriKind.Absolute)) },
+            { "TriangleJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TriangleJewel.png", UriKind.Absolute)) },
+            { "PowerPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png", UriKind.Absolute)) },
+            { "ShieldPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield.png", UriKind.Absolute)) },
+            { "SwordPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword.png", UriKind.Absolute)) },
+            { "SpeedBonus",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_SpeedBonus.png", UriKind.Absolute)) },
         };
 
-        public TextBlock GetStatDisplay()
+        public TextBlock GetStatDisplay(bool showIDs)
         {
             void AddSingle(TextBlock tb, string before, BitmapImage img1 = null, BitmapImage img2 = null, string after = null)
             {
@@ -444,6 +499,7 @@ namespace GammaGear
                     img.Width = 15;
                     img.Height = 15;
                     InlineUIContainer iuc = new InlineUIContainer(img);
+                    iuc.BaselineAlignment = BaselineAlignment.Center;
                     tb.Inlines.Add(iuc);
                 }
                 if (img2 != null)
@@ -453,6 +509,7 @@ namespace GammaGear
                     img.Width = 15;
                     img.Height = 15;
                     InlineUIContainer iuc = new InlineUIContainer(img);
+                    iuc.BaselineAlignment = BaselineAlignment.Center;
                     tb.Inlines.Add(iuc);
                 }
                 if (!string.IsNullOrEmpty(after))
@@ -464,12 +521,98 @@ namespace GammaGear
 
             TextBlock tb = new TextBlock();
 
-            if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max", StatImages["Health"], null, "\n");
-            if (MaxMana > 0) AddSingle(tb, $"+{MaxMana} Max", StatImages["Mana"], null, "\n");
-            if (MaxEnergy > 0) AddSingle(tb, $"+{MaxEnergy} Max", StatImages["Energy"], null, "\n");
-            if (PowerpipChance> 0) AddSingle(tb, $"+{PowerpipChance}%", StatImages["PowerPip"], null, "Chance\n");
+            if (showIDs)
+            {
+                AddSingle(tb, $"ID: {ID.ToString().ToUpper()} ", null , null, "\n");
+            }
+
+            if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max ", StatImages["Health"], null, "\n");
+            if (MaxMana > 0) AddSingle(tb, $"+{MaxMana} Max ", StatImages["Mana"], null, "\n");
+            if (MaxEnergy > 0) AddSingle(tb, $"+{MaxEnergy} Max ", StatImages["Energy"], null, "\n");
+            if (PowerpipChance> 0) AddSingle(tb, $"+{PowerpipChance}% ", StatImages["PowerPip"], null, " Chance\n");
+
+            if (FishingLuck> 0) AddSingle(tb, $"+{FishingLuck}% ", StatImages["FishingLuck"], null, "\n");
+
+            foreach (var pair in Accuracies)
+            {
+                AddSingle(tb, $"+{pair.Value}% ", StatImages[pair.Key.ToString()], StatImages["Accuracy"], "\n");
+            }
+            foreach (var pair in Damages)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Damage"], "\n");
+            }
+            foreach (var pair in FlatDamages)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatDamage"], "\n");
+            }
+            foreach (var pair in Resists)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Resistance"], "\n");
+            }
+            foreach (var pair in FlatResists)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatResistance"], "\n");
+            }
+            foreach (var pair in Criticals)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Critical"], " Rating\n");
+            }
+            foreach (var pair in Blocks)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Block"], " Rating\n");
+            }
+            foreach (var pair in Pierces)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["ArmorPiercing"], "\n");
+            }
+            foreach (var pair in PipConversions)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["PipConversion"], " Rating\n");
+            }
+
+            if (OutgoingHealing > 0) AddSingle(tb, $"+{OutgoingHealing}% ", StatImages["Outgoing"], StatImages["Healing"], "\n");
+            if (IncomingHealing > 0) AddSingle(tb, $"+{IncomingHealing}% ", StatImages["Incoming"], StatImages["Healing"], "\n");
+
+            if (PowerpipsGiven > 0) AddSingle(tb, $"+{PowerpipsGiven} ", StatImages["PowerPip"], null, "\n");
+            if (PipsGiven > 0) AddSingle(tb, $"+{PipsGiven} ", StatImages["Pip"], null, "\n");
+            if (ShadowpipRating > 0) AddSingle(tb, $"+{ShadowpipRating} ", StatImages["Shadowpip"], null, " Rating\n");
+            if (StunResistChance > 0) AddSingle(tb, $"+{StunResistChance}% ", StatImages["StunResistance"], null, "\n");
+            if (ArchmasteryRating > 0) AddSingle(tb, $"+{ArchmasteryRating} ", StatImages["Archmastery"], null, " Rating\n");
+
+            if (SpeedBonus > 0) AddSingle(tb, $"+{SpeedBonus}% ", StatImages["SpeedBonus"], null, "\n");
+
+            if (TotalSlots > 0)
+            {
+                AddSingle(tb, "\nSockets", null, null, "\n");
+                for (int i = 0; i < TearJewelSlots; i++) AddSingle(tb, null, StatImages["TearJewel"], null, " (Tear)\n");
+                for (int i = 0; i < CircleJewelSlots; i++) AddSingle(tb, null, StatImages["CircleJewel"], null, " (Circle)\n");
+                for (int i = 0; i < SquareJewelSlots; i++) AddSingle(tb, null, StatImages["SquareJewel"], null, " (Square)\n");
+                for (int i = 0; i < TriangleJewelSlots; i++) AddSingle(tb, null, StatImages["TriangleJewel"], null, " (Triangle)\n");
+                for (int i = 0; i < PowerPinSlots; i++) AddSingle(tb, null, StatImages["PowerPin"], null, " (Power)\n");
+                for (int i = 0; i < ShieldPinSlots; i++) AddSingle(tb, null, StatImages["ShieldPin"], null, " (Shield)\n");
+                for (int i = 0; i < SwordPinSlots; i++) AddSingle(tb, null, StatImages["SwordPin"], null, " (Sword)\n");
+                AddSingle(tb, null, null, null, "\n");
+            }
+
+            // TODO: Spells
+
+            if (SchoolRequirement != School.Any) AddSingle(tb, null, StatImages[SchoolRequirement.ToString()], null, " School Only\n");
+            if (LevelRequirement > 1) AddSingle(tb, $"Level {LevelRequirement}+ Only", null, null, "\n");
 
             return tb;
+        }
+        public int TotalSlots
+        {
+            get
+            {
+                return (TearJewelSlots +
+                    CircleJewelSlots +
+                    SquareJewelSlots +
+                    TriangleJewelSlots +
+                    PowerPinSlots +
+                    ShieldPinSlots +
+                    SwordPinSlots);
+            }
         }
 
 
@@ -489,7 +632,15 @@ namespace GammaGear
                 SchoolRequirement = (School)rand.Next((int)School.Any, (int)School.Shadow),
                 PowerpipChance = rand.Next(0, 2) == 1 ? rand.Next(1, 22) : 1,
                 ShadowpipRating = rand.Next(0, 2) == 1 ? rand.Next(1, 21) : 1,
+                StunResistChance = rand.Next(0, 101),
                 Type = (ItemType)rand.Next((int)ItemType.Hat, (int)ItemType.ItemSetBonusData),
+                TearJewelSlots = rand.Next(0, 3),
+                CircleJewelSlots = rand.Next(0, 3),
+                SquareJewelSlots = rand.Next(0, 3),
+                TriangleJewelSlots = rand.Next(0, 3),
+                PowerPinSlots = rand.Next(0, 3),
+                ShieldPinSlots = rand.Next(0, 3),
+                SwordPinSlots = rand.Next(0, 3),
             };
 
             item.SchoolRestriction = item.SchoolRequirement != School.Any ? School.Any : (School)rand.Next((int)School.Any, (int)School.Shadow);
@@ -674,7 +825,7 @@ namespace GammaGear
         }
         public ItemDisplay GetEquippedFromType(Item.ItemType type)
         {
-            return EquippedItems.First(i => i.Type == type);
+            return EquippedItems.FirstOrDefault(i => i.Type == type);
         }
         public void EquipItem(ItemDisplay item)
         {
