@@ -37,8 +37,8 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                    <MenuItem Header="New Database"/>
-                    <MenuItem Header="Load Database"/>
+                    <MenuItem Header="New Database" Click="FileCreateNewDB"/>
+                    <MenuItem Header="Load Database" Click="FileLoadDB"/>
                     <MenuItem Header="Unload Database"/>
                     <MenuItem Header="Save Loadout"/>
                 </MenuItem>
@@ -522,6 +522,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
+                                    
                                     <DataGridTemplateColumn Header="School" SortMemberPath="SchoolRequirement">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -529,9 +530,21 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
+                                    
                                     <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                                    <DataGridTextColumn Header="Health" Binding="{Binding MaxHealth}"/>
+                                    
+                                    <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png" 
+                                                       ToolTip="Crowns Only" 
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsCrownsOnlyVisible}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

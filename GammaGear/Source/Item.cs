@@ -100,8 +100,8 @@ namespace GammaGear.Source
         public ItemFlags Flags { get; set; } = 0;
         public ArenaRank PVPRankRequirement { get; set; } = ArenaRank.Private;
         public ArenaRank PetRankRequirement { get; set; } = ArenaRank.Private;
-        public School SchoolRequirement { get; set; } = School.None;
-        public School SchoolRestriction { get; set; } = School.None;
+        public School SchoolRequirement { get; set; } = School.Any;
+        public School SchoolRestriction { get; set; } = School.Any;
         public bool Retired { get; set; } = false;
         public int MaxHealth { get; set; } = 0;
         public int MaxMana { get; set; } = 0;

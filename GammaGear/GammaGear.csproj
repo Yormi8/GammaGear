@@ -37,6 +37,17 @@
     <None Remove="Assets\Images\%28Icon%29_Equipment_TearJewel.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_TriangleJewel.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Wand.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_CrownsOnly.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoAuction.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoCombat.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoDrop.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoDye.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoHatchmaking.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoPVP.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoSell.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoShatter.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_NoTrade.png" />
+    <None Remove="Assets\Images\%28Icon%29_Flag_PVPOnly.png" />
     <None Remove="Assets\Images\%28Icon%29_Help.png" />
     <None Remove="Assets\Images\%28Icon%29_Pet_Agility.png" />
     <None Remove="Assets\Images\%28Icon%29_Pet_Intellect.png" />
@@ -99,6 +110,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
+    <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -159,6 +171,17 @@
     <Resource Include="Assets\Images\(Icon)_Equipment_Wand.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Flag_CrownsOnly.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoAuction.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoCombat.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoDrop.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoDye.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoHatchmaking.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoPVP.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoSell.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoShatter.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_NoTrade.png" />
+    <Resource Include="Assets\Images\(Icon)_Flag_PVPOnly.png" />
     <Resource Include="Assets\Images\(Icon)_Help.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>

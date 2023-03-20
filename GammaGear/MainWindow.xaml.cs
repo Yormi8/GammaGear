@@ -23,7 +23,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GammaGear.Properties;
 using GammaGear.Source;
+using Microsoft.Win32;
+using W101ToolUI.Source;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using static GammaGear.Source.Item;
 
 namespace GammaGear
 {
@@ -365,6 +370,66 @@ namespace GammaGear
                 UpdateStatsTab();
             }
         }
+        private void FileCreateNewDB(object sender, RoutedEventArgs eventArgs)
+        {
+            if (string.IsNullOrEmpty(Settings.Default.LocaleFolder))
+            {
+                CommonOpenFileDialog chooseLocaleDialog = new CommonOpenFileDialog()
+                {
+                    IsFolderPicker = true,
+                };
+                if (chooseLocaleDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
+                Settings.Default.LocaleFolder = chooseLocaleDialog.FileName;
+            }
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                
+                DefaultExt = "txt",
+                Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*",
+                InitialDirectory = Environment.CurrentDirectory,
+            };                 
+            if (ofd.ShowDialog() == false)
+            {
+                return;
+            }
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                DefaultExt = "sqlite",
+                Filter = "SQLite Database Files (*.sqlite)|*.sqlite|All files (*.*)|*.*",
+                InitialDirectory = Environment.CurrentDirectory,
+            };
+            if (sfd.ShowDialog() == false)
+            {
+                return;
+            }
+
+            XmlToDb xdb = new XmlToDb();
+            xdb.CreateDbFromList(ofd.FileName, sfd.FileName);
+        }
+
+        private void FileLoadDB(object sender, RoutedEventArgs eventArgs)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Title = "Open Database",
+                DefaultExt = "txt",
+                Filter = "SQLite Database Files (*.sqlite)|*.sqlite|All files (*.*)|*.*",
+                InitialDirectory = Environment.CurrentDirectory,
+            };
+            if (ofd.ShowDialog() == false)
+            {
+                return;
+            }
+
+            XmlToDb xdb = new XmlToDb();
+            ItemViewModel items = this.Resources["itemVM"] as ItemViewModel;
+            var newItems = xdb.CreateListFromDB(ofd.FileName);
+
+            foreach ( var item in newItems.Item1 )
+            {
+                items.Add((ItemDisplay)item);
+            }
+        }
     }
 
     public static class W101Commands
@@ -379,32 +444,57 @@ namespace GammaGear
 
     public class ItemViewModel : ObservableCollection<ItemDisplay>
     {
-        public ItemDisplay SelectedItem { get; set; }
-
-        public ItemViewModel()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                this.Add(ItemDisplay.MakeRandomItem());
-            }
-
-            this.Add(new ItemDisplay() 
-            { 
-                Name = "Malistaire's Cloak of Flux", 
-                Type = Item.ItemType.Robe, 
-                SchoolRequirement = Item.School.Storm 
-            });
-            this.Add(new ItemDisplay()
-            {
-                Name = "gaboty",
-                Type = Item.ItemType.Robe,
-                SchoolRequirement = Item.School.Storm
-            });
-        }
+        public ItemViewModel() { }
     }
 
-    public class ItemDisplay : Item, INotifyPropertyChanged
+    public class ItemDisplay : INotifyPropertyChanged
     {
+        private Item backingItem;
+        public string Name { get => backingItem.Name; set => backingItem.Name = value; }
+        public Guid ID { get => backingItem.ID; set => backingItem.ID = value; }
+        public Guid KI_ID { get => backingItem.KI_ID; set => backingItem.KI_ID = value; }
+        public Guid KI_SetBonusID { get => backingItem.KI_SetBonusID; set => backingItem.KI_SetBonusID = value; }
+        public ItemType Type { get => backingItem.Type; set => backingItem.Type = value; }
+        public int LevelRequirement { get => backingItem.LevelRequirement; set => backingItem.LevelRequirement = value; }
+        public ItemFlags Flags { get => backingItem.Flags; set => backingItem.Flags = value; }
+        public ArenaRank PVPRankRequirement { get => backingItem.PVPRankRequirement; set => backingItem.PVPRankRequirement = value; }
+        public ArenaRank PetRankRequirement { get => backingItem.PetRankRequirement; set => backingItem.PetRankRequirement = value; }
+        public School SchoolRequirement { get => backingItem.SchoolRequirement; set => backingItem.SchoolRequirement = value; }
+        public School SchoolRestriction { get => backingItem.SchoolRestriction; set => backingItem.SchoolRestriction = value; }
+        public bool Retired { get => backingItem.Retired; set => backingItem.Retired = value; }
+        public int MaxHealth { get => backingItem.MaxHealth; set => backingItem.MaxHealth = value; }
+        public int MaxMana { get => backingItem.MaxMana; set => backingItem.MaxMana = value; }
+        public int MaxEnergy { get => backingItem.MaxEnergy; set => backingItem.MaxEnergy = value; }
+        public int SpeedBonus { get => backingItem.SpeedBonus; set => backingItem.SpeedBonus = value; }
+        public int PowerpipChance { get => backingItem.PowerpipChance; set => backingItem.PowerpipChance = value; }
+        public int ShadowpipRating { get => backingItem.ShadowpipRating; set => backingItem.ShadowpipRating = value; }
+        public int StunResistChance { get => backingItem.StunResistChance; set => backingItem.StunResistChance = value; }
+        public int FishingLuck { get => backingItem.FishingLuck; set => backingItem.FishingLuck = value; }
+        public int ArchmasteryRating { get => backingItem.ArchmasteryRating; set => backingItem.ArchmasteryRating = value; }
+        public int IncomingHealing { get => backingItem.IncomingHealing; set => backingItem.IncomingHealing = value; }
+        public int OutgoingHealing { get => backingItem.OutgoingHealing; set => backingItem.OutgoingHealing = value; }
+        public int PipsGiven { get => backingItem.PipsGiven; set => backingItem.PipsGiven = value; }
+        public int PowerpipsGiven { get => backingItem.PowerpipsGiven; set => backingItem.PowerpipsGiven = value; }
+        public School AltSchoolMastery { get => backingItem.AltSchoolMastery; set => backingItem.AltSchoolMastery = value; }
+        public int TearJewelSlots { get => backingItem.TearJewelSlots; set => backingItem.TearJewelSlots = value; }
+        public int CircleJewelSlots { get => backingItem.CircleJewelSlots; set => backingItem.CircleJewelSlots = value; }
+        public int SquareJewelSlots { get => backingItem.SquareJewelSlots; set => backingItem.SquareJewelSlots = value; }
+        public int TriangleJewelSlots { get => backingItem.TriangleJewelSlots; set => backingItem.TriangleJewelSlots = value; }
+        public int PowerPinSlots { get => backingItem.PowerPinSlots; set => backingItem.PowerPinSlots = value; }
+        public int ShieldPinSlots { get => backingItem.ShieldPinSlots; set => backingItem.ShieldPinSlots = value; }
+        public int SwordPinSlots { get => backingItem.SwordPinSlots; set => backingItem.SwordPinSlots = value; }
+        public int SetBonusLevel { get => backingItem.SetBonusLevel; set => backingItem.SetBonusLevel = value; }
+        public ItemSetBonus SetBonus { get => backingItem.SetBonus; set => backingItem.SetBonus = value; }
+        public Dictionary<School, int> Accuracies { get => backingItem.Accuracies; set => backingItem.Accuracies = value; }
+        public Dictionary<School, int> Damages { get => backingItem.Damages; set => backingItem.Damages = value; }
+        public Dictionary<School, int> Resists { get => backingItem.Resists; set => backingItem.Resists = value; }
+        public Dictionary<School, int> Criticals { get => backingItem.Criticals; set => backingItem.Criticals = value; }
+        public Dictionary<School, int> Blocks { get => backingItem.Blocks; set => backingItem.Blocks = value; }
+        public Dictionary<School, int> Pierces { get => backingItem.Pierces; set => backingItem.Pierces = value; }
+        public Dictionary<School, int> FlatDamages { get => backingItem.FlatDamages; set => backingItem.FlatDamages = value; }
+        public Dictionary<School, int> FlatResists { get => backingItem.FlatResists; set => backingItem.FlatResists = value; }
+        public Dictionary<School, int> PipConversions { get => backingItem.PipConversions; set => backingItem.PipConversions = value; }
+        public Dictionary<string, int> ItemCards { get => backingItem.ItemCards; set => backingItem.ItemCards = value; }
         public string DisplayType => Type switch
         {
             ItemType.Shoes => "Boots",
@@ -423,24 +513,44 @@ namespace GammaGear
             ItemType.Shoes => "Assets/Images/(Icon)_Equipment_Boots.png",
             ItemType.Weapon => "Assets/Images/(Icon)_Equipment_Wand.png",
             ItemType.PinSquarePower => "Assets/Images/(Icon)_Equipment_PinSquarePower.png",
+            ItemType.None => "Assets/Images/(Icon)_Help.png",
+            ItemType.ItemSetBonusData => "Assets/Images/(Icon)_Help.png",
             _ => "Assets/Images/(Icon)_Equipment_" + Type.ToString() + ".png"
         };
 
         public string DisplaySchool => SchoolRequirement switch
         {
             School.Universal => SchoolRestriction != School.Universal ? 
-            "Not " + SchoolRestriction.ToString() : 
-            "Any",
+                "Not " + SchoolRestriction.ToString() : 
+                "Any",
+            School.None => "Assets/Images/(Icon)_Help.png",
             _ => SchoolRequirement.ToString()
         };
 
         public string DisplaySchoolSource => SchoolRequirement switch
         {
             School.Universal => SchoolRestriction != School.Universal ?
-            "Assets/Images/(Icon)_School_Not_" + SchoolRestriction.ToString() + ".png" :
-            "Assets/Images/(Icon)_School_Global.png",
+                "Assets/Images/(Icon)_School_Not_" + SchoolRestriction.ToString() + ".png" :
+                "Assets/Images/(Icon)_School_Global.png",
+            School.None => "Assets/Images/(Icon)_Help.png",
             _ => "Assets/Images/(Icon)_School_" + SchoolRequirement.ToString() + ".png"
         };
+        public bool IsCrownsOnly => Flags.HasFlag(ItemFlags.FLAG_CrownsOnly);
+        public Visibility IsCrownsOnlyVisible => IsCrownsOnly ? Visibility.Visible : Visibility.Hidden;
+        public bool IsNoAuction => Flags.HasFlag(ItemFlags.FLAG_NoAuction);
+        public Visibility IsNoAuctionOnlyVisible => IsNoAuction ? Visibility.Visible : Visibility.Hidden;
+        public bool IsNoTrade => Flags.HasFlag(ItemFlags.FLAG_NoTrade);
+        public Visibility IsNoTradeVisible => IsNoTrade ? Visibility.Visible : Visibility.Hidden;
+        public bool IsRetired => Flags.HasFlag(ItemFlags.FLAG_Retired);
+        public Visibility IsRetiredVisible => IsRetired ? Visibility.Visible : Visibility.Hidden;
+        public bool IsCrafted => Flags.HasFlag(ItemFlags.FLAG_Crafted);
+        public Visibility IsCraftedVisible => IsCrafted ? Visibility.Visible : Visibility.Hidden;
+        public bool IsPVPOnly => false;
+        public Visibility IsPVPOnlyVisible => IsPVPOnly ? Visibility.Visible : Visibility.Hidden;
+        public bool IsNoPVP => false;
+        public Visibility IsNoPVPVisible => IsNoPVP ? Visibility.Visible : Visibility.Hidden;
+
+
         private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
         {
             { "Health",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Health.png", UriKind.Absolute)) },
@@ -481,6 +591,12 @@ namespace GammaGear
             { "ShieldPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield.png", UriKind.Absolute)) },
             { "SwordPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword.png", UriKind.Absolute)) },
             { "SpeedBonus",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_SpeedBonus.png", UriKind.Absolute)) },
+            { "CrownsOnly",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_CrownsOnly.png", UriKind.Absolute)) },
+            { "NoAuction",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoAuction.png", UriKind.Absolute)) },
+            { "NoHatchmaking",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoHatchmaking.png", UriKind.Absolute)) },
+            { "NoPVP",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoPVP.png", UriKind.Absolute)) },
+            { "PVPOnly",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_PVPOnly.png", UriKind.Absolute)) },
+            { "NoTrade",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoTrade.png", UriKind.Absolute)) },
         };
 
         public TextBlock GetStatDisplay(bool showIDs)
@@ -519,19 +635,33 @@ namespace GammaGear
                 }
             }
 
+            void AddIcons(TextBlock tb, List<BitmapImage> images)
+            {
+                foreach (var image in images)
+                {
+                    Image img = new Image();
+                    img.Source = image;
+                    img.Width = 15;
+                    img.Height = 15;
+                    InlineUIContainer iuc = new InlineUIContainer(img);
+                    iuc.BaselineAlignment = BaselineAlignment.Center;
+                    tb.Inlines.Add(iuc);
+                }
+            }
+
             TextBlock tb = new TextBlock();
 
             if (showIDs)
             {
-                AddSingle(tb, $"ID: {ID.ToString().ToUpper()} ", null , null, "\n");
+                AddSingle(tb, $"ID: {ID.ToString().ToUpper()} ", null, null, "\n");
             }
 
             if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max ", StatImages["Health"], null, "\n");
             if (MaxMana > 0) AddSingle(tb, $"+{MaxMana} Max ", StatImages["Mana"], null, "\n");
             if (MaxEnergy > 0) AddSingle(tb, $"+{MaxEnergy} Max ", StatImages["Energy"], null, "\n");
-            if (PowerpipChance> 0) AddSingle(tb, $"+{PowerpipChance}% ", StatImages["PowerPip"], null, " Chance\n");
+            if (PowerpipChance > 0) AddSingle(tb, $"+{PowerpipChance}% ", StatImages["PowerPip"], null, " Chance\n");
 
-            if (FishingLuck> 0) AddSingle(tb, $"+{FishingLuck}% ", StatImages["FishingLuck"], null, "\n");
+            if (FishingLuck > 0) AddSingle(tb, $"+{FishingLuck}% ", StatImages["FishingLuck"], null, "\n");
 
             foreach (var pair in Accuracies)
             {
@@ -599,6 +729,17 @@ namespace GammaGear
             if (SchoolRequirement != School.Any) AddSingle(tb, null, StatImages[SchoolRequirement.ToString()], null, " School Only\n");
             if (LevelRequirement > 1) AddSingle(tb, $"Level {LevelRequirement}+ Only", null, null, "\n");
 
+            List<BitmapImage> icons = new List<BitmapImage>();
+            if (IsCrownsOnly) icons.Add(StatImages["CrownsOnly"]);
+            if (IsNoAuction) icons.Add(StatImages["NoAuction"]);
+            if (IsNoTrade) icons.Add(StatImages["NoTrade"]);
+            //if (false) icons.Add(StatImages["NoHatchmaking"]);
+            if (IsNoPVP) icons.Add(StatImages["NoPVP"]);
+            if (IsPVPOnly) icons.Add(StatImages["PVPOnly"]);
+            AddIcons(tb, icons);
+
+            if (IsRetired) AddSingle(tb, "RETIRED ITEM", null, null, "\n");
+
             return tb;
         }
         public int TotalSlots
@@ -615,11 +756,22 @@ namespace GammaGear
             }
         }
 
-
+        public ItemDisplay()
+        {
+            backingItem = new Item();
+        }
+        public ItemDisplay(Item item)
+        {
+            backingItem = item;
+        }
+        public static explicit operator ItemDisplay(Item i)
+        {
+            return new ItemDisplay(i);
+        }
         public static ItemDisplay MakeRandomItem()
         {
             Random rand = new Random((int)System.DateTime.Now.ToUniversalTime().Ticks);
-            ItemDisplay item = new ItemDisplay
+            ItemDisplay item = new ItemDisplay()
             {
                 MaxHealth = rand.Next(0, 2) == 1 ? rand.Next(1, 501) : 0,
                 MaxMana = rand.Next(0, 2) == 1 ? rand.Next(1, 501) : 0,
@@ -757,31 +909,31 @@ namespace GammaGear
             foreach (ItemDisplay item in EquippedItems)
             {
                 // Skip jewel slots. Jewels shouldn't have jewel slots. Prevents odd dependencies with jewel slots.
-                if (item.Type >= Item.ItemType.TearJewel && item.Type <= Item.ItemType.PinSquareSword)
+                if (item.Type >= ItemType.TearJewel && item.Type <= ItemType.PinSquareSword)
                 {
                     continue;
                 }
                 switch (jewelType)
                 {
-                    case Item.ItemType.TearJewel:
+                    case ItemType.TearJewel:
                         jewelSlots += item.TearJewelSlots;
                         break;
-                    case Item.ItemType.CircleJewel:
+                    case ItemType.CircleJewel:
                         jewelSlots += item.CircleJewelSlots;
                         break;
-                    case Item.ItemType.SquareJewel:
+                    case ItemType.SquareJewel:
                         jewelSlots += item.SquareJewelSlots;
                         break;
-                    case Item.ItemType.TriangleJewel:
+                    case ItemType.TriangleJewel:
                         jewelSlots += item.TriangleJewelSlots;
                         break;
-                    case Item.ItemType.PowerPin:
+                    case ItemType.PowerPin:
                         jewelSlots += item.PowerPinSlots;
                         break;
-                    case Item.ItemType.ShieldPin:
+                    case ItemType.ShieldPin:
                         jewelSlots += item.ShieldPinSlots;
                         break;
-                    case Item.ItemType.SwordPin:
+                    case ItemType.SwordPin:
                         jewelSlots += item.SwordPinSlots;
                         break;
                     default:
@@ -794,26 +946,26 @@ namespace GammaGear
         {
             switch (type)
             {
-                case Item.ItemType.Hat:
-                case Item.ItemType.Robe:
-                case Item.ItemType.Shoes:
-                case Item.ItemType.Weapon:
-                case Item.ItemType.Athame:
-                case Item.ItemType.Amulet:
-                case Item.ItemType.Ring:
-                case Item.ItemType.Deck:
-                case Item.ItemType.Pet:
-                case Item.ItemType.Mount:
+                case ItemType.Hat:
+                case ItemType.Robe:
+                case ItemType.Shoes:
+                case ItemType.Weapon:
+                case ItemType.Athame:
+                case ItemType.Amulet:
+                case ItemType.Ring:
+                case ItemType.Deck:
+                case ItemType.Pet:
+                case ItemType.Mount:
                     return 1;
-                case Item.ItemType.TearJewel:
-                case Item.ItemType.CircleJewel:
-                case Item.ItemType.SquareJewel:
-                case Item.ItemType.TriangleJewel:
-                case Item.ItemType.PowerPin:
-                case Item.ItemType.ShieldPin:
-                case Item.ItemType.SwordPin:
+                case ItemType.TearJewel:
+                case ItemType.CircleJewel:
+                case ItemType.SquareJewel:
+                case ItemType.TriangleJewel:
+                case ItemType.PowerPin:
+                case ItemType.ShieldPin:
+                case ItemType.SwordPin:
                     return GetCurrentJewelSlots(type);
-                case Item.ItemType.ItemSetBonusData:
+                case ItemType.ItemSetBonusData:
                     return int.MaxValue;
                 default:
                     return -1;
@@ -830,7 +982,7 @@ namespace GammaGear
         public void EquipItem(ItemDisplay item)
         {
             // Use EquipJewel or CalculateItemSetBonus for this...
-            if (item.Type > Item.ItemType.Mount) return;
+            if (item.Type > ItemType.Mount) return;
 
             if (GetNumberOfEquipped(item.Type) >= GetNumberAllowedEquipped(item.Type))
             {
@@ -863,7 +1015,7 @@ namespace GammaGear
             {
                 if (WizardLevel > 0)
                 {
-                    if (WizardSchool != Item.School.Any)
+                    if (WizardSchool != School.Any)
                     {
                         Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool][WizardLevel - 1];
                     }
