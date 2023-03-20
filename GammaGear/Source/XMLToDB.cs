@@ -538,6 +538,14 @@ namespace W101ToolUI.Source
                             {
                                 newItem.Flags |= Item.ItemFlags.FLAG_Crafted;
                             }
+                            else if (tag == "PVP")
+                            {
+                                newItem.Flags |= Item.ItemFlags.FLAG_PVPOnly;
+                            }
+                            //else if (tag == "NoPVP") // No PVP Items not introduced yet... May revisit in the future if these come out.
+                            //{
+                            //    newItem.Flags |= Item.ItemFlags.FLAG_PVPOnly;
+                            //}
                         }
 
                         // Equip Effects
@@ -1238,7 +1246,7 @@ namespace W101ToolUI.Source
                                     newItem.Pierces.AddOrIncrement(j, stat.m_lookupIndex - 99);
                                     break;
                                 case Canonical.Block:
-                                    newItem.Blocks.AddOrIncrement(j, stat.m_lookupIndex - 99);
+                                    newItem.Blocks.AddOrIncrement(j, stat.m_lookupIndex + 1);
                                     break;
                                 case Canonical.CriticalHit:
                                     newItem.Criticals.AddOrIncrement(j, stat.m_lookupIndex + 1);
