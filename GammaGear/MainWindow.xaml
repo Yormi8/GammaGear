@@ -545,6 +545,23 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     
+                                    <DataGridTemplateColumn Header="PVP" SortMemberPath="IsPVPOnly" Visibility="Hidden">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png" 
+                                                       ToolTip="PVPOnly" 
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsPVPOnlyVisible}"/>
+                                                    <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png" 
+                                                       ToolTip="NoPVP" 
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsNoPVPVisible}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -600,13 +617,41 @@
                                 </StackPanel>
                             </Border>
 
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Top">
                             <Button Height="35" Width="35" 
                                     BorderThickness="0,0,0,0"
-                                    Click="DBEquipButton">
-                                <Image Source="Assets/Images/(Icon)_Stats_Damage.png" Width="35" Height="35"/>
+                                    Click="DBEquipButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Grid>
+                                    <Image x:Name="DBEquipButtonImage" 
+                                           Source="Assets/Images/(Icon)_Button_Equip.png" 
+                                           Width="35" Height="35" 
+                                           Visibility="Visible"
+                                           ToolTip="Equip Item"/>
+                                    <Image x:Name="DBUnequipButtonImage" 
+                                           Source="Assets/Images/(Icon)_Button_Unequip.png" 
+                                           Width="35" Height="35" 
+                                           Visibility="Hidden"
+                                           ToolTip="Unequip Item"/>
+                                </Grid>
+                            </Button>
+                            <Button Height="35" Width="35" 
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBTrashButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Image Source="Assets/Images/(Icon)_Button_Trash.png" 
+                                       Width="35" Height="35"
+                                       ToolTip="Delete Item"/>
+                            </Button>
+                            <Button Height="35" Width="35" 
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBWikiButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Image Source="Assets/Images/(Icon)_Button_Interface.png" 
+                                       Width="35" Height="35"
+                                       ToolTip="Open Wiki Page"/>
                             </Button>
                         </StackPanel>
-                        
+
                     </StackPanel>
                 </TabItem>
                 <TabItem>

@@ -247,11 +247,24 @@ namespace GammaGear
 
             if (mainLoadout.GetNumberAllowedEquipped(item.Type) == 1 && mainLoadout.GetNumberOfEquipped(item.Type) == 1)
             {
-                DBEquippedItemName.Text = mainLoadout.GetEquippedFromType(item.Type).Name;
+                ItemDisplay equipped = mainLoadout.GetEquippedFromType(item.Type);
+                if (equipped.ID == item.ID)
+                {
+                    DBEquipButtonImage.Visibility = Visibility.Hidden;
+                    DBUnequipButtonImage.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    DBEquipButtonImage.Visibility = Visibility.Visible;
+                    DBUnequipButtonImage.Visibility = Visibility.Hidden;
+                }
+                DBEquippedItemName.Text = equipped.Name;
                 SetItemContent(mainLoadout.GetEquippedFromType(item.Type), DBEquippedItemContent);
             }
             else
             {
+                DBEquipButtonImage.Visibility = Visibility.Visible;
+                DBUnequipButtonImage.Visibility = Visibility.Hidden;
                 DBEquippedItemName.Text = "None";
                 DBEquippedItemContent.Children.Clear();
             }
@@ -357,11 +370,40 @@ namespace GammaGear
         }
         private void DBEquipButton(object sender, RoutedEventArgs eventArgs)
         {
-            ItemDisplay selectedItem = ItemDatabaseGrid.SelectedItem as ItemDisplay;
+            if (ItemDatabaseGrid.SelectedItem is ItemDisplay selectedItem)
+            {
+                ItemDisplay equipped = mainLoadout.GetEquippedFromType(selectedItem.Type);
+                if (equipped?.ID == selectedItem?.ID)
+                {
+                    mainLoadout.UnequipItem(selectedItem.Type);
+                }
+                else
+                {
+                    mainLoadout.EquipItem(selectedItem);
+                }
 
-            mainLoadout.EquipItem(selectedItem);
+                DBItemSelected(ItemDatabaseGrid, null);
+            }
 
-            DBItemSelected(ItemDatabaseGrid, null);
+        }
+        private void DBTrashButton(object sender, RoutedEventArgs eventArgs)
+        {
+            if (ItemDatabaseGrid.SelectedItem is ItemDisplay selectedItem)
+            {
+
+            }
+        }
+        private void DBWikiButton(object sender, RoutedEventArgs eventArgs)
+        {
+            if (ItemDatabaseGrid.SelectedItem is ItemDisplay selectedItem)
+            {
+                ProcessStartInfo wiki = new ProcessStartInfo
+                {
+                    FileName = "https://www.wizard101central.com/wiki/Item:" + selectedItem.Name.Replace(' ', '_'),
+                    UseShellExecute = true
+                };
+                Process.Start(wiki);
+            }
         }
         private void UpdateStatsTabEvent(object sender, RoutedEventArgs eventArgs)
         {
@@ -425,7 +467,7 @@ namespace GammaGear
             ItemViewModel items = this.Resources["itemVM"] as ItemViewModel;
             var newItems = xdb.CreateListFromDB(ofd.FileName);
 
-            foreach ( var item in newItems.Item1 )
+            foreach (var item in newItems.Item1.Where(i => i.Type >= ItemType.Hat && i.Type <= ItemType.PinSquareSword))
             {
                 items.Add((ItemDisplay)item);
             }
@@ -545,9 +587,9 @@ namespace GammaGear
         public Visibility IsRetiredVisible => IsRetired ? Visibility.Visible : Visibility.Hidden;
         public bool IsCrafted => Flags.HasFlag(ItemFlags.FLAG_Crafted);
         public Visibility IsCraftedVisible => IsCrafted ? Visibility.Visible : Visibility.Hidden;
-        public bool IsPVPOnly => false;
+        public bool IsPVPOnly => Flags.HasFlag(ItemFlags.FLAG_PVPOnly);
         public Visibility IsPVPOnlyVisible => IsPVPOnly ? Visibility.Visible : Visibility.Hidden;
-        public bool IsNoPVP => false;
+        public bool IsNoPVP => Flags.HasFlag(ItemFlags.FLAG_NoPVP);
         public Visibility IsNoPVPVisible => IsNoPVP ? Visibility.Visible : Visibility.Hidden;
 
 
@@ -667,6 +709,14 @@ namespace GammaGear
             {
                 AddSingle(tb, $"+{pair.Value}% ", StatImages[pair.Key.ToString()], StatImages["Accuracy"], "\n");
             }
+            foreach (var pair in Criticals)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Critical"], " Rating\n");
+            }
+            foreach (var pair in Blocks)
+            {
+                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Block"], " Rating\n");
+            }
             foreach (var pair in Damages)
             {
                 AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Damage"], "\n");
@@ -682,14 +732,6 @@ namespace GammaGear
             foreach (var pair in FlatResists)
             {
                 AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatResistance"], "\n");
-            }
-            foreach (var pair in Criticals)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Critical"], " Rating\n");
-            }
-            foreach (var pair in Blocks)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Block"], " Rating\n");
             }
             foreach (var pair in Pierces)
             {
@@ -990,6 +1032,14 @@ namespace GammaGear
             }
 
             EquippedItems.Add(item);
+        }
+        public void UnequipItem(Item.ItemType type)
+        {
+            ItemDisplay equipped = EquippedItems.FirstOrDefault(i => i.Type == type);
+            if (equipped != null)
+            {
+                EquippedItems.Remove(equipped);
+            }
         }
         public ItemDisplay CalculateStats()
         {

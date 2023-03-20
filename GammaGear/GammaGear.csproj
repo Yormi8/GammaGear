@@ -19,6 +19,10 @@
     
   <ItemGroup>
     <None Remove="Assets\Data\level_based_stats.csv" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Equip.png" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Interface.png" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Trash.png" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Unequip.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Amulet.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Athame.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Boots.png" />
@@ -117,6 +121,10 @@
     <Content Include="Assets\Data\level_based_stats.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\Images\(Icon)_Button_Equip.png" />
+    <Resource Include="Assets\Images\(Icon)_Button_Interface.png" />
+    <Resource Include="Assets\Images\(Icon)_Button_Trash.png" />
+    <Resource Include="Assets\Images\(Icon)_Button_Unequip.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Amulet.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
