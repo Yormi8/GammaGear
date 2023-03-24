@@ -469,10 +469,6 @@ namespace GammaGear
 
             foreach (var item in newItems.Item1.Where(i => i.Type >= ItemType.Hat && i.Type <= ItemType.PinSquareSword && !i.Flags.HasFlag(ItemFlags.FLAG_DevItem)))
             {
-                if (item.Flags.HasFlag(ItemFlags.FLAG_DevItem))
-                {
-                    Console.WriteLine();
-                }
                 items.Add((ItemDisplay)item);
             }
         }

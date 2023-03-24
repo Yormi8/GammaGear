@@ -6,6 +6,7 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:GammaGear"
+        xmlns:localSource="clr-namespace:GammaGear.Source"
         mc:Ignorable="d"
         Title="Gamma Gear" Height="600" Width="1200">
 
@@ -30,6 +31,8 @@
             </CollectionViewSource.SortDescriptions>
 
         </CollectionViewSource>
+
+        <localSource:NaturalSorter x:Key="NaturalSorter"/>
 
     </Window.Resources>
 
@@ -549,7 +552,8 @@
                                       SelectionMode="Single"
                                       CanUserAddRows="False"
                                       ItemsSource="{Binding Source={StaticResource databaseCVS}}"
-                                      SelectionChanged="DBItemSelected">
+                                      SelectionChanged="DBItemSelected"
+                                      localSource:CustomSortBehaviour.AllowCustomSort="True">
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
                                             <DataGridTemplateColumn.CellTemplate>
@@ -568,7 +572,9 @@
                                         </DataGridTemplateColumn>
 
                                         <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
-                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                        <DataGridTextColumn Header="Name" 
+                                                            Binding="{Binding Name}"
+                                                            localSource:CustomSortBehaviour.CustomSorter="{StaticResource NaturalSorter}"/>
 
                                         <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
                                             <DataGridTemplateColumn.CellTemplate>
