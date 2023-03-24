@@ -92,6 +92,7 @@ namespace GammaGear.Source
             FLAG_Crafted        = 0b_0000_0000_1000_0000,
             FLAG_PVPOnly        = 0b_0000_0001_0000_0000,
             FLAG_NoPVP          = 0b_0000_0010_0000_0000,
+            FLAG_DevItem        = 0b_0000_0100_0000_0000,
         }
         public string Name { get; set; }
         public Guid ID { get; set; }
@@ -158,7 +159,5 @@ namespace GammaGear.Source
         }
         public Item() : 
             this(Guid.NewGuid()) { }
-
-        
     }
 }

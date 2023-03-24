@@ -14,6 +14,7 @@ using System.Windows.Input;
 using static GammaGear.Source.Item;
 using System.Data;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace W101ToolUI.Source
 {
@@ -395,7 +396,7 @@ namespace W101ToolUI.Source
                 string fullPath = localeFolder + '\\' + fileName + ".lang";
                 using (var reader = new StreamReader(fullPath))
                 {
-                    Console.WriteLine("Loaded " + localeFolder + '\\' + fileName + ".lang");
+                    Trace.WriteLine("Loaded " + localeFolder + '\\' + fileName + ".lang");
                     // Trash the first line
                     reader.ReadLine();
 
@@ -408,7 +409,7 @@ namespace W101ToolUI.Source
                         string newValue = reader.ReadLine();
                         lang.Entries.Add(newId, newValue);
                     }
-                    Console.WriteLine("Unloaded " + localeFolder + '\\' + fileName + ".lang");
+                    Trace.WriteLine("Unloaded " + localeFolder + '\\' + fileName + ".lang");
                 }
                 _deserializedLangs.Add(lang);
             }
@@ -499,7 +500,18 @@ namespace W101ToolUI.Source
 
                         // Get Display name
                         newItem.Name = LoadDisplayName(wizItem.m_displayName, localeFolder);
-                        newItem.Name = string.IsNullOrEmpty(newItem.Name) ? "Unnamed Item: " + wizItem.m_objectName : newItem.Name;
+                        if (string.IsNullOrEmpty(newItem.Name))
+                        {
+                            newItem.Name = "Unnamed Item: " + wizItem.m_objectName;
+                            newItem.Flags |= ItemFlags.FLAG_DevItem;
+                        }
+                        if (newItem.Name.Contains("QA ") ||
+                            newItem.Name.ToLower() == "the one ring" ||
+                            newItem.Name.Contains("Test") ||
+                            newItem.Name.Contains("TEST"))
+                        {
+                            newItem.Flags |= ItemFlags.FLAG_DevItem;
+                        }
 
                         // Get Description
                         if (!string.IsNullOrEmpty(wizItem.m_description))
@@ -586,7 +598,7 @@ namespace W101ToolUI.Source
                                             break;
                                         case JewelSocketType.SOCKETTYPE_PET:
                                         default:
-                                            Console.WriteLine("Unhandled jewel type encountered: " + Enum.GetName(typeof(JewelSocketType), socket.m_socketType));
+                                            Trace.WriteLine("Unhandled jewel type encountered: " + Enum.GetName(typeof(JewelSocketType), socket.m_socketType));
                                             break;
                                     }
                                 }
@@ -619,12 +631,12 @@ namespace W101ToolUI.Source
                                 }
                                 else if (requirement is ReqHasBadge reqBadge)
                                 {
-                                    Console.WriteLine("ReqHasBadge has not been implemented yet...");
+                                    Trace.WriteLine("ReqHasBadge has not been implemented yet...");
                                 }
                             } 
                         }
 
-                        Console.WriteLine("inserting Wiz Item : " + newItem.Name);
+                        //Trace.WriteLine("inserting Wiz Item : " + newItem.Name);
                         itemsFinal.Add(newItem);
                     }
                     else if (item is ItemSetBonusTemplate itemSet)
@@ -663,7 +675,7 @@ namespace W101ToolUI.Source
                             newItemSet.Bonuses.Add(newItemBonus);
                         }
 
-                        Console.WriteLine("inserting Wiz Itemset : " + newItemSet.SetName);
+                        //Trace.WriteLine("inserting Wiz Itemset : " + newItemSet.SetName);
                         //foreach (Item itemSetBonusData in newItemSet.Bonuses)
                         //{
                         //    itemsFinal.Add(itemSetBonusData);
@@ -672,13 +684,31 @@ namespace W101ToolUI.Source
                     }
                     else
                     {
-                        Console.WriteLine("Unknown item encountered when inserting in database: " + item);
+                        Trace.WriteLine("Unknown item encountered when inserting in database: " + item);
                     }
                 }
 
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Adding to Database...");
-                Console.WriteLine("-------------------------------------------");
+                Trace.WriteLine("-------------------------------------------");
+                Trace.WriteLine("Renaming Duplicate Items...");
+                Trace.WriteLine("-------------------------------------------");
+
+                List<Item> nonUniqueNames = itemsFinal.Where(i => itemsFinal.Count(j => i.Name == j.Name) > 1).ToList();
+                foreach (Item item in nonUniqueNames)
+                {
+                    if (item.LevelRequirement == 1)
+                    {
+                        item.Name += " (Any Level)";
+                    }
+                    else
+                    {
+                        item.Name += " (Level " + item.LevelRequirement + "+)";
+                    }
+                }
+                // TODO: Fix this (single item dont get renamed) and possibly move to the program for more cohesive code.
+
+                Trace.WriteLine("-------------------------------------------");
+                Trace.WriteLine("Adding to Database...");
+                Trace.WriteLine("-------------------------------------------");
 
                 // Replace uint references with new GUIDs for better tracking.
                 var itemsWithSet = itemsFinal.Where(i => i.KI_SetBonusID != Guid.Empty);
@@ -879,7 +909,7 @@ namespace W101ToolUI.Source
                         pItemType.Value = (uint)item.Type;
                         pItemName.Value = item.Name != null ? item.Name : DBNull.Value;
                         pItemLevelRequirement.Value = item.LevelRequirement;
-                        pItemFlags.Value = (byte)item.Flags;
+                        pItemFlags.Value = (ushort)item.Flags;
                         pItemPvpRankRequirement.Value = (byte)item.PVPRankRequirement;
                         pItemPetRankRequirement.Value = (byte)item.PetRankRequirement;
                         pItemSchoolRequirement.Value = (byte)item.SchoolRequirement;
@@ -981,16 +1011,16 @@ namespace W101ToolUI.Source
                         InsertItem(item);
                     }
 
-                    Console.WriteLine("-------------------------------------------");
-                    Console.WriteLine("Saving Database...");
-                    Console.WriteLine("-------------------------------------------");
+                    Trace.WriteLine("-------------------------------------------");
+                    Trace.WriteLine("Saving Database...");
+                    Trace.WriteLine("-------------------------------------------");
 
                     transaction.Commit();
                 }
 
-                Console.WriteLine("-------------------------------------------");
-                Console.WriteLine("Done!");
-                Console.WriteLine("-------------------------------------------");
+                Trace.WriteLine("-------------------------------------------");
+                Trace.WriteLine("Done!");
+                Trace.WriteLine("-------------------------------------------");
 
                 db.Close();
             }
@@ -1011,18 +1041,18 @@ namespace W101ToolUI.Source
             string startingDirectory = filesToDeserialize[0];
             filesToDeserialize.RemoveAt(0);
 
-            Console.WriteLine("-------------------------------------------");
-            Console.WriteLine("Reading in the XML files...");
-            Console.WriteLine("-------------------------------------------");
+            Trace.WriteLine("-------------------------------------------");
+            Trace.WriteLine("Reading in the XML files...");
+            Trace.WriteLine("-------------------------------------------");
             // Deserialize all the files into PropertyClass objects
             List<PropertyClass> newItems = new List<PropertyClass>(filesToDeserialize.Count);
             foreach (string filePath in filesToDeserialize)
             {
                 newItems.AddRange(DeserializeFile(startingDirectory + '\\' + filePath));
             }
-            Console.WriteLine("-------------------------------------------");
-            Console.WriteLine("Constructing internal item lists...");
-            Console.WriteLine("-------------------------------------------");
+            Trace.WriteLine("-------------------------------------------");
+            Trace.WriteLine("Constructing internal item lists...");
+            Trace.WriteLine("-------------------------------------------");
             // Create DB and return the path to the DB.
             return CreateDbFromItemList(newItems, outputFileLocation, Settings.Default.LocaleFolder);
         }
@@ -1220,7 +1250,7 @@ namespace W101ToolUI.Source
                             case Canonical.WispBonus:               // TODO: Implement WispBonus and MaxManaPercentReduce Canonicals
                             case Canonical.MaxManaPercentReduce:
                             default:
-                                Console.WriteLine("Unhandled stat " + stat.m_effectName);
+                                Trace.WriteLine("Unhandled stat " + stat.m_effectName);
                                 break;
                         }
                     }

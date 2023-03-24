@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Remove="Assets\Data\level_based_stats.csv" />
     <None Remove="Assets\Images\%28Icon%29_Button_Equip.png" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Equipment_Set.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Interface.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Trash.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Unequip.png" />
@@ -122,6 +123,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Assets\Images\(Icon)_Button_Equip.png" />
+    <Resource Include="Assets\Images\(Icon)_Button_Equipment_Set.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Interface.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Trash.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Unequip.png" />

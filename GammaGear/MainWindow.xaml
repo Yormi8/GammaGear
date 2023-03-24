@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:GammaGear"
         mc:Ignorable="d"
-        Title="Gamma Gear" Height="450" Width="900">
+        Title="Gamma Gear" Height="600" Width="1200">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:W101Commands.OpenWiki" Executed="OnWikiMenuItemClicked"></CommandBinding>
@@ -85,6 +85,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -97,28 +98,34 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Basic Stats
+                            </TextBlock>
 
-                            <Image Grid.Column="0" Grid.Row="0" Source="Assets/Images/(Icon)_Stats_Health.png"/>
-                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Stats_Mana.png"/>
-                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Power_Pip.png"/>
-                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Shadow_Pip.png"/>
-                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Stun_Resistance.png"/>
-                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Incoming.png"/>
-                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Outgoing.png"/>
-                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Archmastery.png"/>
-                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Energy.png"/>
-                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Fishing_Luck.png"/>
+                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Stats_Health.png"/>
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Mana.png"/>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Power_Pip.png"/>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Shadow_Pip.png"/>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Stun_Resistance.png"/>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Incoming.png"/>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Outgoing.png"/>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Archmastery.png"/>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Energy.png"/>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Stats_Fishing_Luck.png"/>
 
-                            <TextBox x:Name="BasicStatsMaxHealth" Grid.Column="1" Grid.Row="0">99,999</TextBox>
-                            <TextBox x:Name="BasicStatsMaxMana" Grid.Column="1" Grid.Row="1">99,999</TextBox>
-                            <TextBox x:Name="BasicStatsPipChance" Grid.Column="1" Grid.Row="2">999%</TextBox>
-                            <TextBox x:Name="BasicStatsShadowRating" Grid.Column="1" Grid.Row="3">999</TextBox>
-                            <TextBox x:Name="BasicStatsStunResist" Grid.Column="1" Grid.Row="4">999%</TextBox>
-                            <TextBox x:Name="BasicStatsIncHealing" Grid.Column="1" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="BasicStatsOutHealing" Grid.Column="1" Grid.Row="6">999%</TextBox>
-                            <TextBox x:Name="BasicStatsArchmastery" Grid.Column="1" Grid.Row="7">999</TextBox>
-                            <TextBox x:Name="BasicStatsMaxEnergy" Grid.Column="1" Grid.Row="8">999</TextBox>
-                            <TextBox x:Name="BasicStatsFishingLuck" Grid.Column="1" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="BasicStatsMaxHealth" Grid.Column="1" Grid.Row="1">99,999</TextBox>
+                            <TextBox x:Name="BasicStatsMaxMana" Grid.Column="1" Grid.Row="2">99,999</TextBox>
+                            <TextBox x:Name="BasicStatsPipChance" Grid.Column="1" Grid.Row="3">999%</TextBox>
+                            <TextBox x:Name="BasicStatsShadowRating" Grid.Column="1" Grid.Row="4">999</TextBox>
+                            <TextBox x:Name="BasicStatsStunResist" Grid.Column="1" Grid.Row="5">999%</TextBox>
+                            <TextBox x:Name="BasicStatsIncHealing" Grid.Column="1" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="BasicStatsOutHealing" Grid.Column="1" Grid.Row="7">999%</TextBox>
+                            <TextBox x:Name="BasicStatsArchmastery" Grid.Column="1" Grid.Row="8">999</TextBox>
+                            <TextBox x:Name="BasicStatsMaxEnergy" Grid.Column="1" Grid.Row="9">999</TextBox>
+                            <TextBox x:Name="BasicStatsFishingLuck" Grid.Column="1" Grid.Row="10">999%</TextBox>
 
                         </Grid>
 
@@ -162,6 +169,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -174,116 +182,123 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <Rectangle Grid.Row="1" Grid.Column="0" Grid.RowSpan="9" Fill="#BDBDBD"/>
-                            <Rectangle Grid.Row="0" Grid.Column="1" Grid.RowSpan="10" Fill="#FF6666"/>
-                            <Rectangle Grid.Row="0" Grid.Column="2" Grid.RowSpan="10" Fill="#66B2FF"/>
-                            <Rectangle Grid.Row="0" Grid.Column="3" Grid.RowSpan="10" Fill="#B266FF"/>
-                            <Rectangle Grid.Row="0" Grid.Column="4" Grid.RowSpan="10" Fill="#FFFF66"/>
-                            <Rectangle Grid.Row="0" Grid.Column="5" Grid.RowSpan="10" Fill="#66FF66"/>
-                            <Rectangle Grid.Row="0" Grid.Column="6" Grid.RowSpan="10" Fill="#A0A0A0"/>
-                            <Rectangle Grid.Row="0" Grid.Column="7" Grid.RowSpan="10" Fill="#FFB266"/>
-                            <Rectangle Grid.Row="0" Grid.Column="8" Grid.RowSpan="10" Fill="#404040"/>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Advanced Stats
+                            </TextBlock>
 
-                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Stats_Damage.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Flat_Damage.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Resistance.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Flat_Resistance.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Accuracy.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Critical.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Critical_Block.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Armor_Piercing.png"></Image>
-                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Pip_Conversion.png"></Image>
+                            <Rectangle Grid.Row="2" Grid.Column="0" Grid.RowSpan="9" Fill="#BDBDBD"/>
+                            <Rectangle Grid.Row="1" Grid.Column="1" Grid.RowSpan="10" Fill="#FF6666"/>
+                            <Rectangle Grid.Row="1" Grid.Column="2" Grid.RowSpan="10" Fill="#66B2FF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="3" Grid.RowSpan="10" Fill="#B266FF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="4" Grid.RowSpan="10" Fill="#FFFF66"/>
+                            <Rectangle Grid.Row="1" Grid.Column="5" Grid.RowSpan="10" Fill="#66FF66"/>
+                            <Rectangle Grid.Row="1" Grid.Column="6" Grid.RowSpan="10" Fill="#A0A0A0"/>
+                            <Rectangle Grid.Row="1" Grid.Column="7" Grid.RowSpan="10" Fill="#FFB266"/>
+                            <Rectangle Grid.Row="1" Grid.Column="8" Grid.RowSpan="10" Fill="#404040"/>
 
-                            <Image Grid.Column="1" Grid.Row="0" Source="Assets/Images/(Icon)_School_Fire.png"/>
-                            <Image Grid.Column="2" Grid.Row="0" Source="Assets/Images/(Icon)_School_Ice.png"/>
-                            <Image Grid.Column="3" Grid.Row="0" Source="Assets/Images/(Icon)_School_Storm.png"/>
-                            <Image Grid.Column="4" Grid.Row="0" Source="Assets/Images/(Icon)_School_Myth.png"/>
-                            <Image Grid.Column="5" Grid.Row="0" Source="Assets/Images/(Icon)_School_Life.png"/>
-                            <Image Grid.Column="6" Grid.Row="0" Source="Assets/Images/(Icon)_School_Death.png"/>
-                            <Image Grid.Column="7" Grid.Row="0" Source="Assets/Images/(Icon)_School_Balance.png"/>
-                            <Image Grid.Column="8" Grid.Row="0" Source="Assets/Images/(Icon)_School_Shadow.png"/>
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Damage.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Flat_Damage.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Resistance.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Flat_Resistance.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Accuracy.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Critical.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Critical_Block.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Armor_Piercing.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Stats_Pip_Conversion.png"></Image>
+
+                            <Image Grid.Column="1" Grid.Row="1" Source="Assets/Images/(Icon)_School_Fire.png"/>
+                            <Image Grid.Column="2" Grid.Row="1" Source="Assets/Images/(Icon)_School_Ice.png"/>
+                            <Image Grid.Column="3" Grid.Row="1" Source="Assets/Images/(Icon)_School_Storm.png"/>
+                            <Image Grid.Column="4" Grid.Row="1" Source="Assets/Images/(Icon)_School_Myth.png"/>
+                            <Image Grid.Column="5" Grid.Row="1" Source="Assets/Images/(Icon)_School_Life.png"/>
+                            <Image Grid.Column="6" Grid.Row="1" Source="Assets/Images/(Icon)_School_Death.png"/>
+                            <Image Grid.Column="7" Grid.Row="1" Source="Assets/Images/(Icon)_School_Balance.png"/>
+                            <Image Grid.Column="8" Grid.Row="1" Source="Assets/Images/(Icon)_School_Shadow.png"/>
 
 
-                            <TextBox x:Name="StatsFireDamage"    Grid.Column="1" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsIceDamage"     Grid.Column="2" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsStormDamage"   Grid.Column="3" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsMythDamage"    Grid.Column="4" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsLifeDamage"    Grid.Column="5" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsDeathDamage"   Grid.Column="6" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsBalanceDamage" Grid.Column="7" Grid.Row="1">999%</TextBox>
-                            <TextBox x:Name="StatsShadowDamage"  Grid.Column="8" Grid.Row="1">999%</TextBox>
+                            <TextBox x:Name="StatsFireDamage"    Grid.Column="1" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsIceDamage"     Grid.Column="2" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsStormDamage"   Grid.Column="3" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsMythDamage"    Grid.Column="4" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsLifeDamage"    Grid.Column="5" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsDeathDamage"   Grid.Column="6" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceDamage" Grid.Column="7" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsShadowDamage"  Grid.Column="8" Grid.Row="2">999%</TextBox>
 
-                            <TextBox x:Name="StatsFireFlatDamage"    Grid.Column="1" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsIceFlatDamage"     Grid.Column="2" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsStormFlatDamage"   Grid.Column="3" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsMythFlatDamage"    Grid.Column="4" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsLifeFlatDamage"    Grid.Column="5" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsDeathFlatDamage"   Grid.Column="6" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsBalanceFlatDamage" Grid.Column="7" Grid.Row="2">+999</TextBox>
-                            <TextBox x:Name="StatsShadowFlatDamage"  Grid.Column="8" Grid.Row="2">+999</TextBox>
+                            <TextBox x:Name="StatsFireFlatDamage"    Grid.Column="1" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsIceFlatDamage"     Grid.Column="2" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsStormFlatDamage"   Grid.Column="3" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsMythFlatDamage"    Grid.Column="4" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsLifeFlatDamage"    Grid.Column="5" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsDeathFlatDamage"   Grid.Column="6" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceFlatDamage" Grid.Column="7" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsShadowFlatDamage"  Grid.Column="8" Grid.Row="3">+999</TextBox>
 
-                            <TextBox x:Name="StatsFireResistance"    Grid.Column="1" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsIceResistance"     Grid.Column="2" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsStormResistance"   Grid.Column="3" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsMythResistance"    Grid.Column="4" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsLifeResistance"    Grid.Column="5" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsDeathResistance"   Grid.Column="6" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsBalanceResistance" Grid.Column="7" Grid.Row="3">999%</TextBox>
-                            <TextBox x:Name="StatsShadowResistance"  Grid.Column="8" Grid.Row="3">999%</TextBox>
+                            <TextBox x:Name="StatsFireResistance"    Grid.Column="1" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsIceResistance"     Grid.Column="2" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsStormResistance"   Grid.Column="3" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsMythResistance"    Grid.Column="4" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsLifeResistance"    Grid.Column="5" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsDeathResistance"   Grid.Column="6" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceResistance" Grid.Column="7" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsShadowResistance"  Grid.Column="8" Grid.Row="4">999%</TextBox>
 
-                            <TextBox x:Name="StatsFireFlatResistance"    Grid.Column="1" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsIceFlatResistance"     Grid.Column="2" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsStormFlatResistance"   Grid.Column="3" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsMythFlatResistance"    Grid.Column="4" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsLifeFlatResistance"    Grid.Column="5" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsDeathFlatResistance"   Grid.Column="6" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsBalanceFlatResistance" Grid.Column="7" Grid.Row="4">+999</TextBox>
-                            <TextBox x:Name="StatsShadowFlatResistance"  Grid.Column="8" Grid.Row="4">+999</TextBox>
+                            <TextBox x:Name="StatsFireFlatResistance"    Grid.Column="1" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsIceFlatResistance"     Grid.Column="2" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsStormFlatResistance"   Grid.Column="3" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsMythFlatResistance"    Grid.Column="4" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsLifeFlatResistance"    Grid.Column="5" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsDeathFlatResistance"   Grid.Column="6" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceFlatResistance" Grid.Column="7" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsShadowFlatResistance"  Grid.Column="8" Grid.Row="5">+999</TextBox>
 
-                            <TextBox x:Name="StatsFireAccuracy"    Grid.Column="1" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsIceAccuracy"     Grid.Column="2" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsStormAccuracy"   Grid.Column="3" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsMythAccuracy"    Grid.Column="4" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsLifeAccuracy"    Grid.Column="5" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsDeathAccuracy"   Grid.Column="6" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsBalanceAccuracy" Grid.Column="7" Grid.Row="5">999%</TextBox>
-                            <TextBox x:Name="StatsShadowAccuracy"  Grid.Column="8" Grid.Row="5">999%</TextBox>
+                            <TextBox x:Name="StatsFireAccuracy"    Grid.Column="1" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsIceAccuracy"     Grid.Column="2" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsStormAccuracy"   Grid.Column="3" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsMythAccuracy"    Grid.Column="4" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsLifeAccuracy"    Grid.Column="5" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsDeathAccuracy"   Grid.Column="6" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceAccuracy" Grid.Column="7" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsShadowAccuracy"  Grid.Column="8" Grid.Row="6">999%</TextBox>
 
-                            <TextBox x:Name="StatsFireCritical"    Grid.Column="1" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsIceCritical"     Grid.Column="2" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsStormCritical"   Grid.Column="3" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsMythCritical"    Grid.Column="4" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsLifeCritical"    Grid.Column="5" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsDeathCritical"   Grid.Column="6" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsBalanceCritical" Grid.Column="7" Grid.Row="6">+999</TextBox>
-                            <TextBox x:Name="StatsShadowCritical"  Grid.Column="8" Grid.Row="6">+999</TextBox>
+                            <TextBox x:Name="StatsFireCritical"    Grid.Column="1" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsIceCritical"     Grid.Column="2" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsStormCritical"   Grid.Column="3" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsMythCritical"    Grid.Column="4" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsLifeCritical"    Grid.Column="5" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsDeathCritical"   Grid.Column="6" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceCritical" Grid.Column="7" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsShadowCritical"  Grid.Column="8" Grid.Row="7">+999</TextBox>
 
-                            <TextBox x:Name="StatsFireCriticalBlock"    Grid.Column="1" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsIceCriticalBlock"     Grid.Column="2" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsStormCriticalBlock"   Grid.Column="3" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsMythCriticalBlock"    Grid.Column="4" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsLifeCriticalBlock"    Grid.Column="5" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsDeathCriticalBlock"   Grid.Column="6" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsBalanceCriticalBlock" Grid.Column="7" Grid.Row="7">+999</TextBox>
-                            <TextBox x:Name="StatsShadowCriticalBlock"  Grid.Column="8" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsFireCriticalBlock"    Grid.Column="1" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsIceCriticalBlock"     Grid.Column="2" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsStormCriticalBlock"   Grid.Column="3" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsMythCriticalBlock"    Grid.Column="4" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsLifeCriticalBlock"    Grid.Column="5" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsDeathCriticalBlock"   Grid.Column="6" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceCriticalBlock" Grid.Column="7" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsShadowCriticalBlock"  Grid.Column="8" Grid.Row="8">+999</TextBox>
 
-                            <TextBox x:Name="StatsFirePierce"    Grid.Column="1" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsIcePierce"     Grid.Column="2" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsStormPierce"   Grid.Column="3" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsMythPierce"    Grid.Column="4" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsLifePierce"    Grid.Column="5" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsDeathPierce"   Grid.Column="6" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsBalancePierce" Grid.Column="7" Grid.Row="8">999%</TextBox>
-                            <TextBox x:Name="StatsShadowPierce"  Grid.Column="8" Grid.Row="8">999%</TextBox>
+                            <TextBox x:Name="StatsFirePierce"    Grid.Column="1" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsIcePierce"     Grid.Column="2" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsStormPierce"   Grid.Column="3" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsMythPierce"    Grid.Column="4" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsLifePierce"    Grid.Column="5" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsDeathPierce"   Grid.Column="6" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsBalancePierce" Grid.Column="7" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsShadowPierce"  Grid.Column="8" Grid.Row="9">999%</TextBox>
 
-                            <TextBox x:Name="StatsFirePipConversion"    Grid.Column="1" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsIcePipConversion"     Grid.Column="2" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsStormPipConversion"   Grid.Column="3" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsMythPipConversion"    Grid.Column="4" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsLifePipConversion"    Grid.Column="5" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsDeathPipConversion"   Grid.Column="6" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsBalancePipConversion" Grid.Column="7" Grid.Row="9">+999</TextBox>
-                            <TextBox x:Name="StatsShadowPipConversion"  Grid.Column="8" Grid.Row="9">+999</TextBox>
+                            <TextBox x:Name="StatsFirePipConversion"    Grid.Column="1" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsIcePipConversion"     Grid.Column="2" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsStormPipConversion"   Grid.Column="3" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsMythPipConversion"    Grid.Column="4" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsLifePipConversion"    Grid.Column="5" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsDeathPipConversion"   Grid.Column="6" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsBalancePipConversion" Grid.Column="7" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsShadowPipConversion"  Grid.Column="8" Grid.Row="10">+999</TextBox>
 
                         </Grid>
 
@@ -301,13 +316,11 @@
                                 <Style TargetType="{x:Type xctk:IntegerUpDown}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Width" Value="300"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
                                 <Style TargetType="{x:Type ComboBox}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Width" Value="300"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
                                 <Style TargetType="{x:Type Image}">
@@ -324,6 +337,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
+                                <ColumnDefinition MaxWidth="36"/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
@@ -339,26 +354,38 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <Image Grid.Column="0" Grid.Row="0" Source="Assets/Images/(Icon)_School_Global.png"/>
-                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Stats_XP.png"/>
-                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Equipment_Hat.png"/>
-                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Equipment_Robe.png"/>
-                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Equipment_Boots.png"/>
-                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Equipment_Wand.png"/>
-                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Equipment_Athame.png"/>
-                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Equipment_Amulet.png"/>
-                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Equipment_Ring.png"/>
-                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Equipment_Pet.png"/>
-                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Equipment_Deck.png"/>
-                            <Image Grid.Column="0" Grid.Row="11" Source="Assets/Images/(Icon)_Equipment_Mount.png"/>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Equipment
+                            </TextBlock>
 
+                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Button_Equipment_Set.png"/>
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_School_Global.png"/>
+                            <Image Grid.Column="2" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_XP.png"/>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Equipment_Hat.png"/>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Equipment_Robe.png"/>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Equipment_Boots.png"/>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Equipment_Wand.png"/>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Equipment_Athame.png"/>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Equipment_Amulet.png"/>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Equipment_Ring.png"/>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Equipment_Pet.png"/>
+                            <Image Grid.Column="0" Grid.Row="11" Source="Assets/Images/(Icon)_Equipment_Deck.png"/>
+                            <Image Grid.Column="0" Grid.Row="12" Source="Assets/Images/(Icon)_Equipment_Mount.png"/>
+
+                            <Button Click="OnSelectLoadout" x:Name="WizardLoadoutBox" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">None</Button>
                             <ComboBox x:Name="WizardSchoolBox" 
-                                      Grid.Column="1" Grid.Row="0" 
+                                      Grid.Column="1" Grid.Row="2" 
                                       ToolTip="School"
                                       SelectionChanged="UpdateStatsTabEvent"
-                                      HorizontalContentAlignment="Center">
+                                      HorizontalContentAlignment="Center"
+                                      HorizontalAlignment="Stretch">
                                 <ComboBoxItem IsSelected="True">None</ComboBoxItem>
                                 <ComboBoxItem>Fire</ComboBoxItem>
                                 <ComboBoxItem>Ice</ComboBoxItem>
@@ -369,22 +396,23 @@
                                 <ComboBoxItem>Balance</ComboBoxItem>
                             </ComboBox>
                             <xctk:IntegerUpDown x:Name="WizardLevelBox" 
-                                                Grid.Column="1" Grid.Row="1" 
+                                                Grid.Column="3" Grid.Row="2" 
                                                 AllowTextInput="True" 
                                                 DefaultValue="0" Maximum="160" Minimum="0" 
                                                 TextAlignment="Center" 
                                                 DisplayDefaultValueOnEmptyText="True"
-                                                ValueChanged="UpdateStatsTabEvent"/>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardHatBox" Grid.Column="1" Grid.Row="2">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRobeBox" Grid.Column="1" Grid.Row="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardBootsBox" Grid.Column="1" Grid.Row="4">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardWandBox" Grid.Column="1" Grid.Row="5">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAthameBox" Grid.Column="1" Grid.Row="6">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAmuletBox" Grid.Column="1" Grid.Row="7">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRingBox" Grid.Column="1" Grid.Row="8">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardPetBox" Grid.Column="1" Grid.Row="9">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardDeckBox" Grid.Column="1" Grid.Row="10">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardMountBox" Grid.Column="1" Grid.Row="11">None</Button>
+                                                ValueChanged="UpdateStatsTabEvent"
+                                                HorizontalAlignment="Stretch"/>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardHatBox" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRobeBox" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardBootsBox" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardWandBox" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAthameBox" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAmuletBox" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRingBox" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardPetBox" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardDeckBox" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="3">None</Button>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardMountBox" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3">None</Button>
 
                         </Grid>
 
@@ -401,7 +429,7 @@
                         <Image Source="Assets/Images/(Icon)_Tab_Inventory.png" Width="25" Height="25" ToolTip="Backpack"/>
                     </TabItem.Header>
 
-                    <StackPanel Orientation="Horizontal">
+                    <DockPanel>
                         <Grid Width="160" HorizontalAlignment="Left" Margin="3 3 3 3" ScrollViewer.HorizontalScrollBarVisibility="Visible">
 
                             <Grid.Resources>
@@ -435,6 +463,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -447,11 +476,17 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">Item Name</TextBlock>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                <TextBlock.Text>Search &amp; Filter</TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">Item Name</TextBlock>
                             <TextBox x:Name="DBNameBox"  
-                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
-                            <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">Type</TextBlock>
-                            <ComboBox x:Name="DBTypeBox" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+                                     Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">Type</TextBlock>
+                            <ComboBox x:Name="DBTypeBox" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
                                 <ComboBoxItem IsSelected="True">All</ComboBoxItem>
                                 <ComboBoxItem>Hat</ComboBoxItem>
                                 <ComboBoxItem>Robe</ComboBoxItem>
@@ -471,8 +506,8 @@
                                 <ComboBoxItem>Shield Pin</ComboBoxItem>
                                 <ComboBoxItem>Sword Pin</ComboBoxItem>
                             </ComboBox>
-                            <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">School</TextBlock>
-                            <ComboBox x:Name="DBSchoolBox" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2">
+                            <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2">School</TextBlock>
+                            <ComboBox x:Name="DBSchoolBox" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
                                 <ComboBoxItem IsSelected="True">All</ComboBoxItem>
                                 <ComboBoxItem>Any</ComboBoxItem>
                                 <ComboBoxItem>Fire</ComboBoxItem>
@@ -483,16 +518,16 @@
                                 <ComboBoxItem>Death</ComboBoxItem>
                                 <ComboBoxItem>Balance</ComboBoxItem>
                             </ComboBox>
-                            <TextBlock Grid.Column="0" Grid.Row="6">Min Level</TextBlock>
-                            <TextBlock Grid.Column="1" Grid.Row="6">Max Level</TextBlock>
-                            <xctk:IntegerUpDown x:Name="DBMinLevelBox" Grid.Column="0" Grid.Row="7" Maximum="160" Minimum="1" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
-                            <xctk:IntegerUpDown x:Name="DBMaxLevelBox" Grid.Column="1" Grid.Row="7" Maximum="160" Minimum="1" DefaultValue="160" DisplayDefaultValueOnEmptyText="True"/>
-                            <Separator Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Margin="0,4,0,2" />
-                            <Button Grid.Column="0" Grid.Row="9" 
+                            <TextBlock Grid.Column="0" Grid.Row="7">Min Level</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="7">Max Level</TextBlock>
+                            <xctk:IntegerUpDown x:Name="DBMinLevelBox" Grid.Column="0" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
+                            <xctk:IntegerUpDown x:Name="DBMaxLevelBox" Grid.Column="1" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="160" DisplayDefaultValueOnEmptyText="True"/>
+                            <Separator Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Margin="0,4,0,2" />
+                            <Button Grid.Column="0" Grid.Row="10" 
                                     Content="Search" 
                                     Click="DBSearchButtonOnClick"
                                     IsDefault="True"/>
-                            <Button Grid.Column="1" Grid.Row="9" 
+                            <Button Grid.Column="1" Grid.Row="10" 
                                     Content="Reset" 
                                     Click="DBResetButtonOnClick"/>
 
@@ -500,71 +535,73 @@
 
                         <Rectangle Width="1" Fill="#FF9A9A9A"/>
 
-                        <Grid Margin="3 3 3 3">
-                            <DataGrid x:Name="ItemDatabaseGrid" 
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                <TextBlock.Text>Backpack</TextBlock.Text>
+                            </TextBlock>
+                            <Grid Margin="3 3 3 3" VerticalAlignment="Top">
+                                <DataGrid x:Name="ItemDatabaseGrid" 
                                       AutoGenerateColumns="False" 
                                       IsReadOnly="True" 
                                       SelectionMode="Single"
                                       CanUserAddRows="False"
                                       ItemsSource="{Binding Source={StaticResource databaseCVS}}"
                                       SelectionChanged="DBItemSelected">
-                                <!--<DataGrid.RowStyle>
-                                    <Style TargetType="DataGridRow">
-                                        <EventSetter Event="Selected" Handler="DBItemSelected"/>
-                                        <EventSetter Event="Unselected" Handler="DBItemUnselected"/>
-                                    </Style>
-                                </DataGrid.RowStyle>-->
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding DisplayTypeSource}" ToolTip="{Binding DisplayType}" Width="20" Height="20"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    
-                                    <DataGridTemplateColumn Header="School" SortMemberPath="SchoolRequirement">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding DisplaySchoolSource}" ToolTip="{Binding DisplaySchool}" Width="20" Height="20"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    
-                                    <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                                    
-                                    <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png" 
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding DisplayTypeSource}" ToolTip="{Binding DisplayType}" Width="20" Height="20"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="School" SortMemberPath="SchoolRequirement">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding DisplaySchoolSource}" ToolTip="{Binding DisplaySchool}" Width="20" Height="20"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+
+                                        <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png" 
                                                        ToolTip="Crowns Only" 
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsCrownsOnlyVisible}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    
-                                    <DataGridTemplateColumn Header="PVP" SortMemberPath="IsPVPOnly" Visibility="Hidden">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png" 
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="PVP" SortMemberPath="IsPVPOnly" Visibility="Hidden">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png" 
                                                        ToolTip="PVPOnly" 
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsPVPOnlyVisible}"/>
-                                                    <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png" 
+                                                        <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png" 
                                                        ToolTip="NoPVP" 
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsNoPVPVisible}"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </DockPanel>
 
                         <Rectangle Width="1" Fill="#FF9A9A9A"/>
 
@@ -603,12 +640,7 @@
                                     </TextBlock>
                                     <Separator/>
                                     <TextBlock x:Name="DBSelectedItemName">
-                                        <Run Text="Hello!"/>
-                                        <!--<InlineUIContainer BaselineAlignment="Center">
-                                            <Image Source="Assets/Images/(Icon)_School_Fire.png"
-                                                   Height="15"
-                                                   Width="15"/>
-                                        </InlineUIContainer>-->
+                                        <Run Text="None"/>
                                     </TextBlock>
                                     <StackPanel x:Name="DBSelectedItemContent">
 
@@ -619,10 +651,11 @@
 
                         </StackPanel>
 
-                        <StackPanel VerticalAlignment="Top">
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Button Height="35" Width="35" 
                                     BorderThickness="0,0,0,0"
-                                    Click="DBEquipButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                    Click="DBEquipButton" Background="{x:Null}"
+                                    Padding="0,0,0,0" Margin="3,3,3,3">
                                 <Grid>
                                     <Image x:Name="DBEquipButtonImage" 
                                            Source="Assets/Images/(Icon)_Button_Equip.png" 
@@ -652,26 +685,22 @@
                             </Button>
                         </StackPanel>
 
-                    </StackPanel>
+                    </DockPanel>
                 </TabItem>
-                <TabItem>
+                <TabItem Visibility="Hidden">
                     <TabItem.Header>
                         <Image Source="Assets/Images/(Icon)_Tab_Pet.png" Width="25" Height="25" ToolTip="Pet Customizer"/>
                     </TabItem.Header>
                     <TextBlock Text="Pet Customizer coming soon!"/>
                 </TabItem>
             </TabControl>
-
-            <StatusBar VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+            <StatusBar DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom">
                 <StatusBarItem>
-                    <TextBlock>Items Loaded: 100</TextBlock>
+                    <TextBlock>
+                        Items Loaded: 42069
+                    </TextBlock>
                 </StatusBarItem>
             </StatusBar>
-
         </DockPanel>
-
-
-
-
     </Grid>
 </Window>

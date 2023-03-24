@@ -467,10 +467,18 @@ namespace GammaGear
             ItemViewModel items = this.Resources["itemVM"] as ItemViewModel;
             var newItems = xdb.CreateListFromDB(ofd.FileName);
 
-            foreach (var item in newItems.Item1.Where(i => i.Type >= ItemType.Hat && i.Type <= ItemType.PinSquareSword))
+            foreach (var item in newItems.Item1.Where(i => i.Type >= ItemType.Hat && i.Type <= ItemType.PinSquareSword && !i.Flags.HasFlag(ItemFlags.FLAG_DevItem)))
             {
+                if (item.Flags.HasFlag(ItemFlags.FLAG_DevItem))
+                {
+                    Console.WriteLine();
+                }
                 items.Add((ItemDisplay)item);
             }
+        }
+        private void OnSelectLoadout(object sender, RoutedEventArgs eventArgs)
+        {
+            MessageBox.Show("Hai hai");
         }
     }
 
@@ -591,6 +599,8 @@ namespace GammaGear
         public Visibility IsPVPOnlyVisible => IsPVPOnly ? Visibility.Visible : Visibility.Hidden;
         public bool IsNoPVP => Flags.HasFlag(ItemFlags.FLAG_NoPVP);
         public Visibility IsNoPVPVisible => IsNoPVP ? Visibility.Visible : Visibility.Hidden;
+        public bool IsJewel => Type >= ItemType.TearJewel && Type <= ItemType.SwordPin;
+        public bool IsDevItem => Flags.HasFlag(ItemFlags.FLAG_DevItem);
 
 
         private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
@@ -1077,8 +1087,24 @@ namespace GammaGear
                 }
             }
 
+            int[] countJewels = new int[7]
+            {
+                0, 0, 0, 0, 0, 0, 0
+            };
             foreach (ItemDisplay item in EquippedItems)
             {
+                if (item.IsJewel)
+                {
+                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - ItemType.TearJewel])
+                    {
+                        countJewels[item.Type - ItemType.TearJewel]++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
                 Stats.MaxHealth += item.MaxHealth;
                 Stats.MaxMana += item.MaxMana;
                 Stats.MaxEnergy += item.MaxEnergy;
