@@ -21,6 +21,7 @@
     <None Remove="Assets\Data\level_based_stats.csv" />
     <None Remove="Assets\Images\%28Icon%29_Button_Equip.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Equipment_Set.png" />
+    <None Remove="Assets\Images\%28Icon%29_Button_Gear_Add.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Interface.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Trash.png" />
     <None Remove="Assets\Images\%28Icon%29_Button_Unequip.png" />
@@ -123,8 +124,10 @@
     <Content Include="Assets\Data\level_based_stats.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <Resource Include="Assets\Images\(Icon)_Button_Equip.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Equipment_Set.png" />
+    <Resource Include="Assets\Images\(Icon)_Button_Gear_Add.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Interface.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Trash.png" />
     <Resource Include="Assets\Images\(Icon)_Button_Unequip.png" />

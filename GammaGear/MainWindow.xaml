@@ -40,17 +40,16 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                    <MenuItem Header="New Database" Click="FileCreateNewDB"/>
-                    <MenuItem Header="Load Database" Click="FileLoadDB"/>
-                    <MenuItem Header="Unload Database"/>
-                    <MenuItem Header="Save Loadout"/>
+                    <MenuItem Header="Import From XML" Click="FileCreateNewDB"/>
+                    <MenuItem Header="Import From DB" Click="FileLoadDB"/>
+                    <MenuItem Header="Save Equipment Set"/>
+                    <MenuItem Header="Load Equipment Set"/>
                 </MenuItem>
                 <MenuItem Header="Settings">
-                    <MenuItem Header="Open Settings"/>
                 </MenuItem>
-                <MenuItem Header="About">
+                <MenuItem Header="Help">
                     <MenuItem Header="Wiki" Command="local:W101Commands.OpenWiki"/>
-                    <MenuItem Header="Help"/>
+                    <MenuItem Header="About"/>
                 </MenuItem>
             </Menu>
             <TabControl x:Name="MainTabControl"
@@ -382,7 +381,19 @@
                             <Image Grid.Column="0" Grid.Row="11" Source="Assets/Images/(Icon)_Equipment_Deck.png"/>
                             <Image Grid.Column="0" Grid.Row="12" Source="Assets/Images/(Icon)_Equipment_Mount.png"/>
 
-                            <Button Click="OnSelectLoadout" x:Name="WizardLoadoutBox" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">None</Button>
+
+                            <DockPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
+                                <Button x:Name="WizardLoadoutSaveButton" DockPanel.Dock="Left" Width="50">Save</Button>
+                                <Button x:Name="WizardLoadoutLoadButton" DockPanel.Dock="Left" Width="50">Load</Button>
+                                <xctk:WatermarkTextBox x:Name="WizardLoadoutNameBox" 
+                                                       DockPanel.Dock="Left"
+                                                       MaxLines="1"
+                                                       MaxLength="28"
+                                                       Margin="3,3,3,3"
+                                                       Watermark="Equipment Set Name"
+                                                       VerticalContentAlignment="Center" Height="22"/>
+                            </DockPanel>
+                            
                             <ComboBox x:Name="WizardSchoolBox" 
                                       Grid.Column="1" Grid.Row="2" 
                                       ToolTip="School"
