@@ -381,19 +381,10 @@
                             <Image Grid.Column="0" Grid.Row="11" Source="Assets/Images/(Icon)_Equipment_Deck.png"/>
                             <Image Grid.Column="0" Grid.Row="12" Source="Assets/Images/(Icon)_Equipment_Mount.png"/>
 
+                            <Button x:Name="WizardLoadoutButton"
+                                    Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
+                                    Click="LoadoutButton_Click">None</Button>
 
-                            <DockPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
-                                <Button x:Name="WizardLoadoutSaveButton" DockPanel.Dock="Left" Width="50">Save</Button>
-                                <Button x:Name="WizardLoadoutLoadButton" DockPanel.Dock="Left" Width="50">Load</Button>
-                                <xctk:WatermarkTextBox x:Name="WizardLoadoutNameBox" 
-                                                       DockPanel.Dock="Left"
-                                                       MaxLines="1"
-                                                       MaxLength="28"
-                                                       Margin="3,3,3,3"
-                                                       Watermark="Equipment Set Name"
-                                                       VerticalContentAlignment="Center" Height="22"/>
-                            </DockPanel>
-                            
                             <ComboBox x:Name="WizardSchoolBox" 
                                       Grid.Column="1" Grid.Row="2" 
                                       ToolTip="School"

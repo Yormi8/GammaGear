@@ -472,9 +472,10 @@ namespace GammaGear
                 items.Add((ItemDisplay)item);
             }
         }
-        private void OnSelectLoadout(object sender, RoutedEventArgs eventArgs)
+        private void LoadoutButton_Click(object sender, RoutedEventArgs eventArgs)
         {
-            MessageBox.Show("Hai hai");
+            LoadoutSelectionModal loadoutSelectionModal = new LoadoutSelectionModal();
+            loadoutSelectionModal.ShowDialog();
         }
     }
 
@@ -556,12 +557,12 @@ namespace GammaGear
         };
         public string DisplayTypeSource => Type switch
         {
-            ItemType.Shoes => "Assets/Images/(Icon)_Equipment_Boots.png",
-            ItemType.Weapon => "Assets/Images/(Icon)_Equipment_Wand.png",
-            ItemType.PinSquarePower => "Assets/Images/(Icon)_Equipment_PinSquarePower.png",
-            ItemType.None => "Assets/Images/(Icon)_Help.png",
-            ItemType.ItemSetBonusData => "Assets/Images/(Icon)_Help.png",
-            _ => "Assets/Images/(Icon)_Equipment_" + Type.ToString() + ".png"
+            ItemType.Shoes => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Boots.png",
+            ItemType.Weapon => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Wand.png",
+            ItemType.PinSquarePower => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png",
+            ItemType.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            ItemType.ItemSetBonusData => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_" + Type.ToString() + ".png"
         };
 
         public string DisplaySchool => SchoolRequirement switch
@@ -569,17 +570,17 @@ namespace GammaGear
             School.Universal => SchoolRestriction != School.Universal ? 
                 "Not " + SchoolRestriction.ToString() : 
                 "Any",
-            School.None => "Assets/Images/(Icon)_Help.png",
+            School.None => "None",
             _ => SchoolRequirement.ToString()
         };
 
         public string DisplaySchoolSource => SchoolRequirement switch
         {
             School.Universal => SchoolRestriction != School.Universal ?
-                "Assets/Images/(Icon)_School_Not_" + SchoolRestriction.ToString() + ".png" :
-                "Assets/Images/(Icon)_School_Global.png",
-            School.None => "Assets/Images/(Icon)_Help.png",
-            _ => "Assets/Images/(Icon)_School_" + SchoolRequirement.ToString() + ".png"
+                "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Not_" + SchoolRestriction.ToString() + ".png" :
+                "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png",
+            School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_" + SchoolRequirement.ToString() + ".png"
         };
         public bool IsCrownsOnly => Flags.HasFlag(ItemFlags.FLAG_CrownsOnly);
         public Visibility IsCrownsOnlyVisible => IsCrownsOnly ? Visibility.Visible : Visibility.Hidden;
@@ -894,8 +895,21 @@ namespace GammaGear
     public class ItemLoadout
     {
         protected List<ItemDisplay> EquippedItems;
-
+        public string Name { get; set; }
         public Item.School WizardSchool { get; set; }
+        public string DisplayWizardSchool => WizardSchool switch
+        {
+            School.Universal => "Any",
+            School.None => "None",
+            _ => WizardSchool.ToString()
+        };
+
+        public string DisplayWizardSchoolSource => WizardSchool switch
+        {
+            School.Universal => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png",
+            School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_" + WizardSchool.ToString() + ".png"
+        };
         public int WizardLevel { get; set; }
 
         public ItemDisplay CustomStats = null;
