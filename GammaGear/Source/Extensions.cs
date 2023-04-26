@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using W101ToolUI.Source;
+using GammaGear.Source;
+using GammaGear.Source.Database;
 
 namespace GammaGear.Source
 {
@@ -18,22 +20,23 @@ namespace GammaGear.Source
             {
                 dict[key] += value;
             }
+
             return added;
         }
 
-        public static Dictionary<Item.School, int> GetDictionaryFromCanonical(this Item item, XmlToDb.Canonical canonical)
+        public static Dictionary<Item.School, int> GetDictionaryFromCanonical(this Item item, Canonical canonical)
         {
             return canonical switch
             {
-                XmlToDb.Canonical.Accuracy => item.Accuracies,
-                XmlToDb.Canonical.ArmorPiercing => item.Pierces,
-                XmlToDb.Canonical.Block => item.Blocks,
-                XmlToDb.Canonical.CriticalHit => item.Criticals,
-                XmlToDb.Canonical.Damage => item.Damages,
-                XmlToDb.Canonical.FlatDamage => item.FlatDamages,
-                XmlToDb.Canonical.ReduceDamage => item.Resists,
-                XmlToDb.Canonical.FlatReduceDamage => item.FlatResists,
-                XmlToDb.Canonical.PipConversion => item.PipConversions,
+                Canonical.Accuracy => item.Accuracies,
+                Canonical.ArmorPiercing => item.Pierces,
+                Canonical.Block => item.Blocks,
+                Canonical.CriticalHit => item.Criticals,
+                Canonical.Damage => item.Damages,
+                Canonical.FlatDamage => item.FlatDamages,
+                Canonical.ReduceDamage => item.Resists,
+                Canonical.FlatReduceDamage => item.FlatResists,
+                Canonical.PipConversion => item.PipConversions,
                 _ => null,
             };
         }

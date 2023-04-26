@@ -7,21 +7,24 @@ using System.Windows.Media;
 
 namespace GammaGear.Source
 {
-    public class Item
+    public abstract class KiObject
     {
-        public class ItemSetBonus 
-        {
-            public Guid ID;
-            public Guid KI_ID;
-            public string SetName = "";
-            public List<Item> Bonuses = new List<Item>();
+        public Guid Id { get; set; }
+        public Guid KiId { get; set; }
+    }
+    public class ItemSetBonus : KiObject
+    {
+        public string SetName = "";
+        public List<Item> Bonuses = new List<Item>();
 
-            public ItemSetBonus() 
-            { 
-                ID = Guid.NewGuid();
-                KI_ID = Guid.Empty;
-            }
+        public ItemSetBonus()
+        {
+            Id = Guid.NewGuid();
+            KiId = Guid.Empty;
         }
+    }
+    public class Item : KiObject
+    {
         public enum School
         {
             Universal,
@@ -49,7 +52,7 @@ namespace GammaGear.Source
             Wand = Weapon,
             Athame,
             Amulet,
-            Ring, 
+            Ring,
             Deck,
             Pet,
             Mount,
@@ -59,7 +62,7 @@ namespace GammaGear.Source
             TriangleJewel,
             PinSquarePip,
             PinSquarePower = PinSquarePip,
-            PowerPin = PinSquarePower, 
+            PowerPin = PinSquarePower,
             PinSquareShield,
             ShieldPin = PinSquareShield,
             PinSquareSword,
@@ -95,13 +98,11 @@ namespace GammaGear.Source
             FLAG_DevItem        = 0b_0000_0100_0000_0000,
         }
         public string Name { get; set; }
-        public Guid ID { get; set; }
-        public Guid KI_ID { get; set; }
-        public Guid KI_SetBonusID { get; set; }
+        public Guid KiSetBonusID { get; set; }
         public ItemType Type { get; set; } = ItemType.None;
         public int LevelRequirement { get; set; } = 1;
         public ItemFlags Flags { get; set; } = 0;
-        public ArenaRank PVPRankRequirement { get; set; } = ArenaRank.Private;
+        public ArenaRank PvpRankRequirement { get; set; } = ArenaRank.Private;
         public ArenaRank PetRankRequirement { get; set; } = ArenaRank.Private;
         public School SchoolRequirement { get; set; } = School.Any;
         public School SchoolRestriction { get; set; } = School.Any;
@@ -153,11 +154,11 @@ namespace GammaGear.Source
             PipConversions = new Dictionary<School, int>();
             ItemCards = new Dictionary<string, int>();
 
-            this.ID = ID;
-            KI_ID = Guid.Empty;
-            KI_SetBonusID = Guid.Empty;
+            Id = ID;
+            KiId = Guid.Empty;
+            KiSetBonusID = Guid.Empty;
         }
-        public Item() : 
+        public Item() :
             this(Guid.NewGuid()) { }
     }
 }

@@ -25,8 +25,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GammaGear.Properties;
 using GammaGear.Source;
+using GammaGear.Source.Database;
 using Microsoft.Win32;
-using W101ToolUI.Source;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using static GammaGear.Source.Item;
 
@@ -498,13 +498,13 @@ namespace GammaGear
     {
         private Item backingItem;
         public string Name { get => backingItem.Name; set => backingItem.Name = value; }
-        public Guid ID { get => backingItem.ID; set => backingItem.ID = value; }
-        public Guid KI_ID { get => backingItem.KI_ID; set => backingItem.KI_ID = value; }
-        public Guid KI_SetBonusID { get => backingItem.KI_SetBonusID; set => backingItem.KI_SetBonusID = value; }
+        public Guid ID { get => backingItem.Id; set => backingItem.Id = value; }
+        public Guid KI_ID { get => backingItem.KiId; set => backingItem.KiId = value; }
+        public Guid KI_SetBonusID { get => backingItem.KiSetBonusID; set => backingItem.KiSetBonusID = value; }
         public ItemType Type { get => backingItem.Type; set => backingItem.Type = value; }
         public int LevelRequirement { get => backingItem.LevelRequirement; set => backingItem.LevelRequirement = value; }
         public ItemFlags Flags { get => backingItem.Flags; set => backingItem.Flags = value; }
-        public ArenaRank PVPRankRequirement { get => backingItem.PVPRankRequirement; set => backingItem.PVPRankRequirement = value; }
+        public ArenaRank PVPRankRequirement { get => backingItem.PvpRankRequirement; set => backingItem.PvpRankRequirement = value; }
         public ArenaRank PetRankRequirement { get => backingItem.PetRankRequirement; set => backingItem.PetRankRequirement = value; }
         public School SchoolRequirement { get => backingItem.SchoolRequirement; set => backingItem.SchoolRequirement = value; }
         public School SchoolRestriction { get => backingItem.SchoolRestriction; set => backingItem.SchoolRestriction = value; }

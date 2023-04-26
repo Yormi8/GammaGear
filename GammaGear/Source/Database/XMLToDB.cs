@@ -16,359 +16,10 @@ using System.Data;
 using System.Windows.Media;
 using System.Diagnostics;
 
-namespace W101ToolUI.Source
+namespace GammaGear.Source.Database
 {
     public class XmlToDb
     {
-        public enum RarityType
-        {
-            [XmlEnum(Name = "enum RarityType::RT_COMMON")]
-            RT_COMMON = 0,
-            [XmlEnum(Name = "enum RarityType::RT_UNCOMMON")]
-            RT_UNCOMMON = 1,
-            [XmlEnum(Name = "enum RarityType::RT_RARE")]
-            RT_RARE = 2,
-            [XmlEnum(Name = "enum RarityType::RT_ULTRARARE")]
-            RT_ULTRARARE = 3,
-            [XmlEnum(Name = "enum RarityType::RT_EPIC")]
-            RT_EPIC = 4
-        }
-        public enum OperatorType
-        {
-            [XmlEnum(Name = "enum Requirement::Operator::ROP_AND")]
-            ROP_AND = 0,
-            [XmlEnum(Name = "enum Requirement::Operator::ROP_OR")]
-            ROP_OR = 1,
-            Default = ROP_AND
-        }
-
-        public enum NumericOperatorType
-        {
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_UNKNOWN")]
-            OPERATOR_UNKNOWN = -1,
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_EQUALS")]
-            OPERATOR_EQUALS = 0,
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN")]
-            OPERATOR_GREATER_THAN = 1,
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_LESS_THAN")]
-            OPERATOR_LESS_THAN = 2,
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ")]
-            OPERATOR_GREATER_THAN_EQ = 3,
-            [XmlEnum(Name = "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_LESS_THAN_EQ")]
-            OPERATOR_LESS_THAN_EQ = 4
-        }
-        public enum JewelSocketType
-        {
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_SQUARE")]
-            SOCKETTYPE_SQUARE = 0,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_CIRCLE")]
-            SOCKETTYPE_CIRCLE = 1,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_TRIANGLE")]
-            SOCKETTYPE_TRIANGLE = 2,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_TEAR")]
-            SOCKETTYPE_TEAR = 3,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_PET")]
-            SOCKETTYPE_PET = 4,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_PINSQUAREPIP")]
-            SOCKETTYPE_PINSQUAREPIP = 5,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_PINSQUARESHIELD")]
-            SOCKETTYPE_PINSQUARESHIELD = 6,
-            [XmlEnum(Name = "enum JewelSocket::JewelSocketType::SOCKETTYPE_PINSQUARESWORD")]
-            SOCKETTYPE_PINSQUARESWORD = 7
-        }
-        public enum BooleanEnum
-        {
-            [XmlEnum(Name = "False")]
-            False = 0,
-            [XmlEnum(Name = "True")]
-            True = 1,
-        }
-        public enum Canonical
-        {
-            // School Specific
-            MetaStartSchoolSpecific,
-
-            Accuracy,           // Reduce 99
-            ArmorPiercing,      // Reduce
-            Block,              // Add 1
-            CriticalHit,        // Add
-            Damage,             // Reduce
-            FlatDamage,         // Add
-            ReduceDamage,       // Reduce
-            FlatReduceDamage,   // Add
-            PipConversion,      // Add
-            Mastery,            // 0
-
-            MetaEndSchoolSpecific,
-
-            // Universal
-            MetaStartUniversal,
-
-            MaxHealth,              // Add
-            MaxMana,                // Add
-            MaxEnergy,              // Add
-            PowerPip,               // Reduce
-            IncHealing,             // Reduce
-            LifeHealing,            // Reduce
-            ShadowPipRating,        // Add
-            StunResistance,         // Reduce
-            AllArchmastery,         // Add
-            AllFishingLuck,         // Reduce
-            WispBonus,              // ? Reduce
-            MaxManaPercentReduce,   // ? Reduce
-
-            MetaEndUniversal,
-
-        }
-        [XmlType("PropertyClass")]
-        public class PropertyClass { }
-        [XmlType("JewelSocket")]
-        public class JewelSocket : PropertyClass
-        {
-            [XmlElement("m_socketType")]
-            public JewelSocketType m_socketType;
-
-            // -> whether the socket starts off locked
-            [XmlElement("m_bLockable")]
-            public BooleanEnum m_bLockable;
-        }
-        [XmlType("BehaviorTemplate")]
-        public class BehaviorTemplate : PropertyClass
-        {
-            [XmlElement("m_behaviorName")]
-            public string m_behaviorName;
-        }
-        [XmlType("PetItemBehaviorTemplate")]
-        public class PetItemBehaviorTemplate : BehaviorTemplate
-        {
-            [XmlElement("m_eggName")]
-            public string m_eggName;
-
-            [XmlElement("m_wowFactor")]
-            public uint m_wowFactor;
-
-            [XmlElement("m_favoriteSnackCategories")]
-            public List<string> m_favoriteSnackCategories = new List<string>();
-
-            [XmlElement("m_exclusivePet")]
-            public BooleanEnum MExclusivePet;
-        }
-        [XmlType("PetJewelBehaviorTemplate")]
-        public class PetJewelBehaviorTemplate : BehaviorTemplate
-        {
-            [XmlElement("m_petTalentName")]
-            public string m_exclusivePet;
-
-            [XmlElement("m_minPetLevel")]
-            public byte m_minPetLevel;
-        }
-        [XmlType("JewelSocketBehaviorTemplate")]
-        public class JewelSocketBehaviorTemplate : BehaviorTemplate
-        {
-            [XmlArrayItem("JewelSocket", typeof(JewelSocket))]
-            public List<JewelSocket> m_jewelSockets = new List<JewelSocket>();
-
-            [XmlElement("m_socketDeleted")]
-            public BooleanEnum m_socketDeleted;
-        }
-        [XmlType("Requirement")]
-        public class Requirement : PropertyClass
-        {
-            [XmlElement("m_applyNOT")]
-            public BooleanEnum m_applyNOT;
-
-            [XmlElement("m_operator")]
-            public OperatorType m_operator;
-        }
-        [XmlType("ReqMagicLevel")]
-        public class ReqMagicLevel : Requirement
-        {
-            [XmlElement("m_numericValue")]
-            public float m_numericValue;
-
-            [XmlElement("m_operatorType")]
-            public NumericOperatorType m_operatorType;
-
-            [XmlElement("m_magicSchool")]
-            public string m_magicSchool;
-        }
-        [XmlType("ReqHasBadge")]
-        public class ReqHasBadge : Requirement
-        {
-            [XmlElement("m_badgeName")]
-            public string m_badgeName;
-        }
-        [XmlType("ReqSchoolOfFocus")]
-        public class ReqSchoolOfFocus : Requirement
-        {
-            [XmlElement("m_magicSchool")]
-            public string m_magicSchool;
-        }
-        [XmlType("RequirementList")]
-        public class RequirementList : PropertyClass
-        {
-            [XmlElement("m_applyNOT")]
-            public BooleanEnum m_applyNOT;
-
-            [XmlElement("m_operator")]
-            public OperatorType m_operator;
-
-            // TODO: This doesn't get populated when deserializing for some reason.
-            [XmlArrayItem("ReqSchoolOfFocus", typeof(ReqSchoolOfFocus))]
-            [XmlArrayItem("ReqMagicLevel", typeof(ReqMagicLevel))]
-            [XmlArrayItem("ReqHasBadge", typeof(ReqHasBadge))]
-            public List<Requirement> m_requirements = new List<Requirement>();
-        }
-        // ProvideCombatTriggerInfo?
-        // SpeedEffectInfo?
-        // ProvidePetPowerInfo?
-        [XmlType("GameEffectInfo")]
-        public class GameEffectInfo : PropertyClass
-        {
-            [XmlElement("m_effectName")]
-            public string m_effectName;
-        }
-        [XmlType("StartingPipEffectInfo")]
-        public class StartingPipEffectInfo : GameEffectInfo
-        {
-            [XmlElement("m_pipsGiven")]
-            public int m_pipsGiven;
-
-            [XmlElement("m_powerPipsGiven")]
-            public int m_powerPipsGiven;
-        }
-        [XmlType("TempStartingPipEffectInfo")]
-        public class TempStartingPipEffectInfo : StartingPipEffectInfo
-        { }
-        [XmlType("StatisticEffectInfo")]
-        public class StatisticEffectInfo : GameEffectInfo
-        {
-            [XmlElement("m_lookupIndex")]
-            public int m_lookupIndex;
-        }
-        [XmlType("SpeedEffectInfo")]
-        public class SpeedEffectInfo : GameEffectInfo
-        {
-            [XmlElement("m_speedMultiplier")]
-            public int m_speedMultiplier;
-        }
-        [XmlType("ProvideSpellEffectInfo")]
-        public class ProvideSpellEffectInfo : GameEffectInfo
-        {
-            [XmlElement("m_spellName")]
-            public string m_spellName;
-
-            [XmlElement("m_numSpells")]
-            public int m_numSpells;
-        }
-        [XmlType("ItemSetBonusData")]
-        public class ItemSetBonusData : PropertyClass
-        {
-            [XmlElement("m_numItemsToEquip")]
-            public int m_numItemsToEquip;
-
-            [XmlElement("m_description")]
-            public string m_description;
-
-            [XmlArrayItem("RequirementList", typeof(RequirementList))]
-            public List<RequirementList> m_equipEffectsGrantedRequirements = new List<RequirementList>();
-
-            [XmlArrayItem("StatisticEffectInfo", typeof(StatisticEffectInfo))]
-            [XmlArrayItem("ProvideSpellEffectInfo", typeof(ProvideSpellEffectInfo))]
-            [XmlArrayItem("StartingPipEffectInfo", typeof(StartingPipEffectInfo))]
-            [XmlArrayItem("TempStartingPipEffectInfo", typeof(TempStartingPipEffectInfo))]
-            public List<GameEffectInfo> m_equipEffectsGranted = new List<GameEffectInfo>();
-        }
-        [XmlType("ItemSetBonusTemplate")]
-        public class ItemSetBonusTemplate : PropertyClass
-        {
-            [XmlArrayItem("PetItemBehaviorTemplate", typeof(PetItemBehaviorTemplate))]
-            [XmlArrayItem("PetJewelBehaviorTemplate", typeof(PetJewelBehaviorTemplate))]
-            [XmlArrayItem("JewelSocketBehaviorTemplate", typeof(JewelSocketBehaviorTemplate))]
-            public List<BehaviorTemplate> m_behaviors = new List<BehaviorTemplate>();
-
-            [XmlElement("m_objectName")]
-            public string m_objectName;
-
-            [XmlElement("m_templateID")]
-            public uint m_templateID;
-
-            [XmlElement("m_displayName")]
-            public string m_displayName;
-
-            [XmlElement("m_noStacking")]
-            public BooleanEnum m_noStacking;
-
-            [XmlArrayItem("ItemSetBonusData", typeof(ItemSetBonusData))]
-            public List<ItemSetBonusData> m_itemSetBonusDataList = new List<ItemSetBonusData>();
-        }
-        [XmlType("WizItemTemplate")]
-        public class WizItemTemplate : PropertyClass
-        {
-            [XmlArrayItem("PetItemBehaviorTemplate", typeof(PetItemBehaviorTemplate))]
-            [XmlArrayItem("PetJewelBehaviorTemplate", typeof(PetJewelBehaviorTemplate))]
-            [XmlArrayItem("JewelSocketBehaviorTemplate", typeof(JewelSocketBehaviorTemplate))]
-            public List<BehaviorTemplate> m_behaviors = new List<BehaviorTemplate>();
-
-            [XmlElement("m_objectName")]
-            public string m_objectName;
-
-            // Reference to this item for other items/itemsets or bundles to reference
-            [XmlElement("m_templateID")]
-            public uint m_templateID;
-
-            // Tags
-            // -> Item type -> ["Hat", "Robe", "Shoes", "Weapon", "Athame", "Amulet", "Ring", "Deck", "Pet", "Elixir", "Jewel"]
-            // -> Jewel type -> CircleJewel, SquareJewel, TriangleJewel, TearJewel, PetJewel, PinSquareShield, PinSquareSword, PinSquarePower, PinSquarePip
-            // -> FLAG -> FLAG_NoAuction | FLAG_NoBargain | FLAG_NoTrade | FLAG_Retired | FLAG_CrownsOnly | FLAG_NoSell | FLAG_NoDrop | FLAG_NoGift
-            // -> NotForPetTome
-            // -> SchoolMastery
-            // -> Crafted
-            [XmlElement("m_adjectiveList")]
-            public List<string> m_adjectiveList = new List<string>();
-
-            // Reference to the locale data [Locale File]_[ID] -> WizardPets_00000025 -> "Armored Skeleton"
-            [XmlElement("m_displayName")]
-            public string m_displayName;
-
-            // [LocaleFile]_[ID] -> purple text on lvl 125+ crafted wands
-            [XmlElement("m_description")]
-            public string m_description;
-
-            [XmlElement("m_sIcon")]
-            public string m_sIcon;
-
-            // Requirements to equip the item
-            [XmlArrayItem("RequirementList", typeof(RequirementList))]
-            public List<RequirementList> m_equipRequirements = new List<RequirementList>();
-
-            // Benefits that the player receives when equipping this item
-            [XmlArrayItem("StatisticEffectInfo", typeof(StatisticEffectInfo))]
-            [XmlArrayItem("ProvideSpellEffectInfo", typeof(ProvideSpellEffectInfo))]
-            [XmlArrayItem("StartingPipEffectInfo", typeof(StartingPipEffectInfo))]
-            [XmlArrayItem("TempStartingPipEffectInfo", typeof(TempStartingPipEffectInfo))]
-            public List<GameEffectInfo> m_equipEffects = new List<GameEffectInfo>();
-
-            // m_itemSetBonusTemplateID -> int id, 0 if none
-            [XmlElement("m_itemSetBonusTemplateID")]
-            public uint m_itemSetBonusTemplateID;
-
-            // (for pets) school of pet -> Death, Balance, Storm, etc -> (for items) item's school (not the requirement though)
-            [XmlElement("m_school")]
-            public string m_school;
-
-            // Game-given rarity
-            [XmlElement("m_rarity")]
-            public string m_rarity;
-        }
-
-        [XmlRoot(ElementName = "Objects")]
-        public class ItemObject
-        {
-            [XmlElement("WizItemTemplate", typeof(WizItemTemplate))]
-            [XmlElement("ItemSetBonusTemplate", typeof(ItemSetBonusTemplate))]
-            public List<PropertyClass> m_propertyClasses = new List<PropertyClass>();
-        }
 
         readonly List<Lang> _deserializedLangs = new List<Lang>();
         public class Lang
@@ -479,8 +130,8 @@ namespace W101ToolUI.Source
 
                 // Record every item and itemset parsed for reference recount later.
                 List<Item> itemsFinal = new List<Item>();
-                List<Item.ItemSetBonus> itemSetsFinal = new List<Item.ItemSetBonus>();
-                Dictionary<Guid, Item.ItemSetBonus> replacementDict = new Dictionary<Guid, Item.ItemSetBonus>(itemSetsFinal.Count);
+                List<ItemSetBonus> itemSetsFinal = new List<ItemSetBonus>();
+                Dictionary<Guid, ItemSetBonus> replacementDict = new Dictionary<Guid, ItemSetBonus>(itemSetsFinal.Count);
 
                 // Parse all items and itemsets
                 foreach (PropertyClass item in items)
@@ -491,12 +142,12 @@ namespace W101ToolUI.Source
                         // Get ID
                         byte[] guidBytes = new byte[16];
                         BitConverter.GetBytes(wizItem.m_templateID).CopyTo(guidBytes, 12);
-                        newItem.KI_ID = new Guid(guidBytes);
+                        newItem.KiId = new Guid(guidBytes);
 
                         // Set Bonus ID
                         guidBytes = new byte[16];
                         BitConverter.GetBytes(wizItem.m_itemSetBonusTemplateID).CopyTo(guidBytes, 12);
-                        newItem.KI_SetBonusID = new Guid(guidBytes);
+                        newItem.KiSetBonusID = new Guid(guidBytes);
 
                         // Get Display name
                         newItem.Name = LoadDisplayName(wizItem.m_displayName, localeFolder);
@@ -633,7 +284,7 @@ namespace W101ToolUI.Source
                                 {
                                     Trace.WriteLine("ReqHasBadge has not been implemented yet...");
                                 }
-                            } 
+                            }
                         }
 
                         //Trace.WriteLine("inserting Wiz Item : " + newItem.Name);
@@ -641,7 +292,7 @@ namespace W101ToolUI.Source
                     }
                     else if (item is ItemSetBonusTemplate itemSet)
                     {
-                        Item.ItemSetBonus newItemSet = new Item.ItemSetBonus
+                        ItemSetBonus newItemSet = new ItemSetBonus
                         {
                             // Display name
                             SetName = LoadDisplayName(itemSet.m_displayName, localeFolder)
@@ -652,9 +303,9 @@ namespace W101ToolUI.Source
                         // GUID
                         byte[] guidBytes = new byte[16];
                         BitConverter.GetBytes(itemSet.m_templateID).CopyTo(guidBytes, 12);
-                        newItemSet.KI_ID = new Guid(guidBytes);
+                        newItemSet.KiId = new Guid(guidBytes);
 
-                        replacementDict.Add(newItemSet.KI_ID, newItemSet);
+                        replacementDict.Add(newItemSet.KiId, newItemSet);
 
                         // Bonuses
                         for (int i = 0; i < itemSet.m_itemSetBonusDataList.Count; i++)
@@ -711,10 +362,10 @@ namespace W101ToolUI.Source
                 Trace.WriteLine("-------------------------------------------");
 
                 // Replace uint references with new GUIDs for better tracking.
-                var itemsWithSet = itemsFinal.Where(i => i.KI_SetBonusID != Guid.Empty);
+                var itemsWithSet = itemsFinal.Where(i => i.KiSetBonusID != Guid.Empty);
                 foreach (Item item in itemsWithSet)
                 {
-                    item.SetBonus = replacementDict[item.KI_SetBonusID];
+                    item.SetBonus = replacementDict[item.KiSetBonusID];
                 }
 
                 using (var transaction = db.BeginTransaction())
@@ -861,7 +512,7 @@ namespace W101ToolUI.Source
                     commandUpdateComplexStat.Parameters.Add(pComplexStatOldValue);
                     commandUpdateComplexStat.Parameters.Add(pComplexStatItem);
 
-                    // Spells 
+                    // Spells
                     var commandInsertSpell = db.CreateCommand();
                     commandInsertSpell.CommandText = SqliteQueries.InsertSpell;
 
@@ -904,13 +555,13 @@ namespace W101ToolUI.Source
                     void InsertItem(Item item)
                     {
 
-                        pItemId.Value = item.ID.ToString();
-                        pItemKiId.Value = item.KI_ID.ToString();
+                        pItemId.Value = item.Id.ToString();
+                        pItemKiId.Value = item.KiId.ToString();
                         pItemType.Value = (uint)item.Type;
                         pItemName.Value = item.Name != null ? item.Name : DBNull.Value;
                         pItemLevelRequirement.Value = item.LevelRequirement;
                         pItemFlags.Value = (ushort)item.Flags;
-                        pItemPvpRankRequirement.Value = (byte)item.PVPRankRequirement;
+                        pItemPvpRankRequirement.Value = (byte)item.PvpRankRequirement;
                         pItemPetRankRequirement.Value = (byte)item.PetRankRequirement;
                         pItemSchoolRequirement.Value = (byte)item.SchoolRequirement;
                         pItemSchoolRestriction.Value = (byte)item.SchoolRestriction;
@@ -935,8 +586,8 @@ namespace W101ToolUI.Source
                         pItemPowerPinSlots.Value = item.PowerPinSlots;
                         pItemShieldPinSlots.Value = item.ShieldPinSlots;
                         pItemSwordPinSlots.Value = item.SwordPinSlots;
-                        pItemSetBonus.Value = item.SetBonus != null ? item.SetBonus.ID.ToString() : DBNull.Value;
-                        pItemKiSetBonusId.Value = item.KI_SetBonusID.ToString();
+                        pItemSetBonus.Value = item.SetBonus != null ? item.SetBonus.Id.ToString() : DBNull.Value;
+                        pItemKiSetBonusId.Value = item.KiSetBonusID.ToString();
                         pItemSetBonusLevel.Value = item.SetBonusLevel;
                         commandInsertItem.ExecuteNonQuery();
 
@@ -946,7 +597,7 @@ namespace W101ToolUI.Source
                             {
                                 if (entry.Value < 1) continue;
 
-                                pComplexStatItem.Value = item.ID.ToString();
+                                pComplexStatItem.Value = item.Id.ToString();
                                 pComplexStatSchool.Value = (byte)entry.Key;
                                 pComplexStatType.Value = (byte)type;
                                 pComplexStatValue.Value = entry.Value;
@@ -977,7 +628,7 @@ namespace W101ToolUI.Source
                         foreach (var entry in item.ItemCards)
                         {
                             if (entry.Value < 1) continue;
-                            pSpellItem.Value = item.ID.ToString();
+                            pSpellItem.Value = item.Id.ToString();
                             pSpellSpellName.Value = entry.Key;
                             pSpellQuantity.Value = entry.Value;
                             long? quan = (long?)commandSelectSpell.ExecuteScalar();
@@ -993,11 +644,11 @@ namespace W101ToolUI.Source
                         }
                     }
 
-                    
+
                     foreach (var itemSet in itemSetsFinal)
                     {
-                        pItemSetId.Value = itemSet.ID != Guid.Empty ? itemSet.ID.ToString() : DBNull.Value;
-                        pItemSetKiId.Value = itemSet.KI_ID != Guid.Empty ? itemSet.KI_ID.ToString() : DBNull.Value;
+                        pItemSetId.Value = itemSet.Id != Guid.Empty ? itemSet.Id.ToString() : DBNull.Value;
+                        pItemSetKiId.Value = itemSet.KiId != Guid.Empty ? itemSet.KiId.ToString() : DBNull.Value;
                         pItemSetName.Value = itemSet.SetName;
                         commandInsertItemSet.ExecuteNonQuery();
 
@@ -1056,11 +707,11 @@ namespace W101ToolUI.Source
             // Create DB and return the path to the DB.
             return CreateDbFromItemList(newItems, outputFileLocation, Settings.Default.LocaleFolder);
         }
-        public (List<Item>, List<Item.ItemSetBonus>) CreateListFromDB(string dbLocation)
+        public (List<Item>, List<ItemSetBonus>) CreateListFromDB(string dbLocation)
         {
             List<Item> items = new List<Item>();
             Dictionary<Guid, Item> itemsDict = new Dictionary<Guid, Item>();
-            List<Item.ItemSetBonus> itemSets = new List<Item.ItemSetBonus>();
+            List<ItemSetBonus> itemSets = new List<ItemSetBonus>();
             Dictionary<Guid, ItemSetBonus> itemSetsDict = new Dictionary<Guid, ItemSetBonus>();
 
             // Open Database
@@ -1093,17 +744,17 @@ namespace W101ToolUI.Source
                     {
                         while (reader.Read())
                         {
-                            itemSets.Add(new Item.ItemSetBonus()
+                            itemSets.Add(new ItemSetBonus()
                             {
-                                ID = new Guid(reader.GetString(0)),
-                                KI_ID = new Guid(reader.GetString(1)),
+                                Id = new Guid(reader.GetString(0)),
+                                KiId = new Guid(reader.GetString(1)),
                                 SetName = reader.GetString(2),
                             });
                         }
                     }
                     foreach (var itemSet in itemSets)
                     {
-                        itemSetsDict.TryAdd(itemSet.ID, itemSet);
+                        itemSetsDict.TryAdd(itemSet.Id, itemSet);
                     }
                 }
                 if (ItemsTableExists)
@@ -1117,13 +768,13 @@ namespace W101ToolUI.Source
                         {
                             Item newItem = new Item()
                             {
-                                ID = reader.GetGuid(0),
-                                KI_ID = reader.GetGuid(1),
+                                Id = reader.GetGuid(0),
+                                KiId = reader.GetGuid(1),
                                 Type = (ItemType)reader.GetInt32(2),
                                 Name = reader.GetString(3),
                                 LevelRequirement = reader.GetInt32(4),
                                 Flags = (ItemFlags)reader.GetInt32(5),
-                                PVPRankRequirement = (ArenaRank)reader.GetInt32(6),
+                                PvpRankRequirement = (ArenaRank)reader.GetInt32(6),
                                 PetRankRequirement = (ArenaRank)reader.GetInt32(7),
                                 SchoolRequirement = (School)reader.GetInt32(8),
                                 SchoolRestriction = (School)reader.GetInt32(9),
@@ -1149,7 +800,7 @@ namespace W101ToolUI.Source
                                 ShieldPinSlots = reader.GetInt32(29),
                                 SwordPinSlots = reader.GetInt32(30),
                                 SetBonus = !reader.IsDBNull(31) ? itemSetsDict[reader.GetGuid(31)] : null,
-                                KI_SetBonusID = reader.GetGuid(32),
+                                KiSetBonusID = reader.GetGuid(32),
                                 SetBonusLevel = reader.GetInt32(33),
                             };
                             items.Add(newItem);
@@ -1158,7 +809,7 @@ namespace W101ToolUI.Source
                     }
                     foreach (var item in items)
                     {
-                        itemsDict.TryAdd(item.ID, item);
+                        itemsDict.TryAdd(item.Id, item);
                     }
                 }
                 if (SpellsTableExists)
@@ -1194,8 +845,8 @@ namespace W101ToolUI.Source
                     }
                 }
             }
-            
-            foreach (var item in items.Where(i => i.SetBonus != null)) 
+
+            foreach (var item in items.Where(i => i.SetBonus != null))
             {
                 item.SetBonus.Bonuses.Add(item);
             }
@@ -1327,190 +978,5 @@ namespace W101ToolUI.Source
             }
             return false;
         }
-    }
-
-    internal static class SqliteQueries
-    {
-        public const string CreateItemTable = @"
-            CREATE TABLE Items (
-            ID                   TEXT NOT NULL UNIQUE,
-            KI_ID                TEXT,
-            Type                 INTEGER,
-        	Name                 TEXT COLLATE BINARY,
-        	LevelRequirement     INTEGER,
-        	Flags                INTEGER,
-        	PVPRankRequirement   INTEGER,
-        	PetRankRequirement   INTEGER,
-        	SchoolRequirement    INTEGER,
-        	SchoolRestriction    INTEGER,
-        	MaxHealth            INTEGER,
-        	MaxMana              INTEGER,
-        	MaxEnergy            INTEGER,
-        	SpeedBonus           INTEGER,
-        	PowerpipChance       INTEGER,
-        	ShadowpipRating      INTEGER,
-        	StunResistChance     INTEGER,
-        	FishingLuck          INTEGER,
-        	ArchmasteryRating    INTEGER,
-        	IncomingHealing      INTEGER,
-        	OutgoingHealing      INTEGER,
-        	PipsGiven            INTEGER,
-        	PowerpipsGiven       INTEGER,
-        	AltSchoolMastery     INTEGER,
-        	TearJewelSlots       INTEGER,
-        	CircleJewelSlots     INTEGER,
-        	SquareJewelSlots     INTEGER,
-        	TriangleJewelSlots   INTEGER,
-        	PowerPinSlots        INTEGER,
-        	ShieldPinSlots       INTEGER,
-        	SwordPinSlots        INTEGER,
-        	SetBonus             TEXT COLLATE BINARY,
-            KI_SetBonusID        TEXT,
-        	SetBonusLevel        INTEGER,
-        	PRIMARY KEY(ID),
-        	FOREIGN KEY(SetBonus) REFERENCES ItemSets(ID)
-        )";
-        public const string CreateItemSetTable = @"
-            CREATE TABLE ItemSets (
-            ID    TEXT NOT NULL UNIQUE,
-            KI_ID TEXT,
-            Name  TEXT,
-        	PRIMARY KEY(ID)
-        )";
-        public const string CreateComplexStatTable = @"
-            CREATE TABLE ComplexStats (
-            Type    INTEGER,
-        	School  INTEGER,
-        	Value   INTEGER,
-        	Item    TEXT COLLATE BINARY,
-        	PRIMARY KEY(Type, School, Value, Item),
-        	FOREIGN KEY(Item) REFERENCES Items(ID)
-        )";
-        public const string CreateSpellTable = @"
-            CREATE TABLE Spells (
-            SpellName   TEXT COLLATE BINARY,
-        	Quantity    INTEGER,
-        	Item        TEXT COLLATE BINARY,
-        	PRIMARY KEY(SpellName, Quantity, Item),
-        	FOREIGN KEY(Item) REFERENCES Items(ID)
-        )";
-
-        public const string InsertItem = @"
-            INSERT INTO Items (
-                ID,
-                KI_ID,
-                Type,
-                Name,
-                LevelRequirement,
-                Flags,
-                PVPRankRequirement,
-                PetRankRequirement,
-                SchoolRequirement,
-                SchoolRestriction,
-                MaxHealth,
-                MaxMana,
-                MaxEnergy,
-                SpeedBonus,
-                PowerpipChance,
-                ShadowpipRating,
-                StunResistChance,
-                FishingLuck,
-                ArchmasteryRating,
-                IncomingHealing,
-                OutgoingHealing,
-                PipsGiven,
-                PowerpipsGiven,
-                AltSchoolMastery,
-                TearJewelSlots,
-                CircleJewelSlots,
-                SquareJewelSlots,
-                TriangleJewelSlots,
-                PowerPinSlots,
-                ShieldPinSlots,
-                SwordPinSlots,
-                SetBonus,
-                KI_SetBonusID,
-                SetBonusLevel
-            )
-            VALUES (
-                $ID,
-                $KI_ID,
-                $Type,
-                $Name,
-                $LevelRequirement,
-                $Flags,
-                $PVPRankRequirement,
-                $PetRankRequirement,
-                $SchoolRequirement,
-                $SchoolRestriction,
-                $MaxHealth,
-                $MaxMana,
-                $MaxEnergy,
-                $SpeedBonus,
-                $PowerpipChance,
-                $ShadowpipRating,
-                $StunResistChance,
-                $FishingLuck,
-                $ArchmasteryRating,
-                $IncomingHealing,
-                $OutgoingHealing,
-                $PipsGiven,
-                $PowerpipsGiven,
-                $AltSchoolMastery,
-                $TearJewelSlots,
-                $CircleJewelSlots,
-                $SquareJewelSlots,
-                $TriangleJewelSlots,
-                $PowerPinSlots,
-                $ShieldPinSlots,
-                $SwordPinSlots,
-                $SetBonus,
-                $KI_SetBonusID,
-                $SetBonusLevel
-            )";
-        public const string InsertItemSet = @"
-            INSERT INTO ItemSets
-            (
-                ID,
-                KI_ID,
-                Name
-            )
-            VALUES
-            (
-                $ID,
-                $KI_ID,
-                $Name
-            )";
-        public const string InsertComplexStat = @"
-            INSERT INTO ComplexStats (
-                Type,
-                School,
-                Value,
-                Item
-            )
-            VALUES (
-                $Type,
-                $School,
-                $Value,
-                $Item
-            )";
-        public const string InsertSpell = @"            
-            INSERT INTO Spells
-            (
-                SpellName,
-                Quantity,
-                Item
-            )
-            VALUES
-            (
-                $SpellName,
-                $Quantity,
-                $Item
-            )";
-
-        public const string GetTableNames = @"
-            SELECT name FROM sqlite_master WHERE type='table';
-        ";
-
     }
 }
