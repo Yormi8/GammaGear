@@ -5,6 +5,7 @@ namespace GammaGear.Source.Database
 {
     public class KiTextLocaleBank : KiLocaleBank, IKiLocaleBank
     {
+        public KiTextLocaleBank() : base() { }
         public KiTextLocaleBank(string localePath)
         {
             Init(localePath);

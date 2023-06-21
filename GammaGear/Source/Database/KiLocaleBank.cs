@@ -13,6 +13,10 @@ namespace GammaGear.Source.Database
         public string Path { get; protected set; }
         public string Name { get; protected set; }
         public bool Loaded { get; protected set; }
+        public KiLocaleBank()
+        {
+            Loaded = false;
+        }
         public abstract void Init(string path);
         public abstract void LoadEntries();
         public virtual string GetComment(string key)

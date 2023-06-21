@@ -10,7 +10,7 @@ using System.Reflection;
 namespace GammaGear.Source.Database
 {
     public class KiXmlParser<T> : KiParser<T>
-        where T: IKiLocaleBank, new()
+        where T: KiLocaleBank, new()
     {
         public KiXmlParser(string localePath) : base(localePath)
         {
@@ -22,10 +22,7 @@ namespace GammaGear.Source.Database
                 _banks.Add(bank.Name, bank);
             }
 
-            if (_attributeOverrides == null)
-            {
-                _attributeOverrides = CreateXmlOverrides();
-            }
+            _attributeOverrides ??= CreateXmlOverrides();
         }
 
         public override PropertyClass ReadToPropertyClass(string path)

@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static GammaGear.Source.Item;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.IO;
 
@@ -246,7 +245,6 @@ namespace GammaGear.Source.Database
 
                     void InsertItem(Item item)
                     {
-
                         pItemId.Value = item.Id.ToString();
                         pItemKiId.Value = item.KiId.ToString();
                         pItemType.Value = (uint)item.Type;
@@ -362,7 +360,7 @@ namespace GammaGear.Source.Database
         }
         public override bool Write(string path, IEnumerable<KiObject> values, bool append)
         {
-            throw new NotImplementedException();
+            return Write(path, values);
         }
         protected SqliteConnection _connection;
 
@@ -547,7 +545,7 @@ namespace GammaGear.Source.Database
 
             public const string GetTableNames = @"
             SELECT name FROM sqlite_master WHERE type='table';
-        ";
+            ";
 
         }
     }

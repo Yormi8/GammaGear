@@ -28,7 +28,6 @@ using GammaGear.Source;
 using GammaGear.Source.Database;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using static GammaGear.Source.Item;
 
 namespace GammaGear
 {
@@ -141,7 +140,7 @@ namespace GammaGear
                 StatsDeathPierce,
                 StatsBalancePierce,
                 StatsShadowPierce,
-            }; 
+            };
             PipConversionTextBoxes = new TextBox[]
             {
                 StatsFirePipConversion,
@@ -271,7 +270,7 @@ namespace GammaGear
         }
         private void DBItemUnselected(object sender, RoutedEventArgs eventArgs)
         {
-            
+
         }
         private void CollectionViewSource_Filter(object sender, FilterEventArgs eventArgs)
         {
@@ -425,11 +424,10 @@ namespace GammaGear
             }
             OpenFileDialog ofd = new OpenFileDialog
             {
-                
                 DefaultExt = "txt",
                 Filter = "Text Files (*.txt)|*.txt|All files (*.*)|*.*",
                 InitialDirectory = Environment.CurrentDirectory,
-            };                 
+            };
             if (ofd.ShowDialog() == false)
             {
                 return;
@@ -445,8 +443,21 @@ namespace GammaGear
                 return;
             }
 
-            XmlToDb xdb = new XmlToDb();
-            xdb.CreateDbFromList(ofd.FileName, sfd.FileName);
+            List<string> files = new List<string>();
+            string startingDirectory = "";
+            using (var reader = new StreamReader(ofd.FileName))
+            {
+                startingDirectory = reader.ReadLine();
+                while (!reader.EndOfStream)
+                {
+                    files.Add(startingDirectory + System.IO.Path.DirectorySeparatorChar + reader.ReadLine());
+                }
+            }
+            KiXmlParser<KiTextLocaleBank> kiXmlParser = new KiXmlParser<KiTextLocaleBank>(Settings.Default.LocaleFolder);
+            List<KiObject> objects = new List<KiObject>(kiXmlParser.ReadAllToKiObject(files));
+
+            KiSqliteWriter kiSqliteWriter = new KiSqliteWriter();
+            kiSqliteWriter.Write(sfd.FileName, objects);
         }
 
         private void FileLoadDB(object sender, RoutedEventArgs eventArgs)
@@ -463,14 +474,14 @@ namespace GammaGear
                 return;
             }
 
-            XmlToDb xdb = new XmlToDb();
+            //XmlToDb xdb = new XmlToDb();
             ItemViewModel items = this.Resources["itemVM"] as ItemViewModel;
-            var newItems = xdb.CreateListFromDB(ofd.FileName);
+            //var newItems = xdb.CreateListFromDB(ofd.FileName);
 
-            foreach (var item in newItems.Item1.Where(i => i.Type >= ItemType.Hat && i.Type <= ItemType.PinSquareSword && !i.Flags.HasFlag(ItemFlags.FLAG_DevItem)))
-            {
-                items.Add((ItemDisplay)item);
-            }
+            //foreach (var item in newItems.Item1.Where(i => i.Type >= Item.ItemType.Hat && i.Type <= Item.ItemType.PinSquareSword && !i.Flags.HasFlag(Item.ItemFlags.FLAG_DevItem)))
+            //{
+            //    items.Add((ItemDisplay)item);
+            //}
         }
         private void LoadoutButton_Click(object sender, RoutedEventArgs eventArgs)
         {
@@ -501,13 +512,13 @@ namespace GammaGear
         public Guid ID { get => backingItem.Id; set => backingItem.Id = value; }
         public Guid KI_ID { get => backingItem.KiId; set => backingItem.KiId = value; }
         public Guid KI_SetBonusID { get => backingItem.KiSetBonusID; set => backingItem.KiSetBonusID = value; }
-        public ItemType Type { get => backingItem.Type; set => backingItem.Type = value; }
+        public Item.ItemType Type { get => backingItem.Type; set => backingItem.Type = value; }
         public int LevelRequirement { get => backingItem.LevelRequirement; set => backingItem.LevelRequirement = value; }
-        public ItemFlags Flags { get => backingItem.Flags; set => backingItem.Flags = value; }
-        public ArenaRank PVPRankRequirement { get => backingItem.PvpRankRequirement; set => backingItem.PvpRankRequirement = value; }
-        public ArenaRank PetRankRequirement { get => backingItem.PetRankRequirement; set => backingItem.PetRankRequirement = value; }
-        public School SchoolRequirement { get => backingItem.SchoolRequirement; set => backingItem.SchoolRequirement = value; }
-        public School SchoolRestriction { get => backingItem.SchoolRestriction; set => backingItem.SchoolRestriction = value; }
+        public Item.ItemFlags Flags { get => backingItem.Flags; set => backingItem.Flags = value; }
+        public Item.ArenaRank PVPRankRequirement { get => backingItem.PvpRankRequirement; set => backingItem.PvpRankRequirement = value; }
+        public Item.ArenaRank PetRankRequirement { get => backingItem.PetRankRequirement; set => backingItem.PetRankRequirement = value; }
+        public Item.School SchoolRequirement { get => backingItem.SchoolRequirement; set => backingItem.SchoolRequirement = value; }
+        public Item.School SchoolRestriction { get => backingItem.SchoolRestriction; set => backingItem.SchoolRestriction = value; }
         public bool Retired { get => backingItem.Retired; set => backingItem.Retired = value; }
         public int MaxHealth { get => backingItem.MaxHealth; set => backingItem.MaxHealth = value; }
         public int MaxMana { get => backingItem.MaxMana; set => backingItem.MaxMana = value; }
@@ -522,7 +533,7 @@ namespace GammaGear
         public int OutgoingHealing { get => backingItem.OutgoingHealing; set => backingItem.OutgoingHealing = value; }
         public int PipsGiven { get => backingItem.PipsGiven; set => backingItem.PipsGiven = value; }
         public int PowerpipsGiven { get => backingItem.PowerpipsGiven; set => backingItem.PowerpipsGiven = value; }
-        public School AltSchoolMastery { get => backingItem.AltSchoolMastery; set => backingItem.AltSchoolMastery = value; }
+        public Item.School AltSchoolMastery { get => backingItem.AltSchoolMastery; set => backingItem.AltSchoolMastery = value; }
         public int TearJewelSlots { get => backingItem.TearJewelSlots; set => backingItem.TearJewelSlots = value; }
         public int CircleJewelSlots { get => backingItem.CircleJewelSlots; set => backingItem.CircleJewelSlots = value; }
         public int SquareJewelSlots { get => backingItem.SquareJewelSlots; set => backingItem.SquareJewelSlots = value; }
@@ -532,72 +543,72 @@ namespace GammaGear
         public int SwordPinSlots { get => backingItem.SwordPinSlots; set => backingItem.SwordPinSlots = value; }
         public int SetBonusLevel { get => backingItem.SetBonusLevel; set => backingItem.SetBonusLevel = value; }
         public ItemSetBonus SetBonus { get => backingItem.SetBonus; set => backingItem.SetBonus = value; }
-        public Dictionary<School, int> Accuracies { get => backingItem.Accuracies; set => backingItem.Accuracies = value; }
-        public Dictionary<School, int> Damages { get => backingItem.Damages; set => backingItem.Damages = value; }
-        public Dictionary<School, int> Resists { get => backingItem.Resists; set => backingItem.Resists = value; }
-        public Dictionary<School, int> Criticals { get => backingItem.Criticals; set => backingItem.Criticals = value; }
-        public Dictionary<School, int> Blocks { get => backingItem.Blocks; set => backingItem.Blocks = value; }
-        public Dictionary<School, int> Pierces { get => backingItem.Pierces; set => backingItem.Pierces = value; }
-        public Dictionary<School, int> FlatDamages { get => backingItem.FlatDamages; set => backingItem.FlatDamages = value; }
-        public Dictionary<School, int> FlatResists { get => backingItem.FlatResists; set => backingItem.FlatResists = value; }
-        public Dictionary<School, int> PipConversions { get => backingItem.PipConversions; set => backingItem.PipConversions = value; }
+        public Dictionary<Item.School, int> Accuracies { get => backingItem.Accuracies; set => backingItem.Accuracies = value; }
+        public Dictionary<Item.School, int> Damages { get => backingItem.Damages; set => backingItem.Damages = value; }
+        public Dictionary<Item.School, int> Resists { get => backingItem.Resists; set => backingItem.Resists = value; }
+        public Dictionary<Item.School, int> Criticals { get => backingItem.Criticals; set => backingItem.Criticals = value; }
+        public Dictionary<Item.School, int> Blocks { get => backingItem.Blocks; set => backingItem.Blocks = value; }
+        public Dictionary<Item.School, int> Pierces { get => backingItem.Pierces; set => backingItem.Pierces = value; }
+        public Dictionary<Item.School, int> FlatDamages { get => backingItem.FlatDamages; set => backingItem.FlatDamages = value; }
+        public Dictionary<Item.School, int> FlatResists { get => backingItem.FlatResists; set => backingItem.FlatResists = value; }
+        public Dictionary<Item.School, int> PipConversions { get => backingItem.PipConversions; set => backingItem.PipConversions = value; }
         public Dictionary<string, int> ItemCards { get => backingItem.ItemCards; set => backingItem.ItemCards = value; }
         public string DisplayType => Type switch
         {
-            ItemType.Shoes => "Boots",
-            ItemType.Weapon => "Wand",
-            ItemType.TearJewel => "Tear Jewel",
-            ItemType.CircleJewel => "Circle Jewel",
-            ItemType.SquareJewel => "Square Jewel",
-            ItemType.TriangleJewel => "Triangle Jewel",
-            ItemType.PinSquarePower => "Power Pin",
-            ItemType.PinSquareShield => "Shield Pin",
-            ItemType.PinSquareSword => "Sword Pin",
+            Item.ItemType.Shoes => "Boots",
+            Item.ItemType.Weapon => "Wand",
+            Item.ItemType.TearJewel => "Tear Jewel",
+            Item.ItemType.CircleJewel => "Circle Jewel",
+            Item.ItemType.SquareJewel => "Square Jewel",
+            Item.ItemType.TriangleJewel => "Triangle Jewel",
+            Item.ItemType.PinSquarePower => "Power Pin",
+            Item.ItemType.PinSquareShield => "Shield Pin",
+            Item.ItemType.PinSquareSword => "Sword Pin",
             _ => Type.ToString()
         };
         public string DisplayTypeSource => Type switch
         {
-            ItemType.Shoes => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Boots.png",
-            ItemType.Weapon => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Wand.png",
-            ItemType.PinSquarePower => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png",
-            ItemType.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
-            ItemType.ItemSetBonusData => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            Item.ItemType.Shoes => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Boots.png",
+            Item.ItemType.Weapon => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_Wand.png",
+            Item.ItemType.PinSquarePower => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png",
+            Item.ItemType.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            Item.ItemType.ItemSetBonusData => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
             _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_" + Type.ToString() + ".png"
         };
 
         public string DisplaySchool => SchoolRequirement switch
         {
-            School.Universal => SchoolRestriction != School.Universal ? 
-                "Not " + SchoolRestriction.ToString() : 
+            Item.School.Universal => SchoolRestriction != Item.School.Universal ?
+                "Not " + SchoolRestriction.ToString() :
                 "Any",
-            School.None => "None",
+            Item.School.None => "None",
             _ => SchoolRequirement.ToString()
         };
 
         public string DisplaySchoolSource => SchoolRequirement switch
         {
-            School.Universal => SchoolRestriction != School.Universal ?
+            Item.School.Universal => SchoolRestriction != Item.School.Universal ?
                 "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Not_" + SchoolRestriction.ToString() + ".png" :
                 "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png",
-            School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            Item.School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
             _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_" + SchoolRequirement.ToString() + ".png"
         };
-        public bool IsCrownsOnly => Flags.HasFlag(ItemFlags.FLAG_CrownsOnly);
+        public bool IsCrownsOnly => Flags.HasFlag(Item.ItemFlags.FLAG_CrownsOnly);
         public Visibility IsCrownsOnlyVisible => IsCrownsOnly ? Visibility.Visible : Visibility.Hidden;
-        public bool IsNoAuction => Flags.HasFlag(ItemFlags.FLAG_NoAuction);
+        public bool IsNoAuction => Flags.HasFlag(Item.ItemFlags.FLAG_NoAuction);
         public Visibility IsNoAuctionOnlyVisible => IsNoAuction ? Visibility.Visible : Visibility.Hidden;
-        public bool IsNoTrade => Flags.HasFlag(ItemFlags.FLAG_NoTrade);
+        public bool IsNoTrade => Flags.HasFlag(Item.ItemFlags.FLAG_NoTrade);
         public Visibility IsNoTradeVisible => IsNoTrade ? Visibility.Visible : Visibility.Hidden;
-        public bool IsRetired => Flags.HasFlag(ItemFlags.FLAG_Retired);
+        public bool IsRetired => Flags.HasFlag(Item.ItemFlags.FLAG_Retired);
         public Visibility IsRetiredVisible => IsRetired ? Visibility.Visible : Visibility.Hidden;
-        public bool IsCrafted => Flags.HasFlag(ItemFlags.FLAG_Crafted);
+        public bool IsCrafted => Flags.HasFlag(Item.ItemFlags.FLAG_Crafted);
         public Visibility IsCraftedVisible => IsCrafted ? Visibility.Visible : Visibility.Hidden;
-        public bool IsPVPOnly => Flags.HasFlag(ItemFlags.FLAG_PVPOnly);
+        public bool IsPVPOnly => Flags.HasFlag(Item.ItemFlags.FLAG_PVPOnly);
         public Visibility IsPVPOnlyVisible => IsPVPOnly ? Visibility.Visible : Visibility.Hidden;
-        public bool IsNoPVP => Flags.HasFlag(ItemFlags.FLAG_NoPVP);
+        public bool IsNoPVP => Flags.HasFlag(Item.ItemFlags.FLAG_NoPVP);
         public Visibility IsNoPVPVisible => IsNoPVP ? Visibility.Visible : Visibility.Hidden;
-        public bool IsJewel => Type >= ItemType.TearJewel && Type <= ItemType.SwordPin;
-        public bool IsDevItem => Flags.HasFlag(ItemFlags.FLAG_DevItem);
+        public bool IsJewel => Type >= Item.ItemType.TearJewel && Type <= Item.ItemType.SwordPin;
+        public bool IsDevItem => Flags.HasFlag(Item.ItemFlags.FLAG_DevItem);
 
 
         private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
@@ -775,7 +786,7 @@ namespace GammaGear
 
             // TODO: Spells
 
-            if (SchoolRequirement != School.Any) AddSingle(tb, null, StatImages[SchoolRequirement.ToString()], null, " School Only\n");
+            if (SchoolRequirement != Item.School.Any) AddSingle(tb, null, StatImages[SchoolRequirement.ToString()], null, " School Only\n");
             if (LevelRequirement > 1) AddSingle(tb, $"Level {LevelRequirement}+ Only", null, null, "\n");
 
             List<BitmapImage> icons = new List<BitmapImage>();
@@ -830,11 +841,11 @@ namespace GammaGear
                 IncomingHealing = rand.Next(0, 2) == 1 ? rand.Next(1, 101) : 0,
                 OutgoingHealing = rand.Next(0, 2) == 1 ? rand.Next(1, 101) : 0,
                 LevelRequirement = rand.Next(0, 2) == 1 ? rand.Next(1, 17) * 10 : 1,
-                SchoolRequirement = (School)rand.Next((int)School.Any, (int)School.Shadow),
+                SchoolRequirement = (Item.School)rand.Next((int)Item.School.Any, (int)Item.School.Shadow),
                 PowerpipChance = rand.Next(0, 2) == 1 ? rand.Next(1, 22) : 1,
                 ShadowpipRating = rand.Next(0, 2) == 1 ? rand.Next(1, 21) : 1,
                 StunResistChance = rand.Next(0, 101),
-                Type = (ItemType)rand.Next((int)ItemType.Hat, (int)ItemType.ItemSetBonusData),
+                Type = (Item.ItemType)rand.Next((int)Item.ItemType.Hat, (int)Item.ItemType.ItemSetBonusData),
                 TearJewelSlots = rand.Next(0, 3),
                 CircleJewelSlots = rand.Next(0, 3),
                 SquareJewelSlots = rand.Next(0, 3),
@@ -844,16 +855,16 @@ namespace GammaGear
                 SwordPinSlots = rand.Next(0, 3),
             };
 
-            item.SchoolRestriction = item.SchoolRequirement != School.Any ? School.Any : (School)rand.Next((int)School.Any, (int)School.Shadow);
-            item.Accuracies.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.Blocks.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.Damages.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.Criticals.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.FlatDamages.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.FlatResists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.Pierces.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.PipConversions.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
-            item.Resists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.SchoolRestriction = item.SchoolRequirement != Item.School.Any ? Item.School.Any : (Item.School)rand.Next((int)Item.School.Any, (int)Item.School.Shadow);
+            item.Accuracies.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Blocks.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Damages.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Criticals.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.FlatDamages.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.FlatResists.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Pierces.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.PipConversions.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
+            item.Resists.Add(rand.Next(0, 2) == 0 ? Item.School.Any : item.SchoolRequirement, rand.Next(1, 20));
 
 
             string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
@@ -899,15 +910,15 @@ namespace GammaGear
         public Item.School WizardSchool { get; set; }
         public string DisplayWizardSchool => WizardSchool switch
         {
-            School.Universal => "Any",
-            School.None => "None",
+            Item.School.Universal => "Any",
+            Item.School.None => "None",
             _ => WizardSchool.ToString()
         };
 
         public string DisplayWizardSchoolSource => WizardSchool switch
         {
-            School.Universal => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png",
-            School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
+            Item.School.Universal => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_Global.png",
+            Item.School.None => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Help.png",
             _ => "pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_School_" + WizardSchool.ToString() + ".png"
         };
         public int WizardLevel { get; set; }
@@ -971,31 +982,31 @@ namespace GammaGear
             foreach (ItemDisplay item in EquippedItems)
             {
                 // Skip jewel slots. Jewels shouldn't have jewel slots. Prevents odd dependencies with jewel slots.
-                if (item.Type >= ItemType.TearJewel && item.Type <= ItemType.PinSquareSword)
+                if (item.Type >= Item.ItemType.TearJewel && item.Type <= Item.ItemType.PinSquareSword)
                 {
                     continue;
                 }
                 switch (jewelType)
                 {
-                    case ItemType.TearJewel:
+                    case Item.ItemType.TearJewel:
                         jewelSlots += item.TearJewelSlots;
                         break;
-                    case ItemType.CircleJewel:
+                    case Item.ItemType.CircleJewel:
                         jewelSlots += item.CircleJewelSlots;
                         break;
-                    case ItemType.SquareJewel:
+                    case Item.ItemType.SquareJewel:
                         jewelSlots += item.SquareJewelSlots;
                         break;
-                    case ItemType.TriangleJewel:
+                    case Item.ItemType.TriangleJewel:
                         jewelSlots += item.TriangleJewelSlots;
                         break;
-                    case ItemType.PowerPin:
+                    case Item.ItemType.PowerPin:
                         jewelSlots += item.PowerPinSlots;
                         break;
-                    case ItemType.ShieldPin:
+                    case Item.ItemType.ShieldPin:
                         jewelSlots += item.ShieldPinSlots;
                         break;
-                    case ItemType.SwordPin:
+                    case Item.ItemType.SwordPin:
                         jewelSlots += item.SwordPinSlots;
                         break;
                     default:
@@ -1008,26 +1019,26 @@ namespace GammaGear
         {
             switch (type)
             {
-                case ItemType.Hat:
-                case ItemType.Robe:
-                case ItemType.Shoes:
-                case ItemType.Weapon:
-                case ItemType.Athame:
-                case ItemType.Amulet:
-                case ItemType.Ring:
-                case ItemType.Deck:
-                case ItemType.Pet:
-                case ItemType.Mount:
+                case Item.ItemType.Hat:
+                case Item.ItemType.Robe:
+                case Item.ItemType.Shoes:
+                case Item.ItemType.Weapon:
+                case Item.ItemType.Athame:
+                case Item.ItemType.Amulet:
+                case Item.ItemType.Ring:
+                case Item.ItemType.Deck:
+                case Item.ItemType.Pet:
+                case Item.ItemType.Mount:
                     return 1;
-                case ItemType.TearJewel:
-                case ItemType.CircleJewel:
-                case ItemType.SquareJewel:
-                case ItemType.TriangleJewel:
-                case ItemType.PowerPin:
-                case ItemType.ShieldPin:
-                case ItemType.SwordPin:
+                case Item.ItemType.TearJewel:
+                case Item.ItemType.CircleJewel:
+                case Item.ItemType.SquareJewel:
+                case Item.ItemType.TriangleJewel:
+                case Item.ItemType.PowerPin:
+                case Item.ItemType.ShieldPin:
+                case Item.ItemType.SwordPin:
                     return GetCurrentJewelSlots(type);
-                case ItemType.ItemSetBonusData:
+                case Item.ItemType.ItemSetBonusData:
                     return int.MaxValue;
                 default:
                     return -1;
@@ -1044,7 +1055,7 @@ namespace GammaGear
         public void EquipItem(ItemDisplay item)
         {
             // Use EquipJewel or CalculateItemSetBonus for this...
-            if (item.Type > ItemType.Mount) return;
+            if (item.Type > Item.ItemType.Mount) return;
 
             if (GetNumberOfEquipped(item.Type) >= GetNumberAllowedEquipped(item.Type))
             {
@@ -1063,7 +1074,7 @@ namespace GammaGear
         }
         public ItemDisplay CalculateStats()
         {
-            
+
             static void SumDicts<T>(Dictionary<T, int> a, Dictionary<T, int> b)
             {
                 foreach (var pair in b)
@@ -1085,7 +1096,7 @@ namespace GammaGear
             {
                 if (WizardLevel > 0)
                 {
-                    if (WizardSchool != School.Any)
+                    if (WizardSchool != Item.School.Any)
                     {
                         Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool][WizardLevel - 1];
                     }
@@ -1105,9 +1116,9 @@ namespace GammaGear
             {
                 if (item.IsJewel)
                 {
-                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - ItemType.TearJewel])
+                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - Item.ItemType.TearJewel])
                     {
-                        countJewels[item.Type - ItemType.TearJewel]++;
+                        countJewels[item.Type - Item.ItemType.TearJewel]++;
                     }
                     else
                     {

@@ -374,8 +374,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Source\NewFolder\" />
-  </ItemGroup>
-
 </Project>
