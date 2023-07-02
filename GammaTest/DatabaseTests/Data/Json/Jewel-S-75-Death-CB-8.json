@@ -1,0 +1,75 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Jewel-S-75-Death-CB-8.AdjRef",
+    "Jewel",
+    "SquareJewel",
+    "FLAG_NoAuction"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": null,
+  "m_baseCost": 5013.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "|Mob|WorldData|Jewel/JS/JS_Jewel_Death_Square.nif",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    }
+  ],
+  "m_boyIconIndex": 2916,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00014320",
+  "m_equipEffects": [
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalDeathBlock",
+      "m_lookupIndex": 7
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 75.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 2916,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Jewel-S-75-Death-CB-8",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_UNCOMMON",
+  "m_sIcon": "",
+  "m_school": "Death",
+  "m_templateID": 1357016,
+  "m_visualID": 0
+}

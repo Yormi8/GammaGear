@@ -1,0 +1,108 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Deck-AQ-L90-001.AdjRef",
+    "Deck",
+    "FLAG_NoAuction"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": null,
+  "m_baseCost": 7160.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "Decks/AQ/AQ_Deck_Gold.nif",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    },
+    {
+      "__type": "class DeckBehaviorTemplate",
+      "m_behaviorName": "BasicDeckBehavior",
+      "m_defaultDeck": "",
+      "m_genericMaxInstances": 6,
+      "m_genericMaxRank": -1,
+      "m_maxArchmasteryPoints": 5.0,
+      "m_maxSpells": 64,
+      "m_maxTreasureCards": 34,
+      "m_primarySchoolName": "All",
+      "m_schoolMaxInstances": 6,
+      "m_schoolMaxRank": -1
+    },
+    {
+      "__type": "class JewelSocketBehaviorTemplate",
+      "m_behaviorName": "JewelSocketBehavior",
+      "m_jewelSockets": [
+        {
+          "__type": "class JewelSocket",
+          "m_bLockable": true,
+          "m_socketType": "enum JewelSocket::JewelSocketType::SOCKETTYPE_TEAR"
+        }
+      ],
+      "m_socketDeleted": false
+    }
+  ],
+  "m_boyIconIndex": 0,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00008759",
+  "m_equipEffects": [
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalMaxHealth",
+      "m_lookupIndex": 49
+    },
+    {
+      "__type": "class ProvideSpellEffectInfo",
+      "m_effectName": "ProvideSpell",
+      "m_numSpells": 1,
+      "m_sound": "",
+      "m_spellName": "Fiery Giant - Amulet",
+      "m_vFX": "",
+      "m_vFXOverride": false
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 90.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 0,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Deck-AQ-L90-001",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_COMMON",
+  "m_sIcon": "",
+  "m_school": "All",
+  "m_templateID": 1203035,
+  "m_visualID": 0
+}

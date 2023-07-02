@@ -117,6 +117,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
     <PackageReference Include="NaturalSort.Extension" Version="4.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
   </ItemGroup>
 

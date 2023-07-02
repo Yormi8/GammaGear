@@ -1,0 +1,226 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Boots-AQ-Hades-L90-001.AdjRef",
+    "Shoes",
+    "FLAG_NoAuction"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": {
+    "__type": "class WizAvatarItemInfo",
+    "m_defaultOption": null,
+    "m_defaultTextureOption": null,
+    "m_flags": [],
+    "m_options": [
+      {
+        "__type": "class AvatarOption",
+        "m_conditionFlags": [
+          "MALE"
+        ],
+        "m_geometry": "Scene Root",
+        "m_mesh": "Character/PlayerParts/AQ/P_B_AQ_HadesRegalia_Boot.nif",
+        "m_noMesh": false
+      },
+      {
+        "__type": "class AvatarOption",
+        "m_conditionFlags": [
+          "FEMALE"
+        ],
+        "m_geometry": "Scene Root",
+        "m_mesh": "Character/PlayerParts/AQ/P_G_AQ_HadesRegalia_Boot.nif",
+        "m_noMesh": false
+      }
+    ],
+    "m_partName": "Feet",
+    "m_slotName": "Feet",
+    "m_textureOptions": [
+      {
+        "__type": "class AvatarTextureOption",
+        "m_conditionFlags": [
+          "MALE"
+        ],
+        "m_decals": [
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_003.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_004.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_005.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_006.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_007.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_008.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_009.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_010.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_011.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_012.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_D_013.dds"
+        ],
+        "m_decals2": [
+          "NONE"
+        ],
+        "m_materialName": "P_B_AQ_HadesRegalia_Boot",
+        "m_textures": [
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_001.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_002.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_003.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_004.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_005.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_006.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_007.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_008.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_009.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_010.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_011.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_012.dds",
+          "Textures/Characters/Boy/P_B_AQ_Equipment/P_B_AQ_HadesRegalia/P_B_AQ_HadesRegalia_Boot/P_B_AQ_HadesRegalia_Boot_013.dds"
+        ],
+        "m_tintColorNames": [],
+        "m_tintColors": [],
+        "m_useTintColor": false
+      },
+      {
+        "__type": "class AvatarTextureOption",
+        "m_conditionFlags": [
+          "FEMALE"
+        ],
+        "m_decals": [
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_003.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_004.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_005.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_006.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_007.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_008.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_009.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_010.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_011.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_012.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_D_013.dds"
+        ],
+        "m_decals2": [
+          "NONE"
+        ],
+        "m_materialName": "P_G_AQ_HadesRegalia_Boot",
+        "m_textures": [
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_001.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_002.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_003.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_004.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_005.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_006.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_007.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_008.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_009.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_010.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_011.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_012.dds",
+          "Textures/Characters/Girl/P_G_AQ_Equipment/P_G_AQ_HadesRegalia/P_G_AQ_HadesRegalia_Boot/P_G_AQ_HadesRegalia_Boot_013.dds"
+        ],
+        "m_tintColorNames": [],
+        "m_tintColors": [],
+        "m_useTintColor": false
+      }
+    ]
+  },
+  "m_baseCost": 25600.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    }
+  ],
+  "m_boyIconIndex": 2099,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00008532",
+  "m_equipEffects": [
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalMaxHealth",
+      "m_lookupIndex": 194
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalFireDamage",
+      "m_lookupIndex": 111
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalPowerPip",
+      "m_lookupIndex": 106
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalFireBlock",
+      "m_lookupIndex": 154
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalAllArmorPiercing",
+      "m_lookupIndex": 109
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalLifeHealing",
+      "m_lookupIndex": 106
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalFireAccuracy",
+      "m_lookupIndex": 104
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalAllReduceDamage",
+      "m_lookupIndex": 105
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqSchoolOfFocus",
+        "m_applyNOT": false,
+        "m_magicSchool": "Fire",
+        "m_operator": "enum Requirement::Operator::ROP_AND"
+      },
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 90.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 2099,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 1,
+  "m_numSecondaryColors": 1,
+  "m_objectName": "Boots-AQ-Hades-L90-001",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_COMMON",
+  "m_sIcon": "",
+  "m_school": "Fire",
+  "m_templateID": 1203028,
+  "m_visualID": 0
+}

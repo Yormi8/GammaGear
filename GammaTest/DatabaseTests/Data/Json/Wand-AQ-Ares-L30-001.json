@@ -1,0 +1,107 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Wand-AQ-Ares-L30-001.AdjRef",
+    "Spear",
+    "Weapon",
+    "FLAG_NoAuction"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": {
+    "__type": "class WizAvatarItemInfo",
+    "m_defaultOption": {
+      "__type": "class AvatarOption",
+      "m_conditionFlags": [
+        "FEMALE"
+      ],
+      "m_geometry": "P_SP_Ares_Spear",
+      "m_mesh": "|Equipment|WorldData|Wands/AQ_Weapons/P_AQ_Spear_Ares.nif",
+      "m_noMesh": true
+    },
+    "m_defaultTextureOption": null,
+    "m_flags": [],
+    "m_options": [],
+    "m_partName": "",
+    "m_slotName": "",
+    "m_textureOptions": []
+  },
+  "m_baseCost": 10.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "|Equipment|WorldData|Wands/AQ_Weapons/P_AQ_Spear_Ares.nif",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    }
+  ],
+  "m_boyIconIndex": 2135,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00008821",
+  "m_equipEffects": [
+    {
+      "__type": "class ProvideSpellEffectInfo",
+      "m_effectName": "ProvideSpell",
+      "m_numSpells": 6,
+      "m_sound": "",
+      "m_spellName": "Wand-Fire-T4-005",
+      "m_vFX": "",
+      "m_vFXOverride": false
+    },
+    {
+      "__type": "class StartingPipEffectInfo",
+      "m_effectName": "StartingPips",
+      "m_pipsGiven": 0,
+      "m_powerPipsGiven": 1
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalAllDamage",
+      "m_lookupIndex": 109
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 30.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 2135,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_OBJECT",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Wand-AQ-Ares-L30-001",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_ULTRARARE",
+  "m_sIcon": "",
+  "m_school": "",
+  "m_templateID": 1203038,
+  "m_visualID": 0
+}

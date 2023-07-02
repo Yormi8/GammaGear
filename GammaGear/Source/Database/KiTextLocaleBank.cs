@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GammaGear.Source.Database
 {
@@ -16,7 +17,7 @@ namespace GammaGear.Source.Database
             Path = file.FullName;
             using (var reader = new StreamReader(localePath))
             {
-                Name = reader.ReadLine();
+                Name = reader.ReadLine().Split(':').Last();
             }
             Loaded = false;
         }
@@ -28,7 +29,7 @@ namespace GammaGear.Source.Database
             }
             using (var reader = new StreamReader(Path))
             {
-                Name = reader.ReadLine();
+                Name = reader.ReadLine().Split(':').Last();
                 while (!reader.EndOfStream)
                 {
                     string key = reader.ReadLine();

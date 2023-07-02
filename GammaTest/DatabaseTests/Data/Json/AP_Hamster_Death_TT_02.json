@@ -1,0 +1,358 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "AP_Hamster_Death_TT_02.AdjRef",
+    "Pet",
+    "NotForPetTome",
+    "FLAG_NoAuction",
+    "FLAG_NoSell",
+    "FLAG_NoGift",
+    "FLAG_NoBargain",
+    "FLAG_CrownsOnly"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": {
+    "__type": "class WizAvatarItemInfo",
+    "m_defaultOption": null,
+    "m_defaultTextureOption": null,
+    "m_flags": [],
+    "m_options": [],
+    "m_partName": "",
+    "m_slotName": "",
+    "m_textureOptions": [
+      {
+        "__type": "class AvatarTextureOption",
+        "m_conditionFlags": [
+          "FEMALE"
+        ],
+        "m_decals": [],
+        "m_decals2": [
+          "NONE"
+        ],
+        "m_materialName": "",
+        "m_textures": [
+          "Textures/Characters/Pets/Dragon/NPC_Pet_Dragon_012.dds"
+        ],
+        "m_tintColorNames": [],
+        "m_tintColors": [],
+        "m_useTintColor": false
+      },
+      {
+        "__type": "class AvatarTextureOption",
+        "m_conditionFlags": [
+          "MALE"
+        ],
+        "m_decals": [],
+        "m_decals2": [
+          "NONE"
+        ],
+        "m_materialName": "",
+        "m_textures": [
+          "Textures/Characters/Pets/Dragon/NPC_Pet_Dragon_012.dds"
+        ],
+        "m_tintColorNames": [],
+        "m_tintColors": [],
+        "m_useTintColor": false
+      }
+    ]
+  },
+  "m_baseCost": 1000.0,
+  "m_behaviors": [
+    {
+      "__type": "class BehaviorTemplate",
+      "m_behaviorName": "PetNameBehavior"
+    },
+    {
+      "__type": "class FurnitureInfoBehaviorTemplate",
+      "m_behaviorName": "FurnitureInfoBehavior",
+      "m_bounce": false,
+      "m_cameraOffsetX": 0.0,
+      "m_cameraOffsetY": 0.0,
+      "m_cameraOffsetZ": 0.0,
+      "m_pitch": 0.0,
+      "m_roll": 0.0,
+      "m_rotate": false,
+      "m_textureFilename": "GUI/EquipmentIcons/Equipment_Complete_Color65.dds",
+      "m_textureIndex": 58,
+      "m_yaw": 0.0
+    },
+    {
+      "__type": "class PetItemBehaviorTemplate",
+      "m_Levels": [
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 0,
+          "m_lootTable": [],
+          "m_powerCardCount": 0,
+          "m_powerCardName": "",
+          "m_powerCardName2": "",
+          "m_powerCardName3": "",
+          "m_requiredXP": 0,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 1,
+          "m_lootTable": [],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "",
+          "m_powerCardName3": "",
+          "m_requiredXP": 125,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 2,
+          "m_lootTable": [],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "",
+          "m_powerCardName3": "",
+          "m_requiredXP": 250,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 3,
+          "m_lootTable": [],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "",
+          "m_powerCardName3": "",
+          "m_requiredXP": 525,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 4,
+          "m_lootTable": [
+            "PetLevel_Ancient_Common_01"
+          ],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "Pet - Deathblade",
+          "m_powerCardName3": "",
+          "m_requiredXP": 1050,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 5,
+          "m_lootTable": [
+            "PetLevel_Epic_Spirit_01"
+          ],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "Pet - Deathblade",
+          "m_powerCardName3": "",
+          "m_requiredXP": 2125,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 6,
+          "m_lootTable": [
+            "PetLevel_Mega_Death_01"
+          ],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "Pet - Deathblade",
+          "m_powerCardName3": "Pet - Sharpened Blade",
+          "m_requiredXP": 2250,
+          "m_template": 2
+        },
+        {
+          "__type": "class PetLevelInfo",
+          "m_level": 7,
+          "m_lootTable": [
+            "Ultra_Pet_01",
+            "PetLevel_Ultra_Death_01"
+          ],
+          "m_powerCardCount": 1,
+          "m_powerCardName": "Pet - Spirit Shield",
+          "m_powerCardName2": "Pet - Deathblade",
+          "m_powerCardName3": "Pet - Sharpened Blade",
+          "m_requiredXP": 0,
+          "m_template": 2
+        }
+      ],
+      "m_animationEventList": [],
+      "m_behaviorName": "PetItemBehavior",
+      "m_conversionLevel": 1,
+      "m_conversionStats": [],
+      "m_conversionTalents": [],
+      "m_conversionXP": 0,
+      "m_derbyTalents": [
+        "Talent-ModAllStats-All01",
+        "Talent-ObBomb02",
+        "Talent-RmvDuck-Front02",
+        "Talent-RmvCheer-Behind02",
+        "Talent-RmvCheer-Front02",
+        "Talent-RmvJump-Behind02",
+        "Talent-LaneLock-Front02",
+        "Talent-ModMrl-Self03",
+        "Talent-ModRate-Self02",
+        "Talent-Boost-All02"
+      ],
+      "m_duckSound": "Sound/action_duck.wav",
+      "m_eGender": "enum eGender::Neutral",
+      "m_eRace": "enum eRace::PP_Hamster",
+      "m_eggColor": 13,
+      "m_eggName": "EggNames_00000234",
+      "m_excludeFromHatchOfTheDay": true,
+      "m_exclusivePet": true,
+      "m_fScale": 1.0,
+      "m_favoriteSnackCategories": [
+        "Vegetable"
+      ],
+      "m_flyingOffset": 0.0,
+      "m_guaranteedDerbyTalents": [],
+      "m_guaranteedTalents": [],
+      "m_hatchesAsID": 0,
+      "m_hatchmakingInitalCooldownTime": 0,
+      "m_hatchmakingMaximumHatches": 0,
+      "m_hideName": false,
+      "m_houseGuestOpacity": 1.0,
+      "m_jumpSound": "Sound/action_jump.wav",
+      "m_maxStats": [
+        {
+          "__type": "class PetStat",
+          "m_name": "Will",
+          "m_statID": 0,
+          "m_value": 245
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Agility",
+          "m_statID": 0,
+          "m_value": 260
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Intellect",
+          "m_statID": 0,
+          "m_value": 245
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Power",
+          "m_statID": 0,
+          "m_value": 235
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Strength",
+          "m_statID": 0,
+          "m_value": 235
+        }
+      ],
+      "m_morphingExceptions": [],
+      "m_patternToTexture": [
+        {
+          "__type": "class PetDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 0
+        }
+      ],
+      "m_primaryDyeToTexture": [
+        {
+          "__type": "class PetDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 2
+        }
+      ],
+      "m_sHatchRate": "5s",
+      "m_secondaryDyeToTexture": [
+        {
+          "__type": "class PetDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 0
+        }
+      ],
+      "m_startStats": [
+        {
+          "__type": "class PetStat",
+          "m_name": "Will",
+          "m_statID": 0,
+          "m_value": 1
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Agility",
+          "m_statID": 0,
+          "m_value": 1
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Intellect",
+          "m_statID": 0,
+          "m_value": 1
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Power",
+          "m_statID": 0,
+          "m_value": 1
+        },
+        {
+          "__type": "class PetStat",
+          "m_name": "Strength",
+          "m_statID": 0,
+          "m_value": 1
+        }
+      ],
+      "m_talents": [
+        "Talent-CriticalHit-Death02",
+        "Talent-Damage-Death03",
+        "Talent-Damage-Death02",
+        "Talent-CriticalHit-Death01",
+        "Talent-CriticalHit-All02",
+        "Talent-Combat-Plague",
+        "Talent-Damage-All01",
+        "Talent-Power-Combat-Curse-01-Locked",
+        "Talent-Power-Adv-Chest-TCDeath-02-Locked",
+        "Talent-Resist-All02"
+      ],
+      "m_wowFactor": 9
+    },
+    {
+      "__type": "class JewelSocketBehaviorTemplate",
+      "m_behaviorName": "JewelSocketBehavior",
+      "m_jewelSockets": [
+        {
+          "__type": "class JewelSocket",
+          "m_bLockable": false,
+          "m_socketType": "enum JewelSocket::JewelSocketType::SOCKETTYPE_PET"
+        }
+      ],
+      "m_socketDeleted": false
+    }
+  ],
+  "m_boyIconIndex": 4154,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "WizardPets_00000955",
+  "m_equipEffects": [],
+  "m_equipRequirements": null,
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 4154,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 1,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "AP_Hamster_Death_TT_02",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_EPIC",
+  "m_sIcon": "",
+  "m_school": "Death",
+  "m_templateID": 1507055,
+  "m_visualID": 0
+}

@@ -1,0 +1,107 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Mount-Narwhal-001.AdjRef",
+    "Mount",
+    "FLAG_NoAuction",
+    "FLAG_CrownsOnly",
+    "MountNarwhal"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": {
+    "__type": "class WizAvatarItemInfo",
+    "m_defaultOption": null,
+    "m_defaultTextureOption": null,
+    "m_flags": [
+      "NO_WEAPON",
+      "CAMERA_MAX_ZOOMOUT"
+    ],
+    "m_options": [],
+    "m_partName": "",
+    "m_slotName": "",
+    "m_textureOptions": []
+  },
+  "m_baseCost": 10000.0,
+  "m_behaviors": [
+    {
+      "__type": "class MountItemBehaviorTemplate",
+      "m_adjustableAnimationRate": true,
+      "m_adjustedFocusHeight": 100.0,
+      "m_animationEventList": [],
+      "m_behaviorName": "MountItemBehavior",
+      "m_driverKFM": "|Mob|WorldData|Character/Players/KFMs/P_Anims_MNT_Narwhal.kfm",
+      "m_eGender": "enum eGender::Neutral",
+      "m_eMountType": "enum eMountType::eMNT_Standard",
+      "m_eRace": "enum eRace::Mount_Narwhal",
+      "m_geometryOption": 0,
+      "m_numSeats": 1,
+      "m_patternToTexture": [
+        {
+          "__type": "class MountDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 0
+        }
+      ],
+      "m_primaryDyeToTexture": [
+        {
+          "__type": "class MountDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 0
+        }
+      ],
+      "m_secondaryDyeToTexture": [
+        {
+          "__type": "class MountDyeToTexture",
+          "m_dye": 0,
+          "m_texture": 0
+        }
+      ],
+      "m_soundMountEquip": "|Sound|WorldData|Sound/Mounts/mounts_poof.wav"
+    },
+    {
+      "__type": "class BehaviorTemplate",
+      "m_behaviorName": "EffectsBehavior"
+    },
+    {
+      "__type": "class BehaviorTemplate",
+      "m_behaviorName": "DeletedBehavior"
+    }
+  ],
+  "m_boyIconIndex": 2972,
+  "m_creditsCost": 12500.0,
+  "m_description": "",
+  "m_displayName": "WizardMounts_00000387",
+  "m_equipEffects": [
+    {
+      "__type": "class SpeedEffectInfo",
+      "m_effectName": "SpeedBuff",
+      "m_speedMultiplier": 40
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalAllDamage",
+      "m_lookupIndex": 101
+    }
+  ],
+  "m_equipRequirements": null,
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 2972,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Mount-Narwhal-001",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_EPIC",
+  "m_sIcon": "",
+  "m_school": "",
+  "m_templateID": 1359633,
+  "m_visualID": 0
+}

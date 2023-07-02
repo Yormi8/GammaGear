@@ -1,0 +1,114 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Amulet-AQ-Balance-Mastery.AdjRef",
+    "Amulet",
+    "SchoolMastery",
+    "FLAG_NoAuction",
+    "SchoolMastery"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": null,
+  "m_baseCost": 15000.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "|Mob|WorldData|Amulets/SP/SP_Amulets_Master_Balance.nif",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    },
+    {
+      "__type": "class JewelSocketBehaviorTemplate",
+      "m_behaviorName": "JewelSocketBehavior",
+      "m_jewelSockets": [
+        {
+          "__type": "class JewelSocket",
+          "m_bLockable": true,
+          "m_socketType": "enum JewelSocket::JewelSocketType::SOCKETTYPE_TEAR"
+        },
+        {
+          "__type": "class JewelSocket",
+          "m_bLockable": true,
+          "m_socketType": "enum JewelSocket::JewelSocketType::SOCKETTYPE_SQUARE"
+        }
+      ],
+      "m_socketDeleted": false
+    }
+  ],
+  "m_boyIconIndex": 740,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00012490",
+  "m_equipEffects": [
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalBalanceMastery",
+      "m_lookupIndex": 0
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalAllBlock",
+      "m_lookupIndex": 5
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalIncHealing",
+      "m_lookupIndex": 101
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalBalanceDamage",
+      "m_lookupIndex": 102
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqSchoolOfFocus",
+        "m_applyNOT": true,
+        "m_magicSchool": "Balance",
+        "m_operator": "enum Requirement::Operator::ROP_AND"
+      },
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 90.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 740,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Amulet-AQ-Balance-Mastery",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_COMMON",
+  "m_sIcon": "",
+  "m_school": "Balance",
+  "m_templateID": 1203042,
+  "m_visualID": 0
+}

@@ -118,7 +118,7 @@ namespace GammaGear.Source.Database
 
         // -> whether the socket starts off locked
         [XmlElement("m_bLockable")]
-        public BooleanEnum m_bLockable;
+        public bool m_bLockable;
     }
     [XmlType("BehaviorTemplate")]
     public class BehaviorTemplate : PropertyClass
@@ -139,7 +139,7 @@ namespace GammaGear.Source.Database
         public List<string> m_favoriteSnackCategories = new List<string>();
 
         [XmlElement("m_exclusivePet")]
-        public BooleanEnum MExclusivePet;
+        public bool MExclusivePet;
     }
     [XmlType("PetJewelBehaviorTemplate")]
     public class PetJewelBehaviorTemplate : BehaviorTemplate
@@ -157,13 +157,13 @@ namespace GammaGear.Source.Database
         public List<JewelSocket> m_jewelSockets = new List<JewelSocket>();
 
         [XmlElement("m_socketDeleted")]
-        public BooleanEnum m_socketDeleted;
+        public bool m_socketDeleted;
     }
     [XmlType("Requirement")]
     public class Requirement : PropertyClass
     {
         [XmlElement("m_applyNOT")]
-        public BooleanEnum m_applyNOT;
+        public bool m_applyNOT;
 
         [XmlElement("m_operator")]
         public OperatorType m_operator;
@@ -196,7 +196,7 @@ namespace GammaGear.Source.Database
     public class RequirementList : PropertyClass
     {
         [XmlElement("m_applyNOT")]
-        public BooleanEnum m_applyNOT;
+        public bool m_applyNOT;
 
         [XmlElement("m_operator")]
         public OperatorType m_operator;
@@ -285,7 +285,7 @@ namespace GammaGear.Source.Database
         public string m_displayName;
 
         [XmlElement("m_noStacking")]
-        public BooleanEnum m_noStacking;
+        public bool m_noStacking;
 
         [XmlArrayItem("ItemSetBonusData", typeof(ItemSetBonusData))]
         public List<ItemSetBonusData> m_itemSetBonusDataList = new List<ItemSetBonusData>();
@@ -327,8 +327,7 @@ namespace GammaGear.Source.Database
         public string m_sIcon;
 
         // Requirements to equip the item
-        [XmlArrayItem("RequirementList", typeof(RequirementList))]
-        public List<RequirementList> m_equipRequirements = new List<RequirementList>();
+        public RequirementList m_equipRequirements;
 
         // Benefits that the player receives when equipping this item
         [XmlArrayItem("StatisticEffectInfo", typeof(StatisticEffectInfo))]

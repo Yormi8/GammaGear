@@ -1,0 +1,86 @@
+{
+  "__type": "class WizItemTemplate",
+  "m_adjectiveList": [
+    "Pin-DPS-160-LS-PD.AdjRef",
+    "Jewel",
+    "PinSquareSword",
+    "FLAG_NoAuction"
+  ],
+  "m_arenaPointCost": 0,
+  "m_avatarFlags": [],
+  "m_avatarInfo": null,
+  "m_baseCost": 17640.0,
+  "m_behaviors": [
+    {
+      "__type": "class RenderBehaviorTemplate",
+      "m_assetName": "|Mob|WorldData|Jewel/PI/PI_Pins_Square_Sword_Storm.nif",
+      "m_bCastsShadow": true,
+      "m_bFadesIn": true,
+      "m_bFadesOut": true,
+      "m_bPortalExcluded": false,
+      "m_bStaticObject": true,
+      "m_behaviorName": "RenderBehavior",
+      "m_height": 0.0,
+      "m_nLightType": "enum RenderBehaviorTemplate::LightingType::Char",
+      "m_opacity": 1.0,
+      "m_proxyName": "",
+      "m_scale": 1.0
+    }
+  ],
+  "m_boyIconIndex": 5500,
+  "m_creditsCost": 0.0,
+  "m_description": "",
+  "m_displayName": "Items_00025801",
+  "m_equipEffects": [
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalStormArmorPiercing",
+      "m_lookupIndex": 102
+    },
+    {
+      "__type": "class StatisticEffectInfo",
+      "m_effectName": "CanonicalStormDamage",
+      "m_lookupIndex": 118
+    }
+  ],
+  "m_equipRequirements": {
+    "__type": "class RequirementList",
+    "m_applyNOT": false,
+    "m_operator": "enum Requirement::Operator::ROP_AND",
+    "m_requirements": [
+      {
+        "__type": "class ReqSchoolOfFocus",
+        "m_applyNOT": false,
+        "m_magicSchool": "Life",
+        "m_operator": "enum Requirement::Operator::ROP_AND"
+      },
+      {
+        "__type": "class ReqMagicLevel",
+        "m_applyNOT": false,
+        "m_magicSchool": "",
+        "m_numericValue": 160.0,
+        "m_operator": "enum Requirement::Operator::ROP_AND",
+        "m_operatorType": "enum ReqNumeric::OPERATOR_TYPE::OPERATOR_GREATER_THAN_EQ"
+      }
+    ]
+  },
+  "m_exemptFromAOI": false,
+  "m_girlIconIndex": 5500,
+  "m_holidayFlag": "",
+  "m_itemLimit": -1,
+  "m_itemSetBonusTemplateID": 0,
+  "m_leashOffsetOverride": null,
+  "m_nObjectType": "enum ObjectType::OT_UNDEFINED",
+  "m_numPatterns": 0,
+  "m_numPrimaryColors": 0,
+  "m_numSecondaryColors": 0,
+  "m_objectName": "Pin-DPS-160-LS-PD",
+  "m_purchaseRequirements": null,
+  "m_pvpCurrencyCost": 0,
+  "m_rank": 0,
+  "m_rarity": "enum RarityType::RT_EPIC",
+  "m_sIcon": "",
+  "m_school": "Life",
+  "m_templateID": 1587293,
+  "m_visualID": 0
+}

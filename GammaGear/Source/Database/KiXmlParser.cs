@@ -57,18 +57,11 @@ namespace GammaGear.Source.Database
                 node.ParentNode.RemoveChild(node);
             }
 
-            XmlAttributeOverrides overrides = new XmlAttributeOverrides();
-
-
             // Read the new xml and deserialize into a root object.
             XmlNodeReader reader = new XmlNodeReader(doc.DocumentElement);
-            if (_serializer == null)
-            {
-                _serializer = new XmlSerializer(typeof(ItemObject), _attributeOverrides);
-            }
-            //XmlSerializer serializer = new XmlSerializer(typeof(ItemObject));
-            ItemObject root = (ItemObject)_serializer.Deserialize(reader);
 
+            _serializer ??= new XmlSerializer(typeof(ItemObject), _attributeOverrides);
+            ItemObject root = (ItemObject)_serializer.Deserialize(reader);
 
             if (root.m_propertyClasses.Count > 1)
             {

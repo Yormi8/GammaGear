@@ -158,33 +158,30 @@ namespace GammaGear.Source.Database
                 }
 
                 // Equip requirements
-                if (wizItem.m_equipRequirements.Count > 0)
+                foreach (Requirement requirement in wizItem.m_equipRequirements.m_requirements)
                 {
-                    foreach (Requirement requirement in wizItem.m_equipRequirements[0].m_requirements)
+                    if (requirement is ReqMagicLevel reqMagicLevel)
                     {
-                        if (requirement is ReqMagicLevel reqMagicLevel)
+                        if (!string.IsNullOrEmpty(reqMagicLevel.m_magicSchool))
                         {
-                            if (!string.IsNullOrEmpty(reqMagicLevel.m_magicSchool))
-                            {
-                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqMagicLevel.m_magicSchool);
-                            }
-                            newItem.LevelRequirement = (int)reqMagicLevel.m_numericValue;
+                            newItem.SchoolRequirement = Enum.Parse<Item.School>(reqMagicLevel.m_magicSchool);
                         }
-                        else if (requirement is ReqSchoolOfFocus reqSchool)
+                        newItem.LevelRequirement = (int)reqMagicLevel.m_numericValue;
+                    }
+                    else if (requirement is ReqSchoolOfFocus reqSchool)
+                    {
+                        if (reqSchool.m_applyNOT)
                         {
-                            if (reqSchool.m_applyNOT == BooleanEnum.True)
-                            {
-                                newItem.SchoolRestriction = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
-                            }
-                            else if (reqSchool.m_applyNOT == BooleanEnum.False)
-                            {
-                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
-                            }
+                            newItem.SchoolRestriction = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
                         }
-                        else if (requirement is ReqHasBadge reqBadge)
+                        else
                         {
-                            Trace.WriteLine("ReqHasBadge has not been implemented yet...");
+                            newItem.SchoolRequirement = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
                         }
+                    }
+                    else if (requirement is ReqHasBadge)
+                    {
+                        Trace.WriteLine("ReqHasBadge has not been implemented yet...");
                     }
                 }
 
@@ -251,7 +248,7 @@ namespace GammaGear.Source.Database
 
             string bankName = displayId.Split('_')[0];
             string id = string.Join('_', displayId.Split('_').Skip(1));
-            T bank = _banks.GetValueOrDefault(bankName);
+            IKiLocaleBank bank = _banks.GetValueOrDefault(bankName);
             if (bank == null)
             {
                 return "";
