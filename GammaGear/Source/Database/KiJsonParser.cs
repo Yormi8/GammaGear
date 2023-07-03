@@ -49,6 +49,7 @@ namespace GammaGear.Source.Database
             return new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.None,
+                NullValueHandling = NullValueHandling.Ignore,
                 Converters =
                 {
                     new KiPropertyClassJsonConverter()

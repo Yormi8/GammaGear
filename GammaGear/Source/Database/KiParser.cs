@@ -158,30 +158,33 @@ namespace GammaGear.Source.Database
                 }
 
                 // Equip requirements
-                foreach (Requirement requirement in wizItem.m_equipRequirements.m_requirements)
+                if (wizItem.m_equipRequirements != null)
                 {
-                    if (requirement is ReqMagicLevel reqMagicLevel)
+                    foreach (Requirement requirement in wizItem.m_equipRequirements.m_requirements)
                     {
-                        if (!string.IsNullOrEmpty(reqMagicLevel.m_magicSchool))
+                        if (requirement is ReqMagicLevel reqMagicLevel)
                         {
-                            newItem.SchoolRequirement = Enum.Parse<Item.School>(reqMagicLevel.m_magicSchool);
+                            if (!string.IsNullOrEmpty(reqMagicLevel.m_magicSchool))
+                            {
+                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqMagicLevel.m_magicSchool);
+                            }
+                            newItem.LevelRequirement = (int)reqMagicLevel.m_numericValue;
                         }
-                        newItem.LevelRequirement = (int)reqMagicLevel.m_numericValue;
-                    }
-                    else if (requirement is ReqSchoolOfFocus reqSchool)
-                    {
-                        if (reqSchool.m_applyNOT)
+                        else if (requirement is ReqSchoolOfFocus reqSchool)
                         {
-                            newItem.SchoolRestriction = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                            if (reqSchool.m_applyNOT)
+                            {
+                                newItem.SchoolRestriction = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                            }
+                            else
+                            {
+                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                            }
                         }
-                        else
+                        else if (requirement is ReqHasBadge)
                         {
-                            newItem.SchoolRequirement = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                            Trace.WriteLine("ReqHasBadge has not been implemented yet...");
                         }
-                    }
-                    else if (requirement is ReqHasBadge)
-                    {
-                        Trace.WriteLine("ReqHasBadge has not been implemented yet...");
                     }
                 }
 
