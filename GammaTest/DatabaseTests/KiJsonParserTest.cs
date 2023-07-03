@@ -50,20 +50,7 @@ namespace GammaTest.DatabaseTests
                 LevelRequirement = 90
             };
 
-            Assert.IsNotNull(testItem);
-            if (testItem is Item item)
-            {
-                Assert.IsNotNull(item);
-                Assert.IsTrue(item.Name == "Exalted Balance Amulet");
-                Assert.IsTrue(item.Blocks.Count == 1);
-                Assert.IsTrue(item.Blocks[Item.School.Any] == 6);
-                Assert.IsTrue(item.Damages[Item.School.Balance] == 3);
-                Assert.IsTrue(item.IncomingHealing == 2);
-                Assert.IsTrue(item.AltSchoolMastery == Item.School.Balance);
-                Assert.IsTrue(item == testCompare);
-            }
-            else
-                Assert.Fail("Amulet-AQ-Balance-Mastery.json was not recognized as a Database Item");
+            Assert.IsTrue(testItem.Equals(testCompare));
         }
     }
 }

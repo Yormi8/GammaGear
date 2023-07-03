@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Windows.Media;
 
 namespace GammaGear.Source
 {
-    public abstract class KiObject
+    public abstract class KiObject : object
     {
         public Guid Id { get; set; }
         public Guid KiId { get; set; }
@@ -160,5 +162,65 @@ namespace GammaGear.Source
         }
         public Item() :
             this(Guid.NewGuid()) { }
+
+        public override bool Equals(object obj) => Equals(obj as Item);
+
+        public bool Equals(Item other)
+        {
+            // Common cases optimization
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            if (GetType() != other.GetType()) return false;
+            return
+                Name == other.Name &&
+                Type == other.Type &&
+                LevelRequirement == other.LevelRequirement &&
+                Flags == other.Flags &&
+                PvpRankRequirement == other.PvpRankRequirement &&
+                PetRankRequirement == other.PetRankRequirement &&
+                SchoolRequirement == other.SchoolRequirement &&
+                SchoolRestriction == other.SchoolRestriction &&
+                Retired == other.Retired &&
+                MaxHealth == other.MaxHealth &&
+                MaxMana == other.MaxMana &&
+                MaxEnergy == other.MaxEnergy &&
+                SpeedBonus == other.SpeedBonus &&
+                PowerpipChance == other.PowerpipChance &&
+                ShadowpipRating == other.ShadowpipRating &&
+                StunResistChance == other.StunResistChance &&
+                FishingLuck == other.FishingLuck &&
+                ArchmasteryRating == other.ArchmasteryRating &&
+                IncomingHealing == other.IncomingHealing &&
+                OutgoingHealing == other.OutgoingHealing &&
+                PipsGiven == other.PipsGiven &&
+                PowerpipsGiven == other.PowerpipsGiven &&
+                AltSchoolMastery == other.AltSchoolMastery &&
+                TearJewelSlots == other.TearJewelSlots &&
+                CircleJewelSlots == other.CircleJewelSlots &&
+                SquareJewelSlots == other.SquareJewelSlots &&
+                TriangleJewelSlots == other.TriangleJewelSlots &&
+                PowerPinSlots == other.PowerPinSlots &&
+                ShieldPinSlots == other.ShieldPinSlots &&
+                SwordPinSlots == other.SwordPinSlots &&
+                SetBonusLevel == other.SetBonusLevel &&
+                Accuracies.Count == other.Accuracies.Count && !Accuracies.Except(other.Accuracies).Any() &&
+                Damages.Count == other.Damages.Count && !Damages.Except(other.Damages).Any() &&
+                Resists.Count == other.Resists.Count && !Resists.Except(other.Resists).Any() &&
+                Criticals.Count == other.Criticals.Count && !Criticals.Except(other.Criticals).Any() &&
+                Blocks.Count == other.Blocks.Count && !Blocks.Except(other.Blocks).Any() &&
+                Pierces.Count == other.Pierces.Count && !Pierces.Except(other.Pierces).Any() &&
+                FlatDamages.Count == other.FlatDamages.Count && !FlatDamages.Except(other.FlatDamages).Any() &&
+                FlatResists.Count == other.FlatResists.Count && !FlatResists.Except(other.FlatResists).Any() &&
+                PipConversions.Count == other.PipConversions.Count && !PipConversions.Except(other.PipConversions).Any() &&
+                ItemCards.Count == other.ItemCards.Count && !ItemCards.Except(other.ItemCards).Any() &&
+                // If either setbonus is null then these item are not equal
+                (SetBonus == null ^ other.SetBonus == null) ? false :
+                // If both of them are null, then the setbonuses are equal
+                (SetBonus == null && other.SetBonus == null) ? true :
+                // If both are not null, check if they are equal
+                (SetBonus.SetName == other.SetBonus.SetName &&
+                 SetBonus.Bonuses.Count == other.SetBonus.Bonuses.Count);
+                 // Checking for if each item is equal in the list causes a recursive action
+        }
     }
 }
