@@ -9,6 +9,12 @@ using System.Reflection;
 
 namespace GammaGear.Source.Database
 {
+    /// <summary>
+    /// It's super likely this class doesn't work, the new tool for extracting data from the
+    /// game serializes to JSON instead of XML. This is kept in just incase we move back to XML.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    [Obsolete("Use KiJsonParser<T> Instead", false)]
     public class KiXmlParser<T> : KiParser<T>
         where T: KiLocaleBank, new()
     {
