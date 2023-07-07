@@ -453,10 +453,10 @@ namespace GammaGear
                     files.Add(startingDirectory + System.IO.Path.DirectorySeparatorChar + reader.ReadLine());
                 }
             }
-            KiXmlParser<KiTextLocaleBank> kiXmlParser = new KiXmlParser<KiTextLocaleBank>(Settings.Default.LocaleFolder);
-            List<KiObject> objects = new List<KiObject>(kiXmlParser.ReadAllToKiObject(files));
+            KiJsonParser<KiTextLocaleBank> kiJsonParser = new KiJsonParser<KiTextLocaleBank>(Settings.Default.LocaleFolder);
+            List<KiObject> objects = new List<KiObject>(kiJsonParser.ReadAllToKiObject(files));
 
-            KiSqliteWriter kiSqliteWriter = new KiSqliteWriter();
+            KiSqliteReaderWriter kiSqliteWriter = new KiSqliteReaderWriter();
             kiSqliteWriter.Write(sfd.FileName, objects);
         }
 
@@ -474,14 +474,14 @@ namespace GammaGear
                 return;
             }
 
-            //XmlToDb xdb = new XmlToDb();
+            KiSqliteReaderWriter sqliteRW = new KiSqliteReaderWriter();
             ItemViewModel items = this.Resources["itemVM"] as ItemViewModel;
-            //var newItems = xdb.CreateListFromDB(ofd.FileName);
+            var newItems = sqliteRW.ReadAllToKiObject(ofd.FileName);
 
-            //foreach (var item in newItems.Item1.Where(i => i.Type >= Item.ItemType.Hat && i.Type <= Item.ItemType.PinSquareSword && !i.Flags.HasFlag(Item.ItemFlags.FLAG_DevItem)))
-            //{
-            //    items.Add((ItemDisplay)item);
-            //}
+            foreach (var item in newItems.Where(ob => ob is Item i && i.Type >= Item.ItemType.Hat && i.Type <= Item.ItemType.PinSquareSword && !i.Flags.HasFlag(Item.ItemFlags.FLAG_DevItem)))
+            {
+                items.Add((ItemDisplay)item);
+            }
         }
         private void LoadoutButton_Click(object sender, RoutedEventArgs eventArgs)
         {

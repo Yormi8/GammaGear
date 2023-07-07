@@ -8,11 +8,161 @@ using System.Text;
 using System.Threading.Tasks;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.IO;
+using static GammaGear.Source.Item;
 
 namespace GammaGear.Source.Database
 {
-    public class KiSqliteWriter : KiWriter
+    public class KiSqliteReaderWriter : KiReaderWriter
     {
+        public override IEnumerable<KiObject> ReadAllToKiObject(string path)
+        {
+            List<Item> items = new List<Item>();
+            Dictionary<Guid, Item> itemsDict = new Dictionary<Guid, Item>();
+            List<ItemSetBonus> itemSets = new List<ItemSetBonus>();
+            Dictionary<Guid, ItemSetBonus> itemSetsDict = new Dictionary<Guid, ItemSetBonus>();
+
+            // Open Database
+            using (SqliteConnection db = new SqliteConnection($"Data Source=\"{path}\""))
+            {
+                db.Open();
+                var command = db.CreateCommand();
+                command.CommandText = SqliteQueries.GetTableNames;
+                List<string> tableNames = new List<string>();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        tableNames.Add(reader.GetString(0));
+                    }
+                }
+
+                // TODO: Do better validation that the tables are actually valid. Column types check and such
+                bool ItemsTableExists = tableNames.Contains("Items");
+                bool ComplexStatsTableExists = tableNames.Contains("ComplexStats");
+                bool SpellsTableExists = tableNames.Contains("Spells");
+                bool ItemSetsTableExists = tableNames.Contains("ItemSets");
+
+                if (ItemSetsTableExists)
+                {
+                    var getAllItemSetsCommand = db.CreateCommand();
+                    getAllItemSetsCommand.CommandText = "SELECT * FROM ItemSets";
+                    using (var reader = getAllItemSetsCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            itemSets.Add(new ItemSetBonus()
+                            {
+                                Id = new Guid(reader.GetString(0)),
+                                KiId = new Guid(reader.GetString(1)),
+                                SetName = reader.GetString(2),
+                            });
+                        }
+                    }
+                    foreach (var itemSet in itemSets)
+                    {
+                        itemSetsDict.TryAdd(itemSet.Id, itemSet);
+                    }
+                }
+                if (ItemsTableExists)
+                {
+                    var getAllItemsCommand = db.CreateCommand();
+                    getAllItemsCommand.CommandText = "SELECT * FROM Items";
+                    using (var reader = getAllItemsCommand.ExecuteReader())
+                    {
+                        int ii = 1;
+                        while (reader.Read())
+                        {
+                            Item newItem = new Item()
+                            {
+                                Id = reader.GetGuid(0),
+                                KiId = reader.GetGuid(1),
+                                Type = (ItemType)reader.GetInt32(2),
+                                Name = reader.GetString(3),
+                                LevelRequirement = reader.GetInt32(4),
+                                Flags = (ItemFlags)reader.GetInt32(5),
+                                PvpRankRequirement = (ArenaRank)reader.GetInt32(6),
+                                PetRankRequirement = (ArenaRank)reader.GetInt32(7),
+                                SchoolRequirement = (School)reader.GetInt32(8),
+                                SchoolRestriction = (School)reader.GetInt32(9),
+                                MaxHealth = reader.GetInt32(10),
+                                MaxMana = reader.GetInt32(11),
+                                MaxEnergy = reader.GetInt32(12),
+                                SpeedBonus = reader.GetInt32(13),
+                                PowerpipChance = reader.GetInt32(14),
+                                ShadowpipRating = reader.GetInt32(15),
+                                StunResistChance = reader.GetInt32(16),
+                                FishingLuck = reader.GetInt32(17),
+                                ArchmasteryRating = reader.GetInt32(18),
+                                IncomingHealing = reader.GetInt32(19),
+                                OutgoingHealing = reader.GetInt32(20),
+                                PipsGiven = reader.GetInt32(21),
+                                PowerpipsGiven = reader.GetInt32(22),
+                                AltSchoolMastery = (School)reader.GetInt32(23),
+                                TearJewelSlots = reader.GetInt32(24),
+                                CircleJewelSlots = reader.GetInt32(25),
+                                SquareJewelSlots = reader.GetInt32(26),
+                                TriangleJewelSlots = reader.GetInt32(27),
+                                PowerPinSlots = reader.GetInt32(28),
+                                ShieldPinSlots = reader.GetInt32(29),
+                                SwordPinSlots = reader.GetInt32(30),
+                                SetBonus = !reader.IsDBNull(31) ? itemSetsDict[reader.GetGuid(31)] : null,
+                                KiSetBonusID = reader.GetGuid(32),
+                                SetBonusLevel = reader.GetInt32(33),
+                            };
+                            items.Add(newItem);
+                            ii++;
+                        }
+                    }
+                    foreach (var item in items)
+                    {
+                        itemsDict.TryAdd(item.Id, item);
+                    }
+                }
+                if (SpellsTableExists)
+                {
+                    var getAllSpellsCommand = db.CreateCommand();
+                    getAllSpellsCommand.CommandText = "SELECT * FROM Spells";
+                    using (var reader = getAllSpellsCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Guid itemID = reader.GetGuid(2);
+                            if (itemsDict.TryGetValue(itemID, out Item item))
+                            {
+                                item.ItemCards.AddOrIncrement(reader.GetString(0), reader.GetInt32(1));
+                            }
+                        }
+                    }
+                }
+                if (ComplexStatsTableExists)
+                {
+                    var getAllComplexStatsCommand = db.CreateCommand();
+                    getAllComplexStatsCommand.CommandText = "SELECT * FROM ComplexStats";
+                    using (var reader = getAllComplexStatsCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Guid itemID = reader.GetGuid(3);
+                            if (itemsDict.TryGetValue(itemID, out Item item))
+                            {
+                                item.GetDictionaryFromCanonical((Canonical)reader.GetInt32(0)).AddOrIncrement((School)reader.GetInt32(1), reader.GetInt32(2));
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (var item in items.Where(i => i.SetBonus != null))
+            {
+                item.SetBonus.Bonuses.Add(item);
+            }
+
+            List<KiObject> kiObjects = items.Cast<KiObject>().ToList();
+            kiObjects.AddRange(itemSets);
+
+            return kiObjects;
+        }
         public override bool Write(string path, IEnumerable<KiObject> values)
         {
             using (SqliteConnection db = new SqliteConnection($"Data Source=\"{path}\""))
@@ -34,9 +184,13 @@ namespace GammaGear.Source.Database
                 command.ExecuteNonQuery();
 
                 // Record every item and itemset parsed for reference recount later.
-                List<Item> itemsFinal = new List<Item>();
-                List<ItemSetBonus> itemSetsFinal = new List<ItemSetBonus>();
+                List<Item> itemsFinal = new List<Item>(values.Where(i => i is Item).Cast<Item>());
+                List<ItemSetBonus> itemSetsFinal = new List<ItemSetBonus>(values.Where(i => i is ItemSetBonus).Cast<ItemSetBonus>());
                 Dictionary<Guid, ItemSetBonus> replacementDict = new Dictionary<Guid, ItemSetBonus>(itemSetsFinal.Count);
+                foreach (ItemSetBonus itemSetBonus in itemSetsFinal)
+                {
+                    replacementDict[itemSetBonus.KiId] = itemSetBonus;
+                }
 
                 List<Item> nonUniqueNames = itemsFinal.Where(i => itemsFinal.Count(j => i.Name == j.Name) > 1).ToList();
                 foreach (Item item in nonUniqueNames)
@@ -53,7 +207,7 @@ namespace GammaGear.Source.Database
                 // TODO: Fix this (single item dont get renamed) and possibly move to the program for more cohesive code.
 
                 // Replace uint references with new GUIDs for better tracking.
-                var itemsWithSet = itemsFinal.Where(i => i.KiSetBonusID != Guid.Empty);
+                var itemsWithSet = itemsFinal.Where(i => !i.KiSetBonusID.Equals(Guid.Empty));
                 foreach (Item item in itemsWithSet)
                 {
                     item.SetBonus = replacementDict[item.KiSetBonusID];
