@@ -1,0 +1,77 @@
+{
+  "__type": "class ItemSetBonusTemplate",
+  "m_behaviors": [],
+  "m_displayName": "ItemSets_00000021",
+  "m_itemSetBonusDataList": [
+    {
+      "__type": "class ItemSetBonusData",
+      "m_description": "",
+      "m_equipEffectsGranted": [
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalDeathAccuracy",
+          "m_lookupIndex": 104
+        }
+      ],
+      "m_equipEffectsGrantedRequirements": null,
+      "m_numItemsToEquip": 2
+    },
+    {
+      "__type": "class ItemSetBonusData",
+      "m_description": "",
+      "m_equipEffectsGranted": [
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalDeathDamage",
+          "m_lookupIndex": 103
+        },
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalDeathPipConversion",
+          "m_lookupIndex": 139
+        }
+      ],
+      "m_equipEffectsGrantedRequirements": null,
+      "m_numItemsToEquip": 3
+    },
+    {
+      "__type": "class ItemSetBonusData",
+      "m_description": "",
+      "m_equipEffectsGranted": [
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalPowerPip",
+          "m_lookupIndex": 111
+        }
+      ],
+      "m_equipEffectsGrantedRequirements": null,
+      "m_numItemsToEquip": 5
+    },
+    {
+      "__type": "class ItemSetBonusData",
+      "m_description": "",
+      "m_equipEffectsGranted": [
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalDeathDamage",
+          "m_lookupIndex": 105
+        },
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalAllBlock",
+          "m_lookupIndex": 107
+        },
+        {
+          "__type": "class StatisticEffectInfo",
+          "m_effectName": "CanonicalStunResistance",
+          "m_lookupIndex": 124
+        }
+      ],
+      "m_equipEffectsGrantedRequirements": null,
+      "m_numItemsToEquip": 7
+    }
+  ],
+  "m_noStacking": false,
+  "m_objectName": "IS-L130-Death-001",
+  "m_templateID": 1502579
+}

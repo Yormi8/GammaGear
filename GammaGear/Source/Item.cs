@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace GammaGear.Source
 {
@@ -16,14 +17,28 @@ namespace GammaGear.Source
     }
     public class ItemSetBonus : KiObject
     {
-        public string SetName = "";
-        public List<Item> Bonuses = new List<Item>();
+        public string SetName { get; set; }
+        public List<Item> Bonuses { get; set; }
 
         public ItemSetBonus()
         {
             Id = Guid.NewGuid();
             KiId = Guid.Empty;
+            Bonuses = new List<Item>();
         }
+
+        public override bool Equals(object obj) => Equals(obj as ItemSetBonus);
+        public bool Equals(ItemSetBonus other)
+        {
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            if (GetType() != other.GetType()) return false;
+            return
+                SetName == other.SetName &&
+                Bonuses.Count == other.Bonuses.Count &&
+                Enumerable.SequenceEqual(Bonuses, other.Bonuses);
+        }
+        public override int GetHashCode() => Id.GetHashCode();
     }
     public class Item : KiObject
     {
@@ -222,5 +237,6 @@ namespace GammaGear.Source
                 // Checking for if each item is equal in the list causes a recursive action
             return equal;
         }
+        public override int GetHashCode() => Id.GetHashCode();
     }
 }
