@@ -17,10 +17,10 @@
     <Window.Resources>
         <DataTemplate x:Key="itemDisplayTemplate">
 
-            
+
         </DataTemplate>
         <local:ItemViewModel x:Key="itemVM"/>
-        <CollectionViewSource x:Key="databaseCVS" 
+        <CollectionViewSource x:Key="databaseCVS"
                               Source="{StaticResource itemVM}"
                               Filter="CollectionViewSource_Filter">
             <CollectionViewSource.SortDescriptions>
@@ -40,7 +40,7 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
-                    <MenuItem Header="Import From XML" Click="FileCreateNewDB"/>
+                    <MenuItem Header="Import From JSON" Click="FileCreateNewDB"/>
                     <MenuItem Header="Import From DB" Click="FileLoadDB"/>
                     <MenuItem Header="Save Equipment Set"/>
                     <MenuItem Header="Load Equipment Set"/>
@@ -385,8 +385,8 @@
                                     Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
                                     Click="LoadoutButton_Click">None</Button>
 
-                            <ComboBox x:Name="WizardSchoolBox" 
-                                      Grid.Column="1" Grid.Row="2" 
+                            <ComboBox x:Name="WizardSchoolBox"
+                                      Grid.Column="1" Grid.Row="2"
                                       ToolTip="School"
                                       SelectionChanged="UpdateStatsTabEvent"
                                       HorizontalContentAlignment="Center"
@@ -400,11 +400,11 @@
                                 <ComboBoxItem>Death</ComboBoxItem>
                                 <ComboBoxItem>Balance</ComboBoxItem>
                             </ComboBox>
-                            <xctk:IntegerUpDown x:Name="WizardLevelBox" 
-                                                Grid.Column="3" Grid.Row="2" 
-                                                AllowTextInput="True" 
-                                                DefaultValue="0" Maximum="160" Minimum="0" 
-                                                TextAlignment="Center" 
+                            <xctk:IntegerUpDown x:Name="WizardLevelBox"
+                                                Grid.Column="3" Grid.Row="2"
+                                                AllowTextInput="True"
+                                                DefaultValue="0" Maximum="160" Minimum="0"
+                                                TextAlignment="Center"
                                                 DisplayDefaultValueOnEmptyText="True"
                                                 ValueChanged="UpdateStatsTabEvent"
                                                 HorizontalAlignment="Stretch"/>
@@ -488,7 +488,7 @@
                                 <TextBlock.Text>Search &amp; Filter</TextBlock.Text>
                             </TextBlock>
                             <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">Item Name</TextBlock>
-                            <TextBox x:Name="DBNameBox"  
+                            <TextBox x:Name="DBNameBox"
                                      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
                             <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">Type</TextBlock>
                             <ComboBox x:Name="DBTypeBox" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
@@ -528,12 +528,12 @@
                             <xctk:IntegerUpDown x:Name="DBMinLevelBox" Grid.Column="0" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
                             <xctk:IntegerUpDown x:Name="DBMaxLevelBox" Grid.Column="1" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="160" DisplayDefaultValueOnEmptyText="True"/>
                             <Separator Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Margin="0,4,0,2" />
-                            <Button Grid.Column="0" Grid.Row="10" 
-                                    Content="Search" 
+                            <Button Grid.Column="0" Grid.Row="10"
+                                    Content="Search"
                                     Click="DBSearchButtonOnClick"
                                     IsDefault="True"/>
-                            <Button Grid.Column="1" Grid.Row="10" 
-                                    Content="Reset" 
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    Content="Reset"
                                     Click="DBResetButtonOnClick"/>
 
                         </Grid>
@@ -548,9 +548,9 @@
                                 <TextBlock.Text>Backpack</TextBlock.Text>
                             </TextBlock>
                             <Grid Margin="3 3 3 3" VerticalAlignment="Top">
-                                <DataGrid x:Name="ItemDatabaseGrid" 
-                                      AutoGenerateColumns="False" 
-                                      IsReadOnly="True" 
+                                <DataGrid x:Name="ItemDatabaseGrid"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
                                       SelectionMode="Single"
                                       CanUserAddRows="False"
                                       ItemsSource="{Binding Source={StaticResource databaseCVS}}"
@@ -574,15 +574,15 @@
                                         </DataGridTemplateColumn>
 
                                         <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
-                                        <DataGridTextColumn Header="Name" 
+                                        <DataGridTextColumn Header="Name"
                                                             Binding="{Binding Name}"
                                                             localSource:CustomSortBehaviour.CustomSorter="{StaticResource NaturalSorter}"/>
 
                                         <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png" 
-                                                       ToolTip="Crowns Only" 
+                                                    <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png"
+                                                       ToolTip="Crowns Only"
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsCrownsOnlyVisible}"/>
                                                 </DataTemplate>
@@ -593,12 +593,12 @@
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Grid>
-                                                        <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png" 
-                                                       ToolTip="PVPOnly" 
+                                                        <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png"
+                                                       ToolTip="PVPOnly"
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsPVPOnlyVisible}"/>
-                                                        <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png" 
-                                                       ToolTip="NoPVP" 
+                                                        <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png"
+                                                       ToolTip="NoPVP"
                                                        Width="20" Height="20"
                                                        Visibility="{Binding IsNoPVPVisible}"/>
                                                     </Grid>
@@ -660,34 +660,34 @@
                         </StackPanel>
 
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                            <Button Height="35" Width="35" 
+                            <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
                                     Click="DBEquipButton" Background="{x:Null}"
                                     Padding="0,0,0,0" Margin="3,3,3,3">
                                 <Grid>
-                                    <Image x:Name="DBEquipButtonImage" 
-                                           Source="Assets/Images/(Icon)_Button_Equip.png" 
-                                           Width="35" Height="35" 
+                                    <Image x:Name="DBEquipButtonImage"
+                                           Source="Assets/Images/(Icon)_Button_Equip.png"
+                                           Width="35" Height="35"
                                            Visibility="Visible"
                                            ToolTip="Equip Item"/>
-                                    <Image x:Name="DBUnequipButtonImage" 
-                                           Source="Assets/Images/(Icon)_Button_Unequip.png" 
-                                           Width="35" Height="35" 
+                                    <Image x:Name="DBUnequipButtonImage"
+                                           Source="Assets/Images/(Icon)_Button_Unequip.png"
+                                           Width="35" Height="35"
                                            Visibility="Hidden"
                                            ToolTip="Unequip Item"/>
                                 </Grid>
                             </Button>
-                            <Button Height="35" Width="35" 
+                            <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
                                     Click="DBTrashButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
-                                <Image Source="Assets/Images/(Icon)_Button_Trash.png" 
+                                <Image Source="Assets/Images/(Icon)_Button_Trash.png"
                                        Width="35" Height="35"
                                        ToolTip="Delete Item"/>
                             </Button>
-                            <Button Height="35" Width="35" 
+                            <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
                                     Click="DBWikiButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
-                                <Image Source="Assets/Images/(Icon)_Button_Interface.png" 
+                                <Image Source="Assets/Images/(Icon)_Button_Interface.png"
                                        Width="35" Height="35"
                                        ToolTip="Open Wiki Page"/>
                             </Button>
