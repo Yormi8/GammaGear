@@ -153,7 +153,7 @@ namespace GammaGear.Source.Database
                 }
             }
 
-            foreach (var item in items.Where(i => i.SetBonus != null))
+            foreach (var item in items.Where(i => i.Type == ItemType.ItemSetBonusData && i.SetBonus != null))
             {
                 item.SetBonus.Bonuses.Add(item);
             }

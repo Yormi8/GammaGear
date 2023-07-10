@@ -232,7 +232,7 @@ namespace GammaGear
         private void SetItemContent(ItemDisplay item, StackPanel parent)
         {
             parent.Children.Clear();
-            TextBlock tb = item.GetStatDisplay(showDBItemIDs);
+            TextBlock tb = item.GetStatDisplay(false, showDBItemIDs);
             parent.Children.Add(tb);
         }
         private void DBItemSelected(object sender, RoutedEventArgs eventArgs)
@@ -340,17 +340,28 @@ namespace GammaGear
                 PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i + 1) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
             }
 
-            // Update the button's text
-            WizardHatBox.Content    = mainLoadout.GetEquippedFromType(Item.ItemType.Hat)?.Name ?? "None";
-            WizardRobeBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Robe)?.Name ?? "None";
-            WizardBootsBox.Content  = mainLoadout.GetEquippedFromType(Item.ItemType.Boots)?.Name ?? "None";
-            WizardWandBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Wand)?.Name ?? "None";
-            WizardAthameBox.Content = mainLoadout.GetEquippedFromType(Item.ItemType.Athame)?.Name ?? "None";
-            WizardAmuletBox.Content = mainLoadout.GetEquippedFromType(Item.ItemType.Amulet)?.Name ?? "None";
-            WizardRingBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Ring)?.Name ?? "None";
-            WizardPetBox.Content    = mainLoadout.GetEquippedFromType(Item.ItemType.Pet)?.Name ?? "None";
-            WizardDeckBox.Content   = mainLoadout.GetEquippedFromType(Item.ItemType.Deck)?.Name ?? "None";
-            WizardMountBox.Content  = mainLoadout.GetEquippedFromType(Item.ItemType.Mount)?.Name ?? "None";
+            Dictionary<Item.ItemType, Button> EquipmentButtons = new Dictionary<Item.ItemType, Button>()
+            {
+                { Item.ItemType.Hat, WizardHatBox },
+                { Item.ItemType.Robe, WizardRobeBox },
+                { Item.ItemType.Boots, WizardBootsBox },
+                { Item.ItemType.Wand, WizardWandBox },
+                { Item.ItemType.Athame, WizardAthameBox },
+                { Item.ItemType.Amulet, WizardAmuletBox },
+                { Item.ItemType.Ring, WizardRingBox },
+                { Item.ItemType.Pet, WizardPetBox },
+                { Item.ItemType.Deck, WizardDeckBox },
+                { Item.ItemType.Mount, WizardMountBox },
+            };
+
+            foreach (var entry in EquipmentButtons)
+            {
+                // Update the buttons' text
+                entry.Value.Content = mainLoadout.GetEquippedFromType(entry.Key)?.Name ?? "None";
+
+                // Update the buttons' tooltip
+                entry.Value.ToolTip = mainLoadout.GetEquippedFromType(entry.Key)?.GetStatDisplay(true, showDBItemIDs) ?? null;
+            }
         }
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
         {
@@ -507,7 +518,7 @@ namespace GammaGear
 
     public class ItemDisplay : INotifyPropertyChanged
     {
-        private Item backingItem;
+        public Item backingItem { get; protected set; }
         public string Name { get => backingItem.Name; set => backingItem.Name = value; }
         public Guid ID { get => backingItem.Id; set => backingItem.Id = value; }
         public Guid KI_ID { get => backingItem.KiId; set => backingItem.KiId = value; }
@@ -610,7 +621,6 @@ namespace GammaGear
         public bool IsJewel => Type >= Item.ItemType.TearJewel && Type <= Item.ItemType.SwordPin;
         public bool IsDevItem => Flags.HasFlag(Item.ItemFlags.FLAG_DevItem);
 
-
         private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
         {
             { "Health",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Health.png", UriKind.Absolute)) },
@@ -659,13 +669,14 @@ namespace GammaGear
             { "NoTrade",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoTrade.png", UriKind.Absolute)) },
         };
 
-        public TextBlock GetStatDisplay(bool showIDs)
+        public TextBlock GetStatDisplay(bool showName, bool showIDs)
         {
-            void AddSingle(TextBlock tb, string before, BitmapImage img1 = null, BitmapImage img2 = null, string after = null)
+            void AddSingle(TextBlock tb, string before, BitmapImage img1 = null, BitmapImage img2 = null, string after = null, bool boldedText = false)
             {
                 if (!string.IsNullOrEmpty(before))
                 {
                     Run run = new Run(before);
+                    if (boldedText) run.FontWeight = FontWeights.Bold;
                     tb.Inlines.Add(run);
                 }
                 if (img1 != null)
@@ -709,11 +720,28 @@ namespace GammaGear
                 }
             }
 
-            TextBlock tb = new TextBlock();
+            TextBlock tb = new TextBlock()
+            {
+                Margin = new Thickness(3, 3, 3, 0)
+            };
+
+            if (showName)
+            {
+                AddSingle(tb, Name, null, null, "\n", true);
+            }
 
             if (showIDs)
             {
                 AddSingle(tb, $"ID: {ID.ToString().ToUpper()} ", null, null, "\n");
+            }
+
+            if (SetBonus != null)
+            {
+                AddSingle(tb, $"({SetBonus.SetName})", null, null, "\n");
+                if (showIDs)
+                {
+                    AddSingle(tb, $"Set Bonus ID: {SetBonus.Id.ToString().ToUpper()} ", null, null, "\n");
+                }
             }
 
             if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max ", StatImages["Health"], null, "\n");
@@ -906,6 +934,7 @@ namespace GammaGear
     public class ItemLoadout
     {
         protected List<ItemDisplay> EquippedItems;
+        protected Dictionary<ItemSetBonus, int> EquippedBonusLevels;
         public string Name { get; set; }
         public Item.School WizardSchool { get; set; }
         public string DisplayWizardSchool => WizardSchool switch
@@ -930,6 +959,7 @@ namespace GammaGear
         public ItemLoadout()
         {
             EquippedItems = new List<ItemDisplay>();
+            EquippedBonusLevels = new Dictionary<ItemSetBonus, int>();
 
             if (ConstantStatValues == null)
             {
@@ -1063,6 +1093,7 @@ namespace GammaGear
             }
 
             EquippedItems.Add(item);
+            CalculateSetBonuses();
         }
         public void UnequipItem(Item.ItemType type)
         {
@@ -1070,6 +1101,18 @@ namespace GammaGear
             if (equipped != null)
             {
                 EquippedItems.Remove(equipped);
+            }
+        }
+        public void CalculateSetBonuses()
+        {
+            EquippedBonusLevels.Clear();
+            List<Item> items = new List<Item>();
+            foreach (ItemDisplay item in EquippedItems.Where(i => i.Type != Item.ItemType.ItemSetBonusData))
+            {
+                if (item.SetBonus != null)
+                {
+                    EquippedBonusLevels.AddOrIncrement(item.SetBonus, 1);
+                }
             }
         }
         public ItemDisplay CalculateStats()
@@ -1112,20 +1155,9 @@ namespace GammaGear
             {
                 0, 0, 0, 0, 0, 0, 0
             };
-            foreach (ItemDisplay item in EquippedItems)
-            {
-                if (item.IsJewel)
-                {
-                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - Item.ItemType.TearJewel])
-                    {
-                        countJewels[item.Type - Item.ItemType.TearJewel]++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
 
+            void AddItemStatsToOutput(Item item)
+            {
                 Stats.MaxHealth += item.MaxHealth;
                 Stats.MaxMana += item.MaxMana;
                 Stats.MaxEnergy += item.MaxEnergy;
@@ -1151,6 +1183,35 @@ namespace GammaGear
                 SumDicts(Stats.Blocks, item.Blocks);
                 SumDicts(Stats.PipConversions, item.PipConversions);
                 SumDicts(Stats.ItemCards, item.ItemCards);
+            }
+
+            foreach (ItemDisplay item in EquippedItems)
+            {
+                if (item.IsJewel)
+                {
+                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - Item.ItemType.TearJewel])
+                    {
+                        countJewels[item.Type - Item.ItemType.TearJewel]++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                AddItemStatsToOutput(item.backingItem);
+            }
+
+            // Set Bonus calculation
+            foreach (var entry in EquippedBonusLevels)
+            {
+                foreach (Item item in entry.Key.Bonuses)
+                {
+                    if (entry.Value >= item.SetBonusLevel)
+                    {
+                        AddItemStatsToOutput(item);
+                    }
+                }
             }
 
             return Stats;

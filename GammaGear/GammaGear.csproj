@@ -29,19 +29,27 @@
     <None Remove="Assets\Images\%28Icon%29_Equipment_Athame.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Boots.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_CircleJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_CircleJewel_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Deck.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Hat.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Mount.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Pet.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquarePower.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquarePower_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareShield.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareShield_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareSword.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_PinSquareSword_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Ring.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Robe.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_SquareJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_SquareJewel_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_StarJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_StarJewel_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_TearJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_TearJewel_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_TriangleJewel.png" />
+    <None Remove="Assets\Images\%28Icon%29_Equipment_TriangleJewel_Filled.png" />
     <None Remove="Assets\Images\%28Icon%29_Equipment_Wand.png" />
     <None Remove="Assets\Images\%28Icon%29_Flag_CrownsOnly.png" />
     <None Remove="Assets\Images\%28Icon%29_Flag_NoAuction.png" />
@@ -144,6 +152,7 @@
     <Resource Include="Assets\Images\(Icon)_Equipment_CircleJewel.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_CircleJewel_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Deck.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -159,12 +168,15 @@
     <Resource Include="Assets\Images\(Icon)_Equipment_PinSquarePower.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquarePower_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareShield.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareShield_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareSword.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_PinSquareSword_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Ring.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -174,15 +186,19 @@
     <Resource Include="Assets\Images\(Icon)_Equipment_SquareJewel.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_SquareJewel_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_StarJewel.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_StarJewel_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_TearJewel.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_TearJewel_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_TriangleJewel.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\(Icon)_Equipment_TriangleJewel_Filled.png" />
     <Resource Include="Assets\Images\(Icon)_Equipment_Wand.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>

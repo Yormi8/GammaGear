@@ -421,6 +421,43 @@
 
                         </Grid>
 
+                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+
+                        <StackPanel Margin="10,10,10,10" MinWidth="100">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Equipment
+                            </TextBlock>
+
+                            <Border x:Name="WizardSelectedItemDetails" Margin="3,3,3,3">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Height="25" Width="25"
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBEquipButton" Background="{x:Null}"
+                                    Padding="0,0,0,0" Margin="3,3,3,3">
+                                        <Grid>
+                                            <Image x:Name="DBEquipButtonImage1"
+                                           Source="Assets/Images/(Icon)_Equipment_SquareJewel.png"
+                                           Width="25" Height="25"
+                                           Visibility="Hidden"
+                                           ToolTip="Equip Item"/>
+                                            <Image x:Name="DBUnequipButtonImage1"
+                                           Source="Assets/Images/(Icon)_Equipment_SquareJewel_Filled.png"
+                                           Width="25" Height="25"
+                                           Visibility="Visible"
+                                           ToolTip="Unequip Item"/>
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardEquipItemBox">Equip New Item</Button>
+                        </StackPanel>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A" Margin="3,3,3,3"/>
+
                     </StackPanel>
                 </TabItem>
                 <TabItem x:Name="CompareLoadoutsTabItem" ToolTip="Compare">
@@ -618,7 +655,6 @@
                                 <StackPanel.Resources>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Margin" Value="3 3 3 0"/>
-                                        <Setter Property="TextAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
                                 <TextBlock FontWeight="Bold">
@@ -640,7 +676,6 @@
                                     <StackPanel.Resources>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Margin" Value="3 3 3 0"/>
-                                            <Setter Property="TextAlignment" Value="Center"/>
                                         </Style>
                                     </StackPanel.Resources>
                                     <TextBlock FontWeight="Bold">
@@ -705,7 +740,7 @@
             <StatusBar DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom">
                 <StatusBarItem>
                     <TextBlock>
-                        Items Loaded: 42069
+                        Items Loaded: 0
                     </TextBlock>
                 </StatusBarItem>
             </StatusBar>
