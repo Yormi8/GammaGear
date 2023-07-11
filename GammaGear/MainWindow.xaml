@@ -34,6 +34,23 @@
 
         <localSource:NaturalSorter x:Key="NaturalSorter"/>
 
+        <ControlTemplate x:Key="JewelSocketEquipButton" TargetType="Button">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="Height" Value="25"/>
+                    </Style>
+                </Grid.Resources>
+                <Image x:Name="EmptyImage"
+                       Source="Assets/Images/(Icon)_Equipment_SquareJewel.png"
+                       Visibility="Hidden"/>
+                <Image x:Name="FilledImage"
+                       Source="Assets/Images/(Icon)_Equipment_SquareJewel_Filled.png"
+                       Visibility="Visible"/>
+            </Grid>
+        </ControlTemplate>
+
     </Window.Resources>
 
     <Grid>
@@ -408,16 +425,16 @@
                                                 DisplayDefaultValueOnEmptyText="True"
                                                 ValueChanged="UpdateStatsTabEvent"
                                                 HorizontalAlignment="Stretch"/>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardHatBox" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRobeBox" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardBootsBox" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardWandBox" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAthameBox" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardAmuletBox" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardRingBox" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardPetBox" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardDeckBox" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="3">None</Button>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardMountBox" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Hat"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Robe" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Boots" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Wand" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Athame" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Amulet" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Ring" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Pet" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Deck" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="3">None</Button>
+                            <Button IsVisibleChanged="On_StatsTab_BaseItem_VisibleChanged" Click="On_StatsTab_BaseItem_Click" Tag="Mount" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3">None</Button>
 
                         </Grid>
 
@@ -435,25 +452,13 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <Button Height="25" Width="25"
-                                    BorderThickness="0,0,0,0"
-                                    Click="DBEquipButton" Background="{x:Null}"
-                                    Padding="0,0,0,0" Margin="3,3,3,3">
-                                        <Grid>
-                                            <Image x:Name="DBEquipButtonImage1"
-                                           Source="Assets/Images/(Icon)_Equipment_SquareJewel.png"
-                                           Width="25" Height="25"
-                                           Visibility="Hidden"
-                                           ToolTip="Equip Item"/>
-                                            <Image x:Name="DBUnequipButtonImage1"
-                                           Source="Assets/Images/(Icon)_Equipment_SquareJewel_Filled.png"
-                                           Width="25" Height="25"
-                                           Visibility="Visible"
-                                           ToolTip="Unequip Item"/>
-                                        </Grid>
-                                    </Button>
+                                            BorderThickness="0,0,0,0"
+                                            Click="DBEquipButton" Background="{x:Null}"
+                                            Padding="0,0,0,0" Margin="3,3,3,3"
+                                            Template="{StaticResource JewelSocketEquipButton}"/>
                                 </StackPanel>
                             </Border>
-                            <Button Click="OnSelectDatabaseTabItem" x:Name="WizardEquipItemBox">Equip New Item</Button>
+                            <Button Click="On_StatsTab_BaseItem_Click" x:Name="WizardEquipItemBox">Equip New Item</Button>
                         </StackPanel>
 
                         <Rectangle Width="1" Fill="#FF9A9A9A" Margin="3,3,3,3"/>

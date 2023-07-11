@@ -28,6 +28,7 @@ using GammaGear.Source;
 using GammaGear.Source.Database;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using static GammaGear.Source.Item;
 
 namespace GammaGear
 {
@@ -39,6 +40,10 @@ namespace GammaGear
         private readonly ItemFilter DBItemFilters = new ItemFilter();
         private ItemLoadout mainLoadout = new ItemLoadout();
         private bool showDBItemIDs = false;
+
+        // Main Tab Variables
+        private Item.ItemType SelectedBaseItemType = Item.ItemType.None;
+        private TextBlock SelectedBaseItemDisplay = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -164,46 +169,34 @@ namespace GammaGear
             };
             Process.Start(wiki);
         }
+        private void On_StatsTab_BaseItem_Click(object sender, RoutedEventArgs e)
+        {
+            DatabaseTabItem.IsSelected = true;
+            if (sender is Button button && button.Tag is string itemTypeString && Enum.TryParse(itemTypeString, true, out ItemType itemType))
+            {
+                DBTypeBox.SelectedIndex = (int)itemType + 1;
+            }
+            DBSearchButtonOnClick(null, null);
+        }
+        private void On_StatsTab_BaseItem_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Button button &&
+                button.IsVisible &&
+                button.Tag is string itemTypeString &&
+                Enum.TryParse(itemTypeString, true, out ItemType itemType))
+            {
+                button.Content = mainLoadout.GetEquippedFromType(itemType)?.Name ?? "None";
+                button.ToolTip = mainLoadout.GetEquippedFromType(itemType)?.GetStatDisplay(true, showDBItemIDs) ?? null;
+            }
+        }
         private void OnSelectDatabaseTabItem(object sender, RoutedEventArgs e)
         {
             DatabaseTabItem.IsSelected = true;
-            if (sender is Button button)
+            if (sender is Button button &&
+                button.Tag is string itemTypeString &&
+                Enum.TryParse(itemTypeString, true, out ItemType itemType))
             {
-                switch (button.Name)
-                {
-                    case "WizardHatBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Hat + 1;
-                        break;
-                    case "WizardRobeBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Robe + 1;
-                        break;
-                    case "WizardBootsBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Boots + 1;
-                        break;
-                    case "WizardWandBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Wand + 1;
-                        break;
-                    case "WizardAthameBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Athame + 1;
-                        break;
-                    case "WizardAmuletBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Amulet + 1;
-                        break;
-                    case "WizardRingBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Ring + 1;
-                        break;
-                    case "WizardPetBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Pet + 1;
-                        break;
-                    case "WizardDeckBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Deck + 1;
-                        break;
-                    case "WizardMountBox":
-                        DBTypeBox.SelectedIndex = (int)Item.ItemType.Mount + 1;
-                        break;
-                    default:
-                        break;
-                }
+                DBTypeBox.SelectedIndex = (int)itemType + 1;
             }
             DBSearchButtonOnClick(null, null);
         }
@@ -338,29 +331,6 @@ namespace GammaGear
                 CriticalBlockTextBoxes[i].Text =    (Output.Blocks.GetValueOrDefault((Item.School)i + 1) +          Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
                 PierceTextBoxes[i].Text =           (Output.Pierces.GetValueOrDefault((Item.School)i + 1) +         Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
                 PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i + 1) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-            }
-
-            Dictionary<Item.ItemType, Button> EquipmentButtons = new Dictionary<Item.ItemType, Button>()
-            {
-                { Item.ItemType.Hat, WizardHatBox },
-                { Item.ItemType.Robe, WizardRobeBox },
-                { Item.ItemType.Boots, WizardBootsBox },
-                { Item.ItemType.Wand, WizardWandBox },
-                { Item.ItemType.Athame, WizardAthameBox },
-                { Item.ItemType.Amulet, WizardAmuletBox },
-                { Item.ItemType.Ring, WizardRingBox },
-                { Item.ItemType.Pet, WizardPetBox },
-                { Item.ItemType.Deck, WizardDeckBox },
-                { Item.ItemType.Mount, WizardMountBox },
-            };
-
-            foreach (var entry in EquipmentButtons)
-            {
-                // Update the buttons' text
-                entry.Value.Content = mainLoadout.GetEquippedFromType(entry.Key)?.Name ?? "None";
-
-                // Update the buttons' tooltip
-                entry.Value.ToolTip = mainLoadout.GetEquippedFromType(entry.Key)?.GetStatDisplay(true, showDBItemIDs) ?? null;
             }
         }
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
