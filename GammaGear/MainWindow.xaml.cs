@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -42,8 +43,9 @@ namespace GammaGear
         private bool showDBItemIDs = false;
 
         // Main Tab Variables
-        private Item.ItemType SelectedBaseItemType = Item.ItemType.None;
-        private TextBlock SelectedBaseItemDisplay = null;
+        private ItemType SelectedBaseItemType = ItemType.None;
+        private int SelectedBaseItemSocket = 0;
+        private ItemType SelectedBaseItemSocketTarget = ItemType.None;
         public MainWindow()
         {
             InitializeComponent();
@@ -169,16 +171,90 @@ namespace GammaGear
             };
             Process.Start(wiki);
         }
-        private void On_StatsTab_BaseItem_Click(object sender, RoutedEventArgs e)
+        private void On_StatsTab_BaseItemButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                element.IsVisibleChanged += On_StatsTab_BaseItemButton_VisibleChanged;
+            }
+        }
+        private void On_StatsTab_BaseItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            void IterateJewels(ItemDisplay item, ItemType jewelType)
+            {
+                for (int i = 0; i < item.GetJewelSlots(jewelType); i++)
+                {
+                    Grid g = new Grid()
+                    {
+                        Children =
+                        {
+                            new Image()
+                            {
+                                Source = ItemDisplay.StatImages[jewelType.ToString() + (mainLoadout.GetEquippedFromType(item.Type, WizardSelectedItemDetails.Children.Count + 1) != null ? "Filled" : "")]
+                            }
+                        }
+                    };
+                    ItemDisplay jewel = mainLoadout.GetEquippedFromType(item.Type, WizardSelectedItemDetails.Children.Count + 1);
+                    Button b = new Button()
+                    {
+                        Width = 25,
+                        Height = 25,
+                        BorderThickness = new Thickness(0, 0, 0, 0),
+                        Padding = new Thickness(0, 0, 0, 0),
+                        Margin = new Thickness(3, 3, 3, 3),
+                        Background = null,
+                        Content = g,
+                        Tag = new Tuple<ItemType, int>(jewelType, WizardSelectedItemDetails.Children.Count + 1),
+                        ToolTip = jewel != null ? jewel.GetStatDisplay(true, showDBItemIDs) : "Equip Jewel"
+                    };
+                    b.Click += On_StatsTab_BaseItemButtonEquipNew_Click;
+                    WizardSelectedItemDetails.Children.Add(b);
+                }
+            }
+
+            // Update the display
+            if (sender is Button button &&
+                button.Tag is string itemTypeString &&
+                Enum.TryParse(itemTypeString, true, out ItemType itemType))
+            {
+                SelectedBaseItemType = itemType;
+                SelectedBaseItemSocketTarget = itemType;
+                SelectedBaseItemSocket = 0;
+                ItemDisplay item = mainLoadout.GetEquippedFromType(itemType);
+                TextBlock tb = item?.GetStatDisplay(true, showDBItemIDs);
+                WizardSelectedItemDetails.Children.Clear();
+                if (tb != null)
+                {
+                    WizardSelectedItemDisplay.Child = tb;
+                    for (ItemType i = ItemType.TearJewel; i <= ItemType.SwordPin; i++)
+                    {
+                        IterateJewels(item, i);
+                    }
+                }
+                else
+                {
+                    WizardSelectedItemDisplay.Child = new TextBlock()
+                    {
+                        Text = "None",
+                        FontWeight = FontWeights.Bold,
+                        Margin = new Thickness(3, 3, 3, 0)
+                    };
+                }
+            }
+        }
+        private void On_StatsTab_BaseItemButtonEquipNew_Click(object sender, RoutedEventArgs e)
         {
             DatabaseTabItem.IsSelected = true;
-            if (sender is Button button && button.Tag is string itemTypeString && Enum.TryParse(itemTypeString, true, out ItemType itemType))
+            DBTypeBox.SelectedIndex = (int)SelectedBaseItemType + 1;
+            if (sender is Button b && b.Tag is Tuple<ItemType, int>(ItemType type, int socket))
             {
-                DBTypeBox.SelectedIndex = (int)itemType + 1;
+                DBTypeBox.SelectedIndex = (int)type + 1;
+                SelectedBaseItemType = type;
+                SelectedBaseItemSocket = socket;
             }
             DBSearchButtonOnClick(null, null);
         }
-        private void On_StatsTab_BaseItem_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void On_StatsTab_BaseItemButton_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is Button button &&
                 button.IsVisible &&
@@ -237,7 +313,7 @@ namespace GammaGear
             DBSelectedItemName.Text = item.Name;
             SetItemContent(item, DBSelectedItemContent);
 
-            if (mainLoadout.GetNumberAllowedEquipped(item.Type) == 1 && mainLoadout.GetNumberOfEquipped(item.Type) == 1)
+            if (mainLoadout.GetTypeIsEquipped(item.Type))
             {
                 ItemDisplay equipped = mainLoadout.GetEquippedFromType(item.Type);
                 if (equipped.ID == item.ID)
@@ -352,14 +428,14 @@ namespace GammaGear
         {
             if (ItemDatabaseGrid.SelectedItem is ItemDisplay selectedItem)
             {
-                ItemDisplay equipped = mainLoadout.GetEquippedFromType(selectedItem.Type);
+                ItemDisplay equipped = mainLoadout.GetEquippedFromType(selectedItem.Type, SelectedBaseItemSocket);
                 if (equipped?.ID == selectedItem?.ID)
                 {
                     mainLoadout.UnequipItem(selectedItem.Type);
                 }
                 else
                 {
-                    mainLoadout.EquipItem(selectedItem);
+                    mainLoadout.EquipItem(selectedItem, SelectedBaseItemSocket != 0, SelectedBaseItemSocketTarget, SelectedBaseItemSocket);
                 }
 
                 DBItemSelected(ItemDatabaseGrid, null);
@@ -590,8 +666,19 @@ namespace GammaGear
         public Visibility IsNoPVPVisible => IsNoPVP ? Visibility.Visible : Visibility.Hidden;
         public bool IsJewel => Type >= Item.ItemType.TearJewel && Type <= Item.ItemType.SwordPin;
         public bool IsDevItem => Flags.HasFlag(Item.ItemFlags.FLAG_DevItem);
+        public int GetJewelSlots(ItemType type) => type switch
+        {
+            ItemType.TearJewel => TearJewelSlots,
+            ItemType.CircleJewel => CircleJewelSlots,
+            ItemType.SquareJewel => SquareJewelSlots,
+            ItemType.TriangleJewel => TriangleJewelSlots,
+            ItemType.PinSquarePip => PowerPinSlots,
+            ItemType.PinSquareShield => ShieldPinSlots,
+            ItemType.PinSquareSword => SwordPinSlots,
+            _ => 0
+        };
 
-        private static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
+        public static Dictionary<string, BitmapImage> StatImages = new Dictionary<string, BitmapImage>()
         {
             { "Health",         new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Health.png", UriKind.Absolute)) },
             { "Mana",           new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Mana.png", UriKind.Absolute)) },
@@ -627,9 +714,16 @@ namespace GammaGear
             { "CircleJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_CircleJewel.png", UriKind.Absolute)) },
             { "SquareJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_SquareJewel.png", UriKind.Absolute)) },
             { "TriangleJewel",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TriangleJewel.png", UriKind.Absolute)) },
-            { "PowerPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png", UriKind.Absolute)) },
-            { "ShieldPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield.png", UriKind.Absolute)) },
-            { "SwordPin",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword.png", UriKind.Absolute)) },
+            { "PinSquarePip",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png", UriKind.Absolute)) },
+            { "PinSquareShield",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield.png", UriKind.Absolute)) },
+            { "PinSquareSword",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword.png", UriKind.Absolute)) },
+            { "TearJewelFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TearJewel_Filled.png", UriKind.Absolute)) },
+            { "CircleJewelFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_CircleJewel_Filled.png", UriKind.Absolute)) },
+            { "SquareJewelFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_SquareJewel_Filled.png", UriKind.Absolute)) },
+            { "TriangleJewelFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TriangleJewel_Filled.png", UriKind.Absolute)) },
+            { "PinSquarePipFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower_Filled.png", UriKind.Absolute)) },
+            { "PinSquareShieldFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield_Filled.png", UriKind.Absolute)) },
+            { "PinSquareSwordFilled",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword_Filled.png", UriKind.Absolute)) },
             { "SpeedBonus",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_SpeedBonus.png", UriKind.Absolute)) },
             { "CrownsOnly",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_CrownsOnly.png", UriKind.Absolute)) },
             { "NoAuction",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoAuction.png", UriKind.Absolute)) },
@@ -776,9 +870,9 @@ namespace GammaGear
                 for (int i = 0; i < CircleJewelSlots; i++) AddSingle(tb, null, StatImages["CircleJewel"], null, " (Circle)\n");
                 for (int i = 0; i < SquareJewelSlots; i++) AddSingle(tb, null, StatImages["SquareJewel"], null, " (Square)\n");
                 for (int i = 0; i < TriangleJewelSlots; i++) AddSingle(tb, null, StatImages["TriangleJewel"], null, " (Triangle)\n");
-                for (int i = 0; i < PowerPinSlots; i++) AddSingle(tb, null, StatImages["PowerPin"], null, " (Power)\n");
-                for (int i = 0; i < ShieldPinSlots; i++) AddSingle(tb, null, StatImages["ShieldPin"], null, " (Shield)\n");
-                for (int i = 0; i < SwordPinSlots; i++) AddSingle(tb, null, StatImages["SwordPin"], null, " (Sword)\n");
+                for (int i = 0; i < PowerPinSlots; i++) AddSingle(tb, null, StatImages["PinSquarePip"], null, " (Power)\n");
+                for (int i = 0; i < ShieldPinSlots; i++) AddSingle(tb, null, StatImages["PinSquareShield"], null, " (Shield)\n");
+                for (int i = 0; i < SwordPinSlots; i++) AddSingle(tb, null, StatImages["PinSquareSword"], null, " (Sword)\n");
                 AddSingle(tb, null, null, null, "\n");
             }
 
@@ -905,6 +999,7 @@ namespace GammaGear
     {
         protected List<ItemDisplay> EquippedItems;
         protected Dictionary<ItemSetBonus, int> EquippedBonusLevels;
+        protected Dictionary<(ItemType, int), ItemDisplay> EquippedJewels;
         public string Name { get; set; }
         public Item.School WizardSchool { get; set; }
         public string DisplayWizardSchool => WizardSchool switch
@@ -930,6 +1025,7 @@ namespace GammaGear
         {
             EquippedItems = new List<ItemDisplay>();
             EquippedBonusLevels = new Dictionary<ItemSetBonus, int>();
+            EquippedJewels = new Dictionary<(ItemType, int), ItemDisplay>();
 
             if (ConstantStatValues == null)
             {
@@ -976,96 +1072,43 @@ namespace GammaGear
                 }
             }
         }
-        private int GetCurrentJewelSlots(Item.ItemType jewelType)
+        private int GetJewelSlots(ItemType equippedItemType, ItemType jewelType)
         {
-            int jewelSlots = 0;
-            foreach (ItemDisplay item in EquippedItems)
+            return GetEquippedFromType(equippedItemType)?.GetJewelSlots(jewelType) ?? 0;
+        }
+        public bool GetTypeIsEquipped(ItemType type)
+        {
+            return EquippedItems.Count(i => i.Type == type) > 0;
+        }
+        public ItemDisplay GetEquippedFromType(ItemType type, int socket = 0)
+        {
+            if (socket > 0)
+                return EquippedJewels.GetValueOrDefault((type, socket));
+            else
+                return EquippedItems.FirstOrDefault(i => i.Type == type);
+        }
+        public void EquipItem(ItemDisplay item, bool IsJewel = false, ItemType attachedItemType = ItemType.None, int socketSlot = 0)
+        {
+            // If is a jewel
+            if (IsJewel)
             {
-                // Skip jewel slots. Jewels shouldn't have jewel slots. Prevents odd dependencies with jewel slots.
-                if (item.Type >= Item.ItemType.TearJewel && item.Type <= Item.ItemType.PinSquareSword)
-                {
-                    continue;
-                }
-                switch (jewelType)
-                {
-                    case Item.ItemType.TearJewel:
-                        jewelSlots += item.TearJewelSlots;
-                        break;
-                    case Item.ItemType.CircleJewel:
-                        jewelSlots += item.CircleJewelSlots;
-                        break;
-                    case Item.ItemType.SquareJewel:
-                        jewelSlots += item.SquareJewelSlots;
-                        break;
-                    case Item.ItemType.TriangleJewel:
-                        jewelSlots += item.TriangleJewelSlots;
-                        break;
-                    case Item.ItemType.PowerPin:
-                        jewelSlots += item.PowerPinSlots;
-                        break;
-                    case Item.ItemType.ShieldPin:
-                        jewelSlots += item.ShieldPinSlots;
-                        break;
-                    case Item.ItemType.SwordPin:
-                        jewelSlots += item.SwordPinSlots;
-                        break;
-                    default:
-                        return -1;
-                }
+                EquippedJewels[(attachedItemType, socketSlot)] = item;
             }
-            return jewelSlots;
-        }
-        public int GetNumberAllowedEquipped(Item.ItemType type)
-        {
-            switch (type)
+            // Any other type
+            else
             {
-                case Item.ItemType.Hat:
-                case Item.ItemType.Robe:
-                case Item.ItemType.Shoes:
-                case Item.ItemType.Weapon:
-                case Item.ItemType.Athame:
-                case Item.ItemType.Amulet:
-                case Item.ItemType.Ring:
-                case Item.ItemType.Deck:
-                case Item.ItemType.Pet:
-                case Item.ItemType.Mount:
-                    return 1;
-                case Item.ItemType.TearJewel:
-                case Item.ItemType.CircleJewel:
-                case Item.ItemType.SquareJewel:
-                case Item.ItemType.TriangleJewel:
-                case Item.ItemType.PowerPin:
-                case Item.ItemType.ShieldPin:
-                case Item.ItemType.SwordPin:
-                    return GetCurrentJewelSlots(type);
-                case Item.ItemType.ItemSetBonusData:
-                    return int.MaxValue;
-                default:
-                    return -1;
-            }
-        }
-        public int GetNumberOfEquipped(Item.ItemType type)
-        {
-            return EquippedItems.Count(i => i.Type == type);
-        }
-        public ItemDisplay GetEquippedFromType(Item.ItemType type)
-        {
-            return EquippedItems.FirstOrDefault(i => i.Type == type);
-        }
-        public void EquipItem(ItemDisplay item)
-        {
-            // Use EquipJewel or CalculateItemSetBonus for this...
-            if (item.Type > Item.ItemType.Mount) return;
+                // If we already have this equipped, remove it.
+                if (GetTypeIsEquipped(item.Type))
+                {
+                    EquippedItems.Remove(GetEquippedFromType(item.Type));
+                }
 
-            if (GetNumberOfEquipped(item.Type) >= GetNumberAllowedEquipped(item.Type))
-            {
-                EquippedItems.Remove(GetEquippedFromType(item.Type));
+                EquippedItems.Add(item);
             }
 
-            EquippedItems.Add(item);
             CalculateSetBonuses();
         }
-        public void UnequipItem(Item.ItemType type)
+        public void UnequipItem(ItemType type)
         {
             ItemDisplay equipped = EquippedItems.FirstOrDefault(i => i.Type == type);
             if (equipped != null)
@@ -1077,7 +1120,7 @@ namespace GammaGear
         {
             EquippedBonusLevels.Clear();
             List<Item> items = new List<Item>();
-            foreach (ItemDisplay item in EquippedItems.Where(i => i.Type != Item.ItemType.ItemSetBonusData))
+            foreach (ItemDisplay item in EquippedItems.Where(i => i.Type != ItemType.ItemSetBonusData))
             {
                 if (item.SetBonus != null)
                 {
@@ -1109,7 +1152,7 @@ namespace GammaGear
             {
                 if (WizardLevel > 0)
                 {
-                    if (WizardSchool != Item.School.Any)
+                    if (WizardSchool != School.Any)
                     {
                         Stats.MaxHealth = ConstantStatValues[(FileLevelStats)WizardSchool][WizardLevel - 1];
                     }
@@ -1120,11 +1163,6 @@ namespace GammaGear
                     Stats.ArchmasteryRating = ConstantStatValues[FileLevelStats.Arch][WizardLevel - 1];
                 }
             }
-
-            int[] countJewels = new int[7]
-            {
-                0, 0, 0, 0, 0, 0, 0
-            };
 
             void AddItemStatsToOutput(Item item)
             {
@@ -1157,19 +1195,13 @@ namespace GammaGear
 
             foreach (ItemDisplay item in EquippedItems)
             {
-                if (item.IsJewel)
-                {
-                    if (GetNumberAllowedEquipped(item.Type) < countJewels[item.Type - Item.ItemType.TearJewel])
-                    {
-                        countJewels[item.Type - Item.ItemType.TearJewel]++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
                 AddItemStatsToOutput(item.backingItem);
+            }
+
+            // Jewel calculation
+            foreach (var entry in EquippedJewels)
+            {
+                AddItemStatsToOutput(entry.Value.backingItem);
             }
 
             // Set Bonus calculation
