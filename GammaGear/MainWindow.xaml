@@ -458,9 +458,9 @@
                                 Selected Item
                             </TextBlock>
 
-                            <Border x:Name="WizardSelectedItemDisplay">
+                            <StackPanel x:Name="WizardSelectedItemDisplay">
                                 <TextBlock Margin="3,3,3,0" FontWeight="Bold" Text="None"/>
-                            </Border>
+                            </StackPanel>
                             <StackPanel x:Name="WizardSelectedItemDetails"
                                         Orientation="Horizontal"
                                         Margin="3 3 3 0"/>

@@ -205,7 +205,7 @@ namespace GammaGear
                         Background = null,
                         Content = g,
                         Tag = new Tuple<ItemType, int>(jewelType, WizardSelectedItemDetails.Children.Count + 1),
-                        ToolTip = jewel != null ? jewel.GetStatDisplay(true, showDBItemIDs) : "Equip Jewel"
+                        ToolTip = jewel != null ? jewel.GetStatDisplay(mainLoadout, true, showDBItemIDs) : "Equip Jewel"
                     };
                     b.Click += On_StatsTab_BaseItemButtonEquipNew_Click;
                     WizardSelectedItemDetails.Children.Add(b);
@@ -221,11 +221,10 @@ namespace GammaGear
                 SelectedBaseItemSocketTarget = itemType;
                 SelectedBaseItemSocket = 0;
                 ItemDisplay item = mainLoadout.GetEquippedFromType(itemType);
-                TextBlock tb = item?.GetStatDisplay(true, showDBItemIDs);
                 WizardSelectedItemDetails.Children.Clear();
-                if (tb != null)
+                if (item != null)
                 {
-                    WizardSelectedItemDisplay.Child = tb;
+                    SetItemContent(item, WizardSelectedItemDisplay, true);
                     for (ItemType i = ItemType.TearJewel; i <= ItemType.SwordPin; i++)
                     {
                         IterateJewels(item, i);
@@ -233,12 +232,8 @@ namespace GammaGear
                 }
                 else
                 {
-                    WizardSelectedItemDisplay.Child = new TextBlock()
-                    {
-                        Text = "None",
-                        FontWeight = FontWeights.Bold,
-                        Margin = new Thickness(3, 3, 3, 0)
-                    };
+                    SetItemContent(null, WizardSelectedItemDisplay, true);
+                    On_StatsTab_BaseItemButtonEquipNew_Click(sender, e);
                 }
             }
         }
@@ -262,7 +257,7 @@ namespace GammaGear
                 Enum.TryParse(itemTypeString, true, out ItemType itemType))
             {
                 button.Content = mainLoadout.GetEquippedFromType(itemType)?.Name ?? "None";
-                button.ToolTip = mainLoadout.GetEquippedFromType(itemType)?.GetStatDisplay(true, showDBItemIDs) ?? null;
+                button.ToolTip = mainLoadout.GetEquippedFromType(itemType)?.GetStatDisplay(mainLoadout, true, showDBItemIDs) ?? null;
             }
         }
         private void OnSelectDatabaseTabItem(object sender, RoutedEventArgs e)
@@ -298,36 +293,41 @@ namespace GammaGear
             ICollectionView cvItems = CollectionViewSource.GetDefaultView(ItemDatabaseGrid.ItemsSource);
             cvItems.Refresh();
         }
-        private void SetItemContent(ItemDisplay item, StackPanel parent)
+        private void SetItemContent(ItemDisplay item, StackPanel parent, bool showName)
         {
             parent.Children.Clear();
-            TextBlock tb = item.GetStatDisplay(false, showDBItemIDs);
+            TextBlock tb = item?.GetStatDisplay(mainLoadout, showName, showDBItemIDs) ??
+                           new TextBlock()
+            {
+                Text = "None",
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(3, 3, 3, 0)
+            }; ;
             parent.Children.Add(tb);
         }
         private void DBItemSelected(object sender, RoutedEventArgs eventArgs)
         {
             if (!IsVisible) return;
             if ((sender as DataGrid).SelectedItem is not ItemDisplay item) return;
-            //MessageBox.Show(item.Name);
 
             DBSelectedItemName.Text = item.Name;
-            SetItemContent(item, DBSelectedItemContent);
+            SetItemContent(item, DBSelectedItemContent, false);
 
             if (mainLoadout.GetTypeIsEquipped(item.Type))
             {
                 ItemDisplay equipped = mainLoadout.GetEquippedFromType(item.Type);
-                if (equipped.ID == item.ID)
-                {
-                    DBEquipButtonImage.Visibility = Visibility.Hidden;
-                    DBUnequipButtonImage.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    DBEquipButtonImage.Visibility = Visibility.Visible;
-                    DBUnequipButtonImage.Visibility = Visibility.Hidden;
-                }
+                DBEquipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Hidden : Visibility.Visible;
+                DBUnequipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Visible : Visibility.Hidden;
                 DBEquippedItemName.Text = equipped.Name;
-                SetItemContent(mainLoadout.GetEquippedFromType(item.Type), DBEquippedItemContent);
+                SetItemContent(equipped, DBEquippedItemContent, false);
+            }
+            else if (mainLoadout.GetTypeIsEquipped(SelectedBaseItemSocketTarget, SelectedBaseItemSocket))
+            {
+                ItemDisplay equipped = mainLoadout.GetEquippedFromType(SelectedBaseItemSocketTarget, SelectedBaseItemSocket);
+                DBEquipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Hidden : Visibility.Visible;
+                DBUnequipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Visible : Visibility.Hidden;
+                DBEquippedItemName.Text = equipped.Name;
+                SetItemContent(equipped, DBEquippedItemContent, false);
             }
             else
             {
@@ -336,10 +336,6 @@ namespace GammaGear
                 DBEquippedItemName.Text = "None";
                 DBEquippedItemContent.Children.Clear();
             }
-        }
-        private void DBItemUnselected(object sender, RoutedEventArgs eventArgs)
-        {
-
         }
         private void CollectionViewSource_Filter(object sender, FilterEventArgs eventArgs)
         {
@@ -436,6 +432,13 @@ namespace GammaGear
                 else
                 {
                     mainLoadout.EquipItem(selectedItem, SelectedBaseItemSocket != 0, SelectedBaseItemSocketTarget, SelectedBaseItemSocket);
+                    bool wasJewelEquipped = SelectedBaseItemSocket > 0;
+                    SelectedBaseItemSocket = 0;
+                    if (wasJewelEquipped)
+                    {
+                        MainTabControl.SelectedIndex = 0;
+
+                    }
                 }
 
                 DBItemSelected(ItemDatabaseGrid, null);
@@ -733,40 +736,28 @@ namespace GammaGear
             { "NoTrade",      new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Flag_NoTrade.png", UriKind.Absolute)) },
         };
 
-        public TextBlock GetStatDisplay(bool showName, bool showIDs)
+        public TextBlock GetStatDisplay(ItemLoadout loadout, bool showName, bool showIDs)
         {
-            void AddSingle(TextBlock tb, string before, BitmapImage img1 = null, BitmapImage img2 = null, string after = null, bool boldedText = false)
+            void AddSingle(TextBlock tb, bool boldedText = false, params object[] textOrBitmapImage)
             {
-                if (!string.IsNullOrEmpty(before))
+                foreach (var item in textOrBitmapImage)
                 {
-                    Run run = new Run(before);
-                    if (boldedText) run.FontWeight = FontWeights.Bold;
-                    tb.Inlines.Add(run);
-                }
-                if (img1 != null)
-                {
-                    Image img = new Image();
-                    img.Source = img1;
-                    img.Width = 15;
-                    img.Height = 15;
-                    InlineUIContainer iuc = new InlineUIContainer(img);
-                    iuc.BaselineAlignment = BaselineAlignment.Center;
-                    tb.Inlines.Add(iuc);
-                }
-                if (img2 != null)
-                {
-                    Image img = new Image();
-                    img.Source = img2;
-                    img.Width = 15;
-                    img.Height = 15;
-                    InlineUIContainer iuc = new InlineUIContainer(img);
-                    iuc.BaselineAlignment = BaselineAlignment.Center;
-                    tb.Inlines.Add(iuc);
-                }
-                if (!string.IsNullOrEmpty(after))
-                {
-                    Run run = new Run(after);
-                    tb.Inlines.Add(run);
+                    if (item is string s)
+                    {
+                        Run run = new Run(s);
+                        if (boldedText) run.FontWeight = FontWeights.Bold;
+                        tb.Inlines.Add(run);
+                    }
+                    else if (item is BitmapImage bi)
+                    {
+                        Image img = new Image();
+                        img.Source = bi;
+                        img.Width = 15;
+                        img.Height = 15;
+                        InlineUIContainer iuc = new InlineUIContainer(img);
+                        iuc.BaselineAlignment = BaselineAlignment.Center;
+                        tb.Inlines.Add(iuc);
+                    }
                 }
             }
 
@@ -784,6 +775,67 @@ namespace GammaGear
                 }
             }
 
+            void AddStats(TextBlock tb, ItemDisplay item)
+            {
+                if (item == null) return;
+                if (item.MaxHealth > 0) AddSingle(tb, false, $"+{item.MaxHealth} Max ", StatImages["Health"], "\n");
+                if (item.MaxMana > 0) AddSingle(tb, false, $"+{item.MaxMana} Max ", StatImages["Mana"], "\n");
+                if (item.MaxEnergy > 0) AddSingle(tb, false, $"+{item.MaxEnergy} Max ", StatImages["Energy"], "\n");
+                if (item.PowerpipChance > 0) AddSingle(tb, false, $"+{item.PowerpipChance}% ", StatImages["PowerPip"], " Chance\n");
+
+                if (item.FishingLuck > 0) AddSingle(tb, false, $"+{item.FishingLuck}% ", StatImages["FishingLuck"], "\n");
+
+                foreach (var pair in item.Accuracies)
+                {
+                    AddSingle(tb, false, $"+{pair.Value}% ", StatImages[pair.Key.ToString()], StatImages["Accuracy"], "\n");
+                }
+                foreach (var pair in item.Criticals)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Critical"], " Rating\n");
+                }
+                foreach (var pair in item.Blocks)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Block"], " Rating\n");
+                }
+                foreach (var pair in item.Damages)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Damage"], "\n");
+                }
+                foreach (var pair in item.FlatDamages)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatDamage"], "\n");
+                }
+                foreach (var pair in item.Resists)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Resistance"], "\n");
+                }
+                foreach (var pair in item.FlatResists)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatResistance"], "\n");
+                }
+                foreach (var pair in item.Pierces)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["ArmorPiercing"], "\n");
+                }
+                foreach (var pair in item.PipConversions)
+                {
+                    AddSingle(tb, false, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["PipConversion"], " Rating\n");
+                }
+
+                if (item.OutgoingHealing > 0) AddSingle(tb, false, $"+{item.OutgoingHealing}% ", StatImages["Outgoing"], StatImages["Healing"], "\n");
+                if (item.IncomingHealing > 0) AddSingle(tb, false, $"+{item.IncomingHealing}% ", StatImages["Incoming"], StatImages["Healing"], "\n");
+
+                if (item.PowerpipsGiven > 0) AddSingle(tb, false, $"+{item.PowerpipsGiven} ", StatImages["PowerPip"], "\n");
+                if (item.PipsGiven > 0) AddSingle(tb, false, $"+{item.PipsGiven} ", StatImages["Pip"], "\n");
+                if (item.ShadowpipRating > 0) AddSingle(tb, false, $"+{item.ShadowpipRating} ", StatImages["Shadowpip"], " Rating\n");
+                if (item.StunResistChance > 0) AddSingle(tb, false, $"+{item.StunResistChance}% ", StatImages["StunResistance"], "\n");
+                if (item.ArchmasteryRating > 0) AddSingle(tb, false, $"+{item.ArchmasteryRating} ", StatImages["Archmastery"], " Rating\n");
+
+                if (item.SpeedBonus > 0) AddSingle(tb, false, $"+{item.SpeedBonus}% ", StatImages["SpeedBonus"], "\n");
+
+                // TODO: Add spells.
+            }
+
             TextBlock tb = new TextBlock()
             {
                 Margin = new Thickness(3, 3, 3, 0)
@@ -791,95 +843,62 @@ namespace GammaGear
 
             if (showName)
             {
-                AddSingle(tb, Name, null, null, "\n", true);
+                AddSingle(tb, true, Name + "\n");
             }
 
             if (showIDs)
             {
-                AddSingle(tb, $"ID: {ID.ToString().ToUpper()} ", null, null, "\n");
+                AddSingle(tb, false, $"ID: {ID.ToString().ToUpper()}\n");
             }
 
             if (SetBonus != null)
             {
-                AddSingle(tb, $"({SetBonus.SetName})", null, null, "\n");
+                AddSingle(tb, false, $"({SetBonus.SetName})\n");
                 if (showIDs)
                 {
-                    AddSingle(tb, $"Set Bonus ID: {SetBonus.Id.ToString().ToUpper()} ", null, null, "\n");
+                    AddSingle(tb, false, $"Set Bonus ID: {SetBonus.Id.ToString().ToUpper()}\n");
                 }
             }
 
-            if (MaxHealth > 0) AddSingle(tb, $"+{MaxHealth} Max ", StatImages["Health"], null, "\n");
-            if (MaxMana > 0) AddSingle(tb, $"+{MaxMana} Max ", StatImages["Mana"], null, "\n");
-            if (MaxEnergy > 0) AddSingle(tb, $"+{MaxEnergy} Max ", StatImages["Energy"], null, "\n");
-            if (PowerpipChance > 0) AddSingle(tb, $"+{PowerpipChance}% ", StatImages["PowerPip"], null, " Chance\n");
-
-            if (FishingLuck > 0) AddSingle(tb, $"+{FishingLuck}% ", StatImages["FishingLuck"], null, "\n");
-
-            foreach (var pair in Accuracies)
-            {
-                AddSingle(tb, $"+{pair.Value}% ", StatImages[pair.Key.ToString()], StatImages["Accuracy"], "\n");
-            }
-            foreach (var pair in Criticals)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Critical"], " Rating\n");
-            }
-            foreach (var pair in Blocks)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Block"], " Rating\n");
-            }
-            foreach (var pair in Damages)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Damage"], "\n");
-            }
-            foreach (var pair in FlatDamages)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatDamage"], "\n");
-            }
-            foreach (var pair in Resists)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["Resistance"], "\n");
-            }
-            foreach (var pair in FlatResists)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["FlatResistance"], "\n");
-            }
-            foreach (var pair in Pierces)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["ArmorPiercing"], "\n");
-            }
-            foreach (var pair in PipConversions)
-            {
-                AddSingle(tb, $"+{pair.Value} ", StatImages[pair.Key.ToString()], StatImages["PipConversion"], " Rating\n");
-            }
-
-            if (OutgoingHealing > 0) AddSingle(tb, $"+{OutgoingHealing}% ", StatImages["Outgoing"], StatImages["Healing"], "\n");
-            if (IncomingHealing > 0) AddSingle(tb, $"+{IncomingHealing}% ", StatImages["Incoming"], StatImages["Healing"], "\n");
-
-            if (PowerpipsGiven > 0) AddSingle(tb, $"+{PowerpipsGiven} ", StatImages["PowerPip"], null, "\n");
-            if (PipsGiven > 0) AddSingle(tb, $"+{PipsGiven} ", StatImages["Pip"], null, "\n");
-            if (ShadowpipRating > 0) AddSingle(tb, $"+{ShadowpipRating} ", StatImages["Shadowpip"], null, " Rating\n");
-            if (StunResistChance > 0) AddSingle(tb, $"+{StunResistChance}% ", StatImages["StunResistance"], null, "\n");
-            if (ArchmasteryRating > 0) AddSingle(tb, $"+{ArchmasteryRating} ", StatImages["Archmastery"], null, " Rating\n");
-
-            if (SpeedBonus > 0) AddSingle(tb, $"+{SpeedBonus}% ", StatImages["SpeedBonus"], null, "\n");
+            AddStats(tb, this);
 
             if (TotalSlots > 0)
             {
-                AddSingle(tb, "\nSockets", null, null, "\n");
-                for (int i = 0; i < TearJewelSlots; i++) AddSingle(tb, null, StatImages["TearJewel"], null, " (Tear)\n");
-                for (int i = 0; i < CircleJewelSlots; i++) AddSingle(tb, null, StatImages["CircleJewel"], null, " (Circle)\n");
-                for (int i = 0; i < SquareJewelSlots; i++) AddSingle(tb, null, StatImages["SquareJewel"], null, " (Square)\n");
-                for (int i = 0; i < TriangleJewelSlots; i++) AddSingle(tb, null, StatImages["TriangleJewel"], null, " (Triangle)\n");
-                for (int i = 0; i < PowerPinSlots; i++) AddSingle(tb, null, StatImages["PinSquarePip"], null, " (Power)\n");
-                for (int i = 0; i < ShieldPinSlots; i++) AddSingle(tb, null, StatImages["PinSquareShield"], null, " (Shield)\n");
-                for (int i = 0; i < SwordPinSlots; i++) AddSingle(tb, null, StatImages["PinSquareSword"], null, " (Sword)\n");
-                AddSingle(tb, null, null, null, "\n");
+                AddSingle(tb, true, "\nSockets\n");
+                (int jewelslots, string imageId, string displayName)[] data =
+                {
+                    (TearJewelSlots, "TearJewel", "(Tear)"),
+                    (CircleJewelSlots, "CircleJewel", "(Circle)"),
+                    (SquareJewelSlots, "SquareJewel", "(Square)"),
+                    (TriangleJewelSlots, "TriangleJewel", "(Triangle)"),
+                    (PowerPinSlots, "PinSquarePip", "(Power)"),
+                    (ShieldPinSlots, "PinSquareShield", "(Shield)"),
+                    (SwordPinSlots, "PinSquareSword", "(Sword)"),
+                };
+                int i = 0;
+                int totalSlots = 0;
+                foreach (var entry in data)
+                {
+                    totalSlots += entry.jewelslots;
+                    for (; i < totalSlots; i++)
+                    {
+                        ItemDisplay jewel = loadout.GetEquippedFromType(Type, i + 1);
+                        if (jewel != null)
+                        {
+                            AddSingle(tb, false, StatImages[entry.imageId + "Filled"], $" {entry.displayName}\n");
+                            AddStats(tb, jewel);
+                        }
+                        else
+                        {
+                            AddSingle(tb, false, StatImages[entry.imageId], $" {entry.displayName}\n");
+                        }
+                    }
+                }
+                AddSingle(tb, false, "\n");
             }
 
-            // TODO: Spells
-
-            if (SchoolRequirement != Item.School.Any) AddSingle(tb, null, StatImages[SchoolRequirement.ToString()], null, " School Only\n");
-            if (LevelRequirement > 1) AddSingle(tb, $"Level {LevelRequirement}+ Only", null, null, "\n");
+            if (SchoolRequirement != Item.School.Any) AddSingle(tb, false, StatImages[SchoolRequirement.ToString()], " School Only\n");
+            if (LevelRequirement > 1) AddSingle(tb, false, $"Level {LevelRequirement}+ Only\n");
 
             List<BitmapImage> icons = new List<BitmapImage>();
             if (IsCrownsOnly) icons.Add(StatImages["CrownsOnly"]);
@@ -890,7 +909,7 @@ namespace GammaGear
             if (IsPVPOnly) icons.Add(StatImages["PVPOnly"]);
             AddIcons(tb, icons);
 
-            if (IsRetired) AddSingle(tb, "RETIRED ITEM", null, null, "\n");
+            if (IsRetired) AddSingle(tb, false, "RETIRED ITEM\n");
 
             return tb;
         }
@@ -1076,9 +1095,12 @@ namespace GammaGear
         {
             return GetEquippedFromType(equippedItemType)?.GetJewelSlots(jewelType) ?? 0;
         }
-        public bool GetTypeIsEquipped(ItemType type)
+        public bool GetTypeIsEquipped(ItemType type, int socket = 0)
         {
-            return EquippedItems.Count(i => i.Type == type) > 0;
+            if (socket > 0)
+                return EquippedJewels.Any(i => i.Key.Item1 == type && i.Key.Item2 == socket);
+            else
+                return EquippedItems.Any(i => i.Type == type);
         }
         public ItemDisplay GetEquippedFromType(ItemType type, int socket = 0)
         {
