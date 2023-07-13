@@ -213,9 +213,10 @@ namespace GammaGear
             }
 
             // Update the display
-            if (sender is Button button &&
+            if (sender is ItemType itemType ||
+                (sender is Button button &&
                 button.Tag is string itemTypeString &&
-                Enum.TryParse(itemTypeString, true, out ItemType itemType))
+                Enum.TryParse(itemTypeString, true, out itemType)))
             {
                 SelectedBaseItemType = itemType;
                 SelectedBaseItemSocketTarget = itemType;
@@ -316,16 +317,16 @@ namespace GammaGear
             if (mainLoadout.GetTypeIsEquipped(item.Type))
             {
                 ItemDisplay equipped = mainLoadout.GetEquippedFromType(item.Type);
-                DBEquipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Hidden : Visibility.Visible;
-                DBUnequipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Visible : Visibility.Hidden;
+                DBEquipButtonImage.Visibility = equipped.Id == item.Id ? Visibility.Hidden : Visibility.Visible;
+                DBUnequipButtonImage.Visibility = equipped.Id == item.Id ? Visibility.Visible : Visibility.Hidden;
                 DBEquippedItemName.Text = equipped.Name;
                 SetItemContent(equipped, DBEquippedItemContent, false);
             }
             else if (mainLoadout.GetTypeIsEquipped(SelectedBaseItemSocketTarget, SelectedBaseItemSocket))
             {
                 ItemDisplay equipped = mainLoadout.GetEquippedFromType(SelectedBaseItemSocketTarget, SelectedBaseItemSocket);
-                DBEquipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Hidden : Visibility.Visible;
-                DBUnequipButtonImage.Visibility = equipped.ID == item.ID ? Visibility.Visible : Visibility.Hidden;
+                DBEquipButtonImage.Visibility = equipped.Id == item.Id ? Visibility.Hidden : Visibility.Visible;
+                DBUnequipButtonImage.Visibility = equipped.Id == item.Id ? Visibility.Visible : Visibility.Hidden;
                 DBEquippedItemName.Text = equipped.Name;
                 SetItemContent(equipped, DBEquippedItemContent, false);
             }
@@ -425,7 +426,7 @@ namespace GammaGear
             if (ItemDatabaseGrid.SelectedItem is ItemDisplay selectedItem)
             {
                 ItemDisplay equipped = mainLoadout.GetEquippedFromType(selectedItem.Type, SelectedBaseItemSocket);
-                if (equipped?.ID == selectedItem?.ID)
+                if (equipped?.Id == selectedItem?.Id)
                 {
                     mainLoadout.UnequipItem(selectedItem.Type);
                 }
@@ -437,7 +438,7 @@ namespace GammaGear
                     if (wasJewelEquipped)
                     {
                         MainTabControl.SelectedIndex = 0;
-
+                        On_StatsTab_BaseItemButton_Click(SelectedBaseItemSocketTarget, null);
                     }
                 }
 
@@ -569,7 +570,7 @@ namespace GammaGear
     {
         public Item backingItem { get; protected set; }
         public string Name { get => backingItem.Name; set => backingItem.Name = value; }
-        public Guid ID { get => backingItem.Id; set => backingItem.Id = value; }
+        public Guid Id { get => backingItem.Id; set => backingItem.Id = value; }
         public Guid KI_ID { get => backingItem.KiId; set => backingItem.KiId = value; }
         public Guid KI_SetBonusID { get => backingItem.KiSetBonusID; set => backingItem.KiSetBonusID = value; }
         public Item.ItemType Type { get => backingItem.Type; set => backingItem.Type = value; }
@@ -848,7 +849,7 @@ namespace GammaGear
 
             if (showIDs)
             {
-                AddSingle(tb, false, $"ID: {ID.ToString().ToUpper()}\n");
+                AddSingle(tb, false, $"ID: {Id.ToString().ToUpper()}\n");
             }
 
             if (SetBonus != null)
@@ -910,6 +911,19 @@ namespace GammaGear
             AddIcons(tb, icons);
 
             if (IsRetired) AddSingle(tb, false, "RETIRED ITEM\n");
+
+            // Item Set Bonuses
+            if (SetBonus != null)
+            {
+                AddSingle(tb, true, $"{SetBonus.SetName} ()\n");
+                if (showIDs) AddSingle(tb, false, $"\nSet ID: {SetBonus.Id.ToString().ToUpper()}\n");
+                foreach (var item in SetBonus.Bonuses.OrderBy(i => i.SetBonusLevel))
+                {
+                    AddSingle(tb, loadout.GetSetBonusLevel(SetBonus) >= item.SetBonusLevel, $"{item.SetBonusLevel} Items\n");
+                    if (showIDs) AddSingle(tb, false, $"Tier ID: {item.Id.ToString().ToUpper()}\n");
+                    AddStats(tb, new ItemDisplay(item));
+                }
+            }
 
             return tb;
         }
@@ -1094,6 +1108,10 @@ namespace GammaGear
         private int GetJewelSlots(ItemType equippedItemType, ItemType jewelType)
         {
             return GetEquippedFromType(equippedItemType)?.GetJewelSlots(jewelType) ?? 0;
+        }
+        public int GetSetBonusLevel(ItemSetBonus set)
+        {
+            return EquippedItems?.Count(i => i.SetBonus == set) ?? 0;
         }
         public bool GetTypeIsEquipped(ItemType type, int socket = 0)
         {
