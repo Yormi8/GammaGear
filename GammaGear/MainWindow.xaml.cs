@@ -28,7 +28,8 @@ using GammaGear.Properties;
 using GammaGear.Source;
 using GammaGear.Source.Database;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using FormsDialogResult = System.Windows.Forms.DialogResult;
 using static GammaGear.Source.Item;
 
 namespace GammaGear
@@ -49,6 +50,14 @@ namespace GammaGear
         public MainWindow()
         {
             InitializeComponent();
+
+            ThemeButtons = new MenuItem[]
+            {
+                LatteThemeButton,
+                FrappeThemeButton,
+                MacchiatoThemeButton,
+                MochaThemeButton
+            };
 
             ICollectionView cvItems = CollectionViewSource.GetDefaultView(ItemDatabaseGrid.ItemsSource);
             if (cvItems != null && cvItems.CanSort == true)
@@ -476,12 +485,12 @@ namespace GammaGear
         {
             if (string.IsNullOrEmpty(Settings.Default.LocaleFolder))
             {
-                CommonOpenFileDialog chooseLocaleDialog = new CommonOpenFileDialog()
+                FolderBrowserDialog chooseLocaleDialog = new FolderBrowserDialog()
                 {
-                    IsFolderPicker = true,
+                    // Place starting folder here...
                 };
-                if (chooseLocaleDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
-                Settings.Default.LocaleFolder = chooseLocaleDialog.FileName;
+                if (chooseLocaleDialog.ShowDialog() != FormsDialogResult.OK) return;
+                Settings.Default.LocaleFolder = chooseLocaleDialog.SelectedPath;
             }
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -548,6 +557,45 @@ namespace GammaGear
         {
             LoadoutSelectionModal loadoutSelectionModal = new LoadoutSelectionModal();
             loadoutSelectionModal.ShowDialog();
+        }
+
+        MenuItem[] ThemeButtons;
+        ResourceDictionary ThemeDictionary
+        {
+            get
+            {
+                return Application.Current.Resources.MergedDictionaries[0];
+            }
+        }
+
+        private void LatteTheme_Click(object sender, RoutedEventArgs eventArgs) => ChangeTheme(sender as MenuItem, "Latte");
+        private void FrappeTheme_Click(object sender, RoutedEventArgs eventArgs) => ChangeTheme(sender as MenuItem, "Frappe");
+        private void MacchiatoTheme_Click(object sender, RoutedEventArgs eventArgs) => ChangeTheme(sender as MenuItem, "Macchiato");
+        private void MochaTheme_Click(object sender, RoutedEventArgs eventArgs) => ChangeTheme(sender as MenuItem, "Mocha");
+
+        private void ChangeTheme(MenuItem theme, string themeName)
+        {
+            if (theme == null)
+            {
+                return;
+            }
+
+            // Make this submenu act like a radiobox selector
+            foreach (MenuItem item in ThemeButtons)
+            {
+                if (item != theme)
+                {
+                    item.IsChecked = false;
+                    item.IsEnabled = true;
+                }
+            }
+            theme.IsChecked = true;
+            theme.IsEnabled = false;
+
+            // Actually change the theme
+            ThemeDictionary.MergedDictionaries.Clear();
+            Uri themeLocation = new Uri(@$"/Assets/Themes/{themeName}.xaml", UriKind.Relative);
+            ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = themeLocation });
         }
     }
 

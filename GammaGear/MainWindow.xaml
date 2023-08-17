@@ -37,7 +37,8 @@
         <ControlTemplate x:Key="JewelSocketEquipButton" x:Name="JewelSocketEquipButtonTemplate" TargetType="Button">
             <Grid>
                 <Grid.Resources>
-                    <Style TargetType="{x:Type Image}">
+                    <Style BasedOn="{StaticResource {x:Type Image}}"
+                           TargetType="{x:Type Image}">
                         <Setter Property="Width" Value="25"/>
                         <Setter Property="Height" Value="25"/>
                     </Style>
@@ -51,7 +52,9 @@
             </Grid>
         </ControlTemplate>
 
-        <Style x:Key="EquipmentButton" TargetType="{x:Type Button}">
+        <Style x:Key="EquipmentButton"
+               BasedOn="{StaticResource {x:Type Button}}"
+               TargetType="{x:Type Button}">
             <EventSetter Event="Click" Handler="On_StatsTab_BaseItemButton_Click"/>
             <EventSetter Event="Loaded" Handler="On_StatsTab_BaseItemButton_Loaded"/>
 
@@ -73,6 +76,12 @@
                     <MenuItem Header="Load Equipment Set"/>
                 </MenuItem>
                 <MenuItem Header="Settings">
+                    <MenuItem Header="Theme">
+                        <MenuItem x:Name="LatteThemeButton" Header="Latte" Click="LatteTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <MenuItem x:Name="FrappeThemeButton" Header="Frappé" Click="FrappeTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <MenuItem x:Name="MacchiatoThemeButton" Header="Macchiato" Click="MacchiatoTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <MenuItem x:Name="MochaThemeButton" Header="Mocha" Click="MochaTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Help">
                     <MenuItem Header="Wiki" Command="local:W101Commands.OpenWiki"/>
@@ -94,12 +103,14 @@
                         <Grid Margin="10,10,10,10">
 
                             <Grid.Resources>
-                                <Style TargetType="{x:Type Image}">
+                                <Style BasedOn="{StaticResource {x:Type Image}}"
+                                       TargetType="{x:Type Image}">
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Width" Value="30"/>
                                 </Style>
-                                <Style TargetType="{x:Type TextBox}">
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="Width" Value="45"/>
                                     <Setter Property="TextAlignment" Value="Center"/>
@@ -163,10 +174,12 @@
                         <Grid x:Name="AdvancedStatGrid" Margin="10,10,10,10">
 
                             <Grid.Resources>
-                                <Style TargetType="{x:Type ColumnDefinition}">
+                                <Style BasedOn="{StaticResource {x:Type ColumnDefinition}}"
+                                       TargetType="{x:Type ColumnDefinition}">
                                     <Setter Property="Width" Value="Auto"/>
                                 </Style>
-                                <Style TargetType="{x:Type TextBox}">
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="TextAlignment" Value="Center"/>
@@ -174,12 +187,14 @@
                                     <Setter Property="Width" Value="35"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style TargetType="{x:Type Image}">
+                                <Style BasedOn="{StaticResource {x:Type Image}}"
+                                       TargetType="{x:Type Image}">
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Width" Value="30"/>
                                 </Style>
-                                <Style TargetType="{x:Type Rectangle}">
+                                <Style BasedOn="{StaticResource {x:Type Rectangle}}"
+                                       TargetType="{x:Type Rectangle}">
                                     <Setter Property="RadiusX" Value="6"/>
                                     <Setter Property="RadiusY" Value="6"/>
                                 </Style>
@@ -336,28 +351,33 @@
                         <Grid Margin="10,10,10,10">
 
                             <Grid.Resources>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource {x:Type Button}}"
+                                       TargetType="{x:Type Button}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Width" Value="300"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style TargetType="{x:Type xctk:IntegerUpDown}">
+                                <Style BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}"
+                                       TargetType="{x:Type xctk:IntegerUpDown}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style TargetType="{x:Type ComboBox}">
+                                <Style BasedOn="{StaticResource {x:Type ComboBox}}"
+                                       TargetType="{x:Type ComboBox}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style TargetType="{x:Type Image}">
+                                <Style BasedOn="{StaticResource {x:Type Image}}"
+                                       TargetType="{x:Type Image}">
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Width" Value="30"/>
                                 </Style>
-                                <Style TargetType="{x:Type Rectangle}">
+                                <Style BasedOn="{StaticResource {x:Type Rectangle}}"
+                                       TargetType="{x:Type Rectangle}">
                                     <Setter Property="RadiusX" Value="6"/>
                                     <Setter Property="RadiusY" Value="6"/>
                                 </Style>
@@ -486,25 +506,30 @@
                         <Grid Width="160" HorizontalAlignment="Left" Margin="3 3 3 3" ScrollViewer.HorizontalScrollBarVisibility="Visible">
 
                             <Grid.Resources>
-                                <Style TargetType="{x:Type TextBlock}">
+                                <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                       TargetType="{x:Type TextBlock}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                     <Setter Property="Margin" Value="3 3 3 0"/>
                                 </Style>
-                                <Style TargetType="{x:Type TextBox}">
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                     <Setter Property="Margin" Value="3 3 3 0"/>
                                 </Style>
-                                <Style TargetType="{x:Type ComboBox}">
+                                <Style BasedOn="{StaticResource {x:Type ComboBox}}"
+                                       TargetType="{x:Type ComboBox}">
                                     <Setter Property="Margin" Value="3 3 3 0"/>
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                 </Style>
-                                <Style TargetType="{x:Type xctk:IntegerUpDown}">
+                                <Style BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}"
+                                       TargetType="{x:Type xctk:IntegerUpDown}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                     <Setter Property="TextAlignment" Value="Left"/>
                                     <Setter Property="DisplayDefaultValueOnEmptyText" Value="True"/>
                                     <Setter Property="Margin" Value="3 3 3 0"/>
                                 </Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style BasedOn="{StaticResource {x:Type Button}}"
+                                       TargetType="{x:Type Button}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                                     <Setter Property="Margin" Value="3, 3, 3, 0"/>
                                 </Style>
@@ -664,7 +689,8 @@
                         <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1">
                             <StackPanel VerticalAlignment="Top" Background="#FFF0F0F0">
                                 <StackPanel.Resources>
-                                    <Style TargetType="TextBlock">
+                                    <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                           TargetType="TextBlock">
                                         <Setter Property="Margin" Value="3 3 3 0"/>
                                     </Style>
                                 </StackPanel.Resources>
@@ -685,7 +711,8 @@
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1" >
                                 <StackPanel VerticalAlignment="Top" Background="#FFF0F0F0">
                                     <StackPanel.Resources>
-                                        <Style TargetType="TextBlock">
+                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                               TargetType="TextBlock">
                                             <Setter Property="Margin" Value="3 3 3 0"/>
                                         </Style>
                                     </StackPanel.Resources>
