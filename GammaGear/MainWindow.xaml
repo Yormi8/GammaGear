@@ -4,17 +4,84 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:GammaGear"
         xmlns:localSource="clr-namespace:GammaGear.Source"
         mc:Ignorable="d"
-        Title="Gamma Gear" Height="600" Width="1200">
+        Title="Gamma Gear" Height="600" Width="1200"
+        WindowStyle="None" Background="{StaticResource LavenderBrush}">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:W101Commands.OpenWiki" Executed="OnWikiMenuItemClicked"></CommandBinding>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
     </Window.CommandBindings>
 
     <Window.Resources>
+
+        <!--Big thanks to R.A.Dain for the chrome style and functionality!-->
+        <!--https://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=5255192-->
+        <!--Base style for title bar buttons-->
+        <Style x:Key="CaptionButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="LayoutRoot" Background="Transparent" Width="44">
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                       Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource LavenderBrush}"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource BaseBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Minimize-->
+        <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE949;"/>
+        </Style>
+
+        <!--Maximize-->
+        <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE739;"/>
+        </Style>
+
+        <!--Restore-->
+        <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE923;"/>
+        </Style>
+
+        <!--Close... Duplicated because of template colors...-->
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="LayoutRoot" Background="Transparent" Width="44">
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                       Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource RedBrush}"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource BaseBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Content" Value="&#xE106;"/>
+        </Style>
+
         <DataTemplate x:Key="itemDisplayTemplate">
 
 
@@ -66,8 +133,59 @@
 
     </Window.Resources>
 
-    <Grid>
-        <DockPanel>
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            ResizeBorderThickness="6"
+            CaptionHeight="25"
+            CornerRadius="15"/>
+    </WindowChrome.WindowChrome>
+
+    <DockPanel x:Name="MainWindowPanel" Margin="0">
+
+        <DockPanel DockPanel.Dock="Top">
+            <Button x:Name="WindowCloseButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource CloseButtonStyle}"
+                    ToolTip="Close"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+            <Button x:Name="WindowMaximizeButton"
+                    DockPanel.Dock="Right"
+                    Visibility="Visible"
+                    Style="{StaticResource MaximizeButtonStyle}"
+                    ToolTip="Maximize"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.MaximizeWindowCommand}"/>
+            <Button x:Name="WindowRestoreButton"
+                    DockPanel.Dock="Right"
+                    Visibility="Collapsed"
+                    Style="{StaticResource RestoreButtonStyle}"
+                    ToolTip="Restore"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.RestoreWindowCommand}"/>
+            <Button x:Name="WindowMinimizeButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource MinimizeButtonStyle}"
+                    ToolTip="Minimize"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+            <Image x:Name="WindowTitleIcon"
+                Source="Assets/Images/(Icon)_Stats_Damage.png" Width="17" Height="17" Margin="5,5,5,5">
+            </Image>
+            <TextBlock x:Name="WindowTitleName" TextAlignment="Left" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" FontWeight="Bold">
+                Gamma Gear 0.1
+            </TextBlock>
+        </DockPanel>
+
+        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Background="{DynamicResource LavenderBrush}">
+            <StatusBarItem Background="{DynamicResource LavenderBrush}">
+                <TextBlock Foreground="{DynamicResource BaseBrush}" Margin="3,0,3,0">
+                        Items Loaded: 0
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <DockPanel Margin="3">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="File">
                     <MenuItem Header="Import From JSON" Click="FileCreateNewDB"/>
@@ -438,7 +556,7 @@
                                       SelectionChanged="UpdateStatsTabEvent"
                                       HorizontalContentAlignment="Center"
                                       HorizontalAlignment="Stretch">
-                                <ComboBoxItem IsSelected="True">None</ComboBoxItem>
+                                <ComboBoxItem IsSelected="True" Content="None"/>
                                 <ComboBoxItem>Fire</ComboBoxItem>
                                 <ComboBoxItem>Ice</ComboBoxItem>
                                 <ComboBoxItem>Storm</ComboBoxItem>
@@ -454,6 +572,10 @@
                                                 TextAlignment="Center"
                                                 DisplayDefaultValueOnEmptyText="True"
                                                 ValueChanged="UpdateStatsTabEvent"
+                                                MaxLength="3"
+                                                InputScope="Digits"
+                                                MaxWidth="120.963333333333"
+                                                HorizontalContentAlignment="Center"
                                                 HorizontalAlignment="Stretch"/>
                             <Button Style="{StaticResource EquipmentButton}" Tag="Hat"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">None</Button>
                             <Button Style="{StaticResource EquipmentButton}" Tag="Robe" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3">None</Button>
@@ -775,13 +897,6 @@
                     <TextBlock Text="Pet Customizer coming soon!"/>
                 </TabItem>
             </TabControl>
-            <StatusBar DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom">
-                <StatusBarItem>
-                    <TextBlock>
-                        Items Loaded: 0
-                    </TextBlock>
-                </StatusBarItem>
-            </StatusBar>
         </DockPanel>
-    </Grid>
+    </DockPanel>
 </Window>

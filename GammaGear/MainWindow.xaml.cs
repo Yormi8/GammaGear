@@ -51,6 +51,8 @@ namespace GammaGear
         {
             InitializeComponent();
 
+            StateChanged += MainWindowStateChangeRaised;
+
             ThemeButtons = new MenuItem[]
             {
                 LatteThemeButton,
@@ -170,6 +172,52 @@ namespace GammaGear
             };
 
             UpdateStatsTab();
+        }
+        // Can execute
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        // Minimize
+        private void CommandBinding_Executed_Minimize(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        // Maximize
+        private void CommandBinding_Executed_Maximize(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MaximizeWindow(this);
+        }
+
+        // Restore
+        private void CommandBinding_Executed_Restore(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.RestoreWindow(this);
+        }
+
+        // Close
+        private void CommandBinding_Executed_Close(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.CloseWindow(this);
+        }
+
+        // State change
+        private void MainWindowStateChangeRaised(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                MainWindowPanel.Margin = new Thickness(8);
+                WindowRestoreButton.Visibility = Visibility.Visible;
+                WindowMaximizeButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MainWindowPanel.Margin = new Thickness(0);
+                WindowRestoreButton.Visibility = Visibility.Collapsed;
+                WindowMaximizeButton.Visibility = Visibility.Visible;
+            }
         }
         private void OnWikiMenuItemClicked(object sender, ExecutedRoutedEventArgs e)
         {
@@ -308,11 +356,11 @@ namespace GammaGear
             parent.Children.Clear();
             TextBlock tb = item?.GetStatDisplay(mainLoadout, showName, showDBItemIDs) ??
                            new TextBlock()
-            {
-                Text = "None",
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(3, 3, 3, 0)
-            }; ;
+                           {
+                               Text = "None",
+                               FontWeight = FontWeights.Bold,
+                               Margin = new Thickness(3, 3, 3, 0)
+                           }; ;
             parent.Children.Add(tb);
         }
         private void DBItemSelected(object sender, RoutedEventArgs eventArgs)
@@ -404,15 +452,15 @@ namespace GammaGear
             // Add the school damage and universal damage to the output textboxes.
             for (int i = 0; i < 8; i++)
             {
-                DamageTextBoxes[i].Text =           (Output.Damages.GetValueOrDefault((Item.School)i + 1) +         Output.Damages.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                FlatDamageTextBoxes[i].Text =       (Output.FlatDamages.GetValueOrDefault((Item.School)i + 1) +     Output.FlatDamages.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                ResistTextBoxes[i].Text =           (Output.Resists.GetValueOrDefault((Item.School)i + 1) +         Output.Resists.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                FlatResistanceTextBoxes[i].Text =   (Output.FlatResists.GetValueOrDefault((Item.School)i + 1) +     Output.FlatResists.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                AccuracyTextBoxes[i].Text =         (Output.Accuracies.GetValueOrDefault((Item.School)i + 1) +      Output.Accuracies.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                CriticalTextBoxes[i].Text =         (Output.Criticals.GetValueOrDefault((Item.School)i + 1) +       Output.Criticals.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                CriticalBlockTextBoxes[i].Text =    (Output.Blocks.GetValueOrDefault((Item.School)i + 1) +          Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
-                PierceTextBoxes[i].Text =           (Output.Pierces.GetValueOrDefault((Item.School)i + 1) +         Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
-                PipConversionTextBoxes[i].Text =    (Output.PipConversions.GetValueOrDefault((Item.School)i + 1) +  Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                DamageTextBoxes[i].Text = (Output.Damages.GetValueOrDefault((Item.School)i + 1) + Output.Damages.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatDamageTextBoxes[i].Text = (Output.FlatDamages.GetValueOrDefault((Item.School)i + 1) + Output.FlatDamages.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                ResistTextBoxes[i].Text = (Output.Resists.GetValueOrDefault((Item.School)i + 1) + Output.Resists.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                FlatResistanceTextBoxes[i].Text = (Output.FlatResists.GetValueOrDefault((Item.School)i + 1) + Output.FlatResists.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                AccuracyTextBoxes[i].Text = (Output.Accuracies.GetValueOrDefault((Item.School)i + 1) + Output.Accuracies.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                CriticalTextBoxes[i].Text = (Output.Criticals.GetValueOrDefault((Item.School)i + 1) + Output.Criticals.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                CriticalBlockTextBoxes[i].Text = (Output.Blocks.GetValueOrDefault((Item.School)i + 1) + Output.Blocks.GetValueOrDefault(Item.School.Universal)).ToString(fw);
+                PierceTextBoxes[i].Text = (Output.Pierces.GetValueOrDefault((Item.School)i + 1) + Output.Pierces.GetValueOrDefault(Item.School.Universal)).ToString(fp);
+                PipConversionTextBoxes[i].Text = (Output.PipConversions.GetValueOrDefault((Item.School)i + 1) + Output.PipConversions.GetValueOrDefault(Item.School.Universal)).ToString(fw);
             }
         }
         private void TabControlSelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
