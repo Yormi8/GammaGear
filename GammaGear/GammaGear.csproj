@@ -17,7 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>7</WarningLevel>
   </PropertyGroup>
-    
+
   <ItemGroup>
     <None Remove="Assets\Data\level_based_stats.csv" />
     <None Remove="Assets\Images\%28Icon%29_Button_Equip.png" />
@@ -393,7 +393,12 @@
 
   <ItemGroup>
     <Folder Include="Assets\Styles\" />
-    <Folder Include="Assets\Themes\" />
+    <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\external\dependencies\wpfui-catppuccin\src\Wpf.Ui\Wpf.Ui.csproj" />
   </ItemGroup>
 
 </Project>

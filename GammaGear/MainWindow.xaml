@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:GammaGear"
         xmlns:localSource="clr-namespace:GammaGear.Source"
         mc:Ignorable="d"
-        Title="Gamma Gear" Height="600" Width="1200"
-        WindowStyle="None" Background="{StaticResource LavenderBrush}">
+        Title="Gamma Gear" Height="600" Width="1200">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:W101Commands.OpenWiki" Executed="OnWikiMenuItemClicked"></CommandBinding>
@@ -25,7 +25,7 @@
         <!--Big thanks to R.A.Dain for the chrome style and functionality!-->
         <!--https://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=5255192-->
         <!--Base style for title bar buttons-->
-        <Style x:Key="CaptionButtonStyle" TargetType="Button">
+        <!--<Style x:Key="CaptionButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -45,22 +45,22 @@
             </Setter>
         </Style>
 
-        <!--Minimize-->
+        --><!--Minimize--><!--
         <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
             <Setter Property="Content" Value="&#xE949;"/>
         </Style>
 
-        <!--Maximize-->
+        --><!--Maximize--><!--
         <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
             <Setter Property="Content" Value="&#xE739;"/>
         </Style>
 
-        <!--Restore-->
+        --><!--Restore--><!--
         <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
             <Setter Property="Content" Value="&#xE923;"/>
         </Style>
 
-        <!--Close... Duplicated because of template colors...-->
+        --><!--Close... Duplicated because of template colors...--><!--
         <Style x:Key="CloseButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -80,7 +80,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Content" Value="&#xE106;"/>
-        </Style>
+        </Style>-->
 
         <DataTemplate x:Key="itemDisplayTemplate">
 
@@ -133,16 +133,16 @@
 
     </Window.Resources>
 
-    <WindowChrome.WindowChrome>
+    <!--<WindowChrome.WindowChrome>
         <WindowChrome
             ResizeBorderThickness="6"
             CaptionHeight="25"
             CornerRadius="15"/>
-    </WindowChrome.WindowChrome>
+    </WindowChrome.WindowChrome>-->
 
     <DockPanel x:Name="MainWindowPanel" Margin="0">
 
-        <DockPanel DockPanel.Dock="Top">
+        <!--<DockPanel DockPanel.Dock="Top">
             <Button x:Name="WindowCloseButton"
                     DockPanel.Dock="Right"
                     Style="{StaticResource CloseButtonStyle}"
@@ -175,11 +175,11 @@
             <TextBlock x:Name="WindowTitleName" TextAlignment="Left" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" FontWeight="Bold">
                 Gamma Gear 0.1
             </TextBlock>
-        </DockPanel>
+        </DockPanel>-->
 
-        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Background="{DynamicResource LavenderBrush}">
-            <StatusBarItem Background="{DynamicResource LavenderBrush}">
-                <TextBlock Foreground="{DynamicResource BaseBrush}" Margin="3,0,3,0">
+        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <StatusBarItem>
+                <TextBlock Margin="3,0,3,0">
                         Items Loaded: 0
                 </TextBlock>
             </StatusBarItem>
@@ -187,24 +187,24 @@
 
         <DockPanel Margin="3">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="File">
-                    <MenuItem Header="Import From JSON" Click="FileCreateNewDB"/>
-                    <MenuItem Header="Import From DB" Click="FileLoadDB"/>
-                    <MenuItem Header="Save Equipment Set"/>
-                    <MenuItem Header="Load Equipment Set"/>
-                </MenuItem>
-                <MenuItem Header="Settings">
-                    <MenuItem Header="Theme">
-                        <MenuItem x:Name="LatteThemeButton" Header="Latte" Click="LatteTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
-                        <MenuItem x:Name="FrappeThemeButton" Header="Frappé" Click="FrappeTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
-                        <MenuItem x:Name="MacchiatoThemeButton" Header="Macchiato" Click="MacchiatoTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
-                        <MenuItem x:Name="MochaThemeButton" Header="Mocha" Click="MochaTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem Header="Help">
-                    <MenuItem Header="Wiki" Command="local:W101Commands.OpenWiki"/>
-                    <MenuItem Header="About"/>
-                </MenuItem>
+                <ui:MenuItem Header="File">
+                    <ui:MenuItem Header="Import From JSON" Click="FileCreateNewDB"/>
+                    <ui:MenuItem Header="Import From DB" Click="FileLoadDB"/>
+                    <ui:MenuItem Header="Save Equipment Set"/>
+                    <ui:MenuItem Header="Load Equipment Set"/>
+                </ui:MenuItem>
+                <ui:MenuItem Header="Settings">
+                    <ui:MenuItem Header="Theme">
+                        <ui:MenuItem x:Name="LatteThemeButton" Header="Latte" Click="LatteTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="FrappeThemeButton" Header="Frappé" Click="FrappeTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="MacchiatoThemeButton" Header="Macchiato" Click="MacchiatoTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="MochaThemeButton" Header="Mocha" Click="MochaTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                    </ui:MenuItem>
+                </ui:MenuItem>
+                <ui:MenuItem Header="Help">
+                    <ui:MenuItem Header="Wiki" Command="local:W101Commands.OpenWiki"/>
+                    <ui:MenuItem Header="About"/>
+                </ui:MenuItem>
             </Menu>
             <TabControl x:Name="MainTabControl"
                         TabStripPlacement="Left"
@@ -292,8 +292,7 @@
                         <Grid x:Name="AdvancedStatGrid" Margin="10,10,10,10">
 
                             <Grid.Resources>
-                                <Style BasedOn="{StaticResource {x:Type ColumnDefinition}}"
-                                       TargetType="{x:Type ColumnDefinition}">
+                                <Style TargetType="{x:Type ColumnDefinition}">
                                     <Setter Property="Width" Value="Auto"/>
                                 </Style>
                                 <Style BasedOn="{StaticResource {x:Type TextBox}}"
@@ -305,14 +304,12 @@
                                     <Setter Property="Width" Value="35"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style BasedOn="{StaticResource {x:Type Image}}"
-                                       TargetType="{x:Type Image}">
+                                <Style TargetType="{x:Type Image}">
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Width" Value="30"/>
                                 </Style>
-                                <Style BasedOn="{StaticResource {x:Type Rectangle}}"
-                                       TargetType="{x:Type Rectangle}">
+                                <Style TargetType="{x:Type Rectangle}">
                                     <Setter Property="RadiusX" Value="6"/>
                                     <Setter Property="RadiusY" Value="6"/>
                                 </Style>
@@ -488,14 +485,12 @@
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                 </Style>
-                                <Style BasedOn="{StaticResource {x:Type Image}}"
-                                       TargetType="{x:Type Image}">
+                                <Style TargetType="{x:Type Image}">
                                     <Setter Property="Margin" Value="3 3 3 3"/>
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Width" Value="30"/>
                                 </Style>
-                                <Style BasedOn="{StaticResource {x:Type Rectangle}}"
-                                       TargetType="{x:Type Rectangle}">
+                                <Style TargetType="{x:Type Rectangle}">
                                     <Setter Property="RadiusX" Value="6"/>
                                     <Setter Property="RadiusY" Value="6"/>
                                 </Style>
@@ -548,7 +543,7 @@
 
                             <Button x:Name="WizardLoadoutButton"
                                     Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
-                                    Click="LoadoutButton_Click">None</Button>
+                                    Click="LoadoutButton_Click" Foreground="Black">None</Button>
 
                             <ComboBox x:Name="WizardSchoolBox"
                                       Grid.Column="1" Grid.Row="2"
@@ -806,10 +801,10 @@
                             </Grid>
                         </DockPanel>
 
-                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+                        <Rectangle Width="1"/>
 
                         <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1">
-                            <StackPanel VerticalAlignment="Top" Background="#FFF0F0F0">
+                            <StackPanel VerticalAlignment="Top">
                                 <StackPanel.Resources>
                                     <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                            TargetType="TextBlock">
@@ -831,7 +826,7 @@
 
                         <StackPanel>
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1" >
-                                <StackPanel VerticalAlignment="Top" Background="#FFF0F0F0">
+                                <StackPanel VerticalAlignment="Top">
                                     <StackPanel.Resources>
                                         <Style BasedOn="{StaticResource {x:Type TextBlock}}"
                                                TargetType="TextBlock">
@@ -857,7 +852,7 @@
                         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
-                                    Click="DBEquipButton" Background="{x:Null}"
+                                    Click="DBEquipButton"
                                     Padding="0,0,0,0" Margin="3,3,3,3">
                                 <Grid>
                                     <Image x:Name="DBEquipButtonImage"
@@ -874,14 +869,14 @@
                             </Button>
                             <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
-                                    Click="DBTrashButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                    Click="DBTrashButton" Padding="0,0,0,0" Margin="3,3,3,3">
                                 <Image Source="Assets/Images/(Icon)_Button_Trash.png"
                                        Width="35" Height="35"
                                        ToolTip="Delete Item"/>
                             </Button>
                             <Button Height="35" Width="35"
                                     BorderThickness="0,0,0,0"
-                                    Click="DBWikiButton" Background="{x:Null}" Padding="0,0,0,0" Margin="3,3,3,3">
+                                    Click="DBWikiButton" Padding="0,0,0,0" Margin="3,3,3,3">
                                 <Image Source="Assets/Images/(Icon)_Button_Interface.png"
                                        Width="35" Height="35"
                                        ToolTip="Open Wiki Page"/>

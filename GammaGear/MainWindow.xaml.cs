@@ -209,14 +209,14 @@ namespace GammaGear
             if (WindowState == WindowState.Maximized)
             {
                 MainWindowPanel.Margin = new Thickness(8);
-                WindowRestoreButton.Visibility = Visibility.Visible;
-                WindowMaximizeButton.Visibility = Visibility.Collapsed;
+                //WindowRestoreButton.Visibility = Visibility.Visible;
+                //WindowMaximizeButton.Visibility = Visibility.Collapsed;
             }
             else
             {
                 MainWindowPanel.Margin = new Thickness(0);
-                WindowRestoreButton.Visibility = Visibility.Collapsed;
-                WindowMaximizeButton.Visibility = Visibility.Visible;
+                //WindowRestoreButton.Visibility = Visibility.Collapsed;
+                //WindowMaximizeButton.Visibility = Visibility.Visible;
             }
         }
         private void OnWikiMenuItemClicked(object sender, ExecutedRoutedEventArgs e)
@@ -623,27 +623,27 @@ namespace GammaGear
 
         private void ChangeTheme(MenuItem theme, string themeName)
         {
-            if (theme == null)
-            {
-                return;
-            }
+            //if (theme == null)
+            //{
+            //    return;
+            //}
 
-            // Make this submenu act like a radiobox selector
-            foreach (MenuItem item in ThemeButtons)
-            {
-                if (item != theme)
-                {
-                    item.IsChecked = false;
-                    item.IsEnabled = true;
-                }
-            }
-            theme.IsChecked = true;
-            theme.IsEnabled = false;
+            //// Make this submenu act like a radiobox selector
+            //foreach (MenuItem item in ThemeButtons)
+            //{
+            //    if (item != theme)
+            //    {
+            //        item.IsChecked = false;
+            //        item.IsEnabled = true;
+            //    }
+            //}
+            //theme.IsChecked = true;
+            //theme.IsEnabled = false;
 
-            // Actually change the theme
-            ThemeDictionary.MergedDictionaries.Clear();
-            Uri themeLocation = new Uri(@$"/Assets/Themes/{themeName}.xaml", UriKind.Relative);
-            ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = themeLocation });
+            //// Actually change the theme
+            //ThemeDictionary.MergedDictionaries.Clear();
+            //Uri themeLocation = new Uri(@$"/Assets/Themes/{themeName}.xaml", UriKind.Relative);
+            //ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = themeLocation });
         }
     }
 
