@@ -398,7 +398,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\external\dependencies\wpfui-catppuccin\src\Wpf.Ui\Wpf.Ui.csproj" />
+    <ProjectReference Include="..\..\External\Dependencies\wpfui-catppuccin\src\Wpf.Ui\Wpf.Ui.csproj" />
   </ItemGroup>
 
 </Project>
