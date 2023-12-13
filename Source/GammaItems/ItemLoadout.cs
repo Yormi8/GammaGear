@@ -4,13 +4,14 @@ namespace GammaItems
 {
     public class ItemLoadout
     {
-        public string Name;
-        public string Description;
+        public string Name = "";
+        public string Description = "";
+        public string Creator = "";
         public Uri IconUri;
         public List<Item> Items;
-        public string WizardName;
+        public string WizardName = "";
         public int WizardLevel = 1;
-        public School WizardSchool = School.Fire;
+        public School WizardSchool = School.None;
         public ArenaRank WizardPvpRank = ArenaRank.Private;
         public ArenaRank WizardPetRank = ArenaRank.Private;
 
