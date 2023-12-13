@@ -1,4 +1,4 @@
-﻿namespace GammaGear.Source.Database
+﻿namespace GammaItems.Source.Database
 {
     public interface IKiLocaleBank
     {

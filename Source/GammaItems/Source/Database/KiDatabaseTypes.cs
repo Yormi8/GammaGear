@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public enum RarityType
     {

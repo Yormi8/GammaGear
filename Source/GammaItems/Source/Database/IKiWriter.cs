@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     interface IKiWriter
     {

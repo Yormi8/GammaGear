@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Reflection;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     /// <summary>
     /// It's super likely this class doesn't work, the new tool for extracting data from the

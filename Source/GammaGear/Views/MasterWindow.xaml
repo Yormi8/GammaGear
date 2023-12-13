@@ -29,25 +29,6 @@
             ShowClose="True"
             ShowMaximize="True"
             ShowMinimize="True"
-            UseSnapLayout="True">
-        </ui:TitleBar>
-        <StackPanel Orientation="Vertical">
-            <Menu>
-                <ui:MenuItem Header="Example Entry 1"/>
-                <ui:MenuItem Header="Example Entry 2">
-                    <ui:MenuItem Header="Example Entry 3"/>
-                    <ui:MenuItem Header="Example Entry 4"/>
-                    <ui:MenuItem Header="Example Entry 5"/>
-                </ui:MenuItem>
-                <ui:MenuItem Header="Example Entry 6"/>
-                <ui:MenuItem Header="Example Entry 7"/>
-            </Menu>
-            <ui:Button Content="Example Button"/>
-            <TextBlock Text="Example Label" ToolTip="Example Tooltip"/>
-            <ui:TextBox Text="Example Textbox"/>
-            <ui:NumberBox Text="123456"/>
-            <ui:ToggleSwitch IsChecked="True"/>
-            <ui:Hyperlink Content="https://www.wizard101central.com/wiki"/>
-        </StackPanel>
+            UseSnapLayout="True"/>
     </DockPanel>
 </ui:UiWindow>

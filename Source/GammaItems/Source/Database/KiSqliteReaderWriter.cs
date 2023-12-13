@@ -6,11 +6,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.IO;
 using static GammaGear.Source.Item;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public class KiSqliteReaderWriter : KiReaderWriter
     {

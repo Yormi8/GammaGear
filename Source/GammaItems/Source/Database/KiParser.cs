@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public abstract class KiParser<T> : IKiParser
         where T: IKiLocaleBank

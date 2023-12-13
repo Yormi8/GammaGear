@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows;
 using NaturalSort.Extension;
 
-namespace GammaGear.Source
+namespace GammaItems.Source
 {
     public interface ICustomSorter : IComparer
     {

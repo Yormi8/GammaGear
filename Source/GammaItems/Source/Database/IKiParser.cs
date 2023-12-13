@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     interface IKiParser
     {

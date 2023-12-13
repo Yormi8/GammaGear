@@ -6,12 +6,10 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public class KiJsonParser<T> : KiParser<T>
         where T : KiLocaleBank, new()

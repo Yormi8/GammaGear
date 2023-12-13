@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public abstract class KiLocaleBank : IKiLocaleBank
     {

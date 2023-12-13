@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GammaGear.Source.Database
+namespace GammaItems
 {
-    public interface IKiReader
+    public class IllegalitySet
     {
-        public IEnumerable<KiObject> ReadAllToKiObject(string path);
+        public Item Item;
+        public List<IllegalityReason> Reasons;
     }
 }

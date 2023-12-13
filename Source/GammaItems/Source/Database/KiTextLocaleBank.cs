@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace GammaGear.Source.Database
+namespace GammaItems.Source.Database
 {
     public class KiTextLocaleBank : KiLocaleBank, IKiLocaleBank
     {

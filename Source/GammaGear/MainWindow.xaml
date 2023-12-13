@@ -1,4 +1,4 @@
-﻿<Window x:Class="GammaGear.MainWindow"
+﻿<!--<Window x:Class="GammaGear.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -22,7 +22,7 @@
 
     <Window.Resources>
 
-        <!--Big thanks to R.A.Dain for the chrome style and functionality!-->
+        --><!--Big thanks to R.A.Dain for the chrome style and functionality!-->
         <!--https://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=5255192-->
         <!--Base style for title bar buttons-->
         <!--<Style x:Key="CaptionButtonStyle" TargetType="Button">
@@ -80,7 +80,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Content" Value="&#xE106;"/>
-        </Style>-->
+        </Style>--><!--
 
         <DataTemplate x:Key="itemDisplayTemplate">
 
@@ -133,16 +133,16 @@
 
     </Window.Resources>
 
-    <!--<WindowChrome.WindowChrome>
+    --><!--<WindowChrome.WindowChrome>
         <WindowChrome
             ResizeBorderThickness="6"
             CaptionHeight="25"
             CornerRadius="15"/>
-    </WindowChrome.WindowChrome>-->
+    </WindowChrome.WindowChrome>--><!--
 
     <DockPanel x:Name="MainWindowPanel" Margin="0">
 
-        <!--<DockPanel DockPanel.Dock="Top">
+        --><!--<DockPanel DockPanel.Dock="Top">
             <Button x:Name="WindowCloseButton"
                     DockPanel.Dock="Right"
                     Style="{StaticResource CloseButtonStyle}"
@@ -175,7 +175,7 @@
             <TextBlock x:Name="WindowTitleName" TextAlignment="Left" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" FontWeight="Bold">
                 Gamma Gear 0.1
             </TextBlock>
-        </DockPanel>-->
+        </DockPanel>--><!--
 
         <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
             <StatusBarItem>
@@ -601,7 +601,7 @@
                             <StackPanel x:Name="WizardSelectedItemDetails"
                                         Orientation="Horizontal"
                                         Margin="3 3 3 0"/>
-                            <!--<Button Click="On_StatsTab_BaseItemButtonEquipNew_Click" x:Name="WizardEquipItemBox">Equip New Item</Button>-->
+                            --><!--<Button Click="On_StatsTab_BaseItemButtonEquipNew_Click" x:Name="WizardEquipItemBox">Equip New Item</Button>--><!--
                         </StackPanel>
 
                         <Rectangle Width="1" Fill="#FF9A9A9A" Margin="3,3,3,3"/>
@@ -894,4 +894,4 @@
             </TabControl>
         </DockPanel>
     </DockPanel>
-</Window>
+</Window>-->

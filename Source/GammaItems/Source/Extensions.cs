@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using GammaGear.Source;
-using GammaGear.Source.Database;
+﻿using System.Numerics;
+using GammaItems.Source.Database;
 
-namespace GammaGear.Source
+namespace GammaItems
 {
     public static class Extensions
     {
@@ -24,7 +16,15 @@ namespace GammaGear.Source
             return added;
         }
 
-        public static Dictionary<Item.School, int> GetDictionaryFromCanonical(this Item item, Canonical canonical)
+        public static void MergeAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, Dictionary<TKey, TValue> other) where TValue : IAdditionOperators<TValue, TValue, TValue>
+        {
+            foreach (var item in other)
+            {
+                dict.AddOrIncrement(item.Key, item.Value);
+            }
+        }
+
+        public static Dictionary<School, int> GetDictionaryFromCanonical(this Item item, Canonical canonical)
         {
             return canonical switch
             {
