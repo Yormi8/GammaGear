@@ -7,6 +7,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Source\CustomSorter.cs" />
+    <Compile Remove="Source\Database\IKiLocaleBank.cs" />
+    <Compile Remove="Source\Database\IKiParser.cs" />
+    <Compile Remove="Source\Database\IKiReader.cs" />
+    <Compile Remove="Source\Database\IKiWriter.cs" />
+    <Compile Remove="Source\Database\KiDatabaseTypes.cs" />
+    <Compile Remove="Source\Database\KiJsonParser.cs" />
+    <Compile Remove="Source\Database\KiLocaleBank.cs" />
+    <Compile Remove="Source\Database\KiParser.cs" />
+    <Compile Remove="Source\Database\KiReader.cs" />
+    <Compile Remove="Source\Database\KiReaderWriter.cs" />
+    <Compile Remove="Source\Database\KiSqliteReaderWriter.cs" />
+    <Compile Remove="Source\Database\KiTextLocaleBank.cs" />
+    <Compile Remove="Source\Database\KiWriter.cs" />
+    <Compile Remove="Source\Database\KiXmlParser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Source\CustomSorter.cs" />
+    <None Include="Source\Database\IKiLocaleBank.cs" />
+    <None Include="Source\Database\IKiParser.cs" />
+    <None Include="Source\Database\IKiReader.cs" />
+    <None Include="Source\Database\IKiWriter.cs" />
+    <None Include="Source\Database\KiDatabaseTypes.cs" />
+    <None Include="Source\Database\KiJsonParser.cs" />
+    <None Include="Source\Database\KiLocaleBank.cs" />
+    <None Include="Source\Database\KiParser.cs" />
+    <None Include="Source\Database\KiReader.cs" />
+    <None Include="Source\Database\KiReaderWriter.cs" />
+    <None Include="Source\Database\KiSqliteReaderWriter.cs" />
+    <None Include="Source\Database\KiTextLocaleBank.cs" />
+    <None Include="Source\Database\KiWriter.cs" />
+    <None Include="Source\Database\KiXmlParser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

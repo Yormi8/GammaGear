@@ -7,13 +7,14 @@ namespace GammaItems
         public string Name = "";
         public string Description = "";
         public string Creator = "";
-        public Uri IconUri;
         public List<Item> Items;
         public string WizardName = "";
         public int WizardLevel = 1;
         public School WizardSchool = School.None;
         public ArenaRank WizardPvpRank = ArenaRank.Private;
         public ArenaRank WizardPetRank = ArenaRank.Private;
+        public DateTime TimeCreated;
+        public DateTime TimeUpdated;
 
         public bool IsLegal => CalculateLegality().Any();
         public bool ContainsRetired => Items.Any(x => x.IsRetired);

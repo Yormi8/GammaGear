@@ -122,7 +122,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="MainWindow.xaml" />
+    <Page Remove="old--MainWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -397,15 +397,15 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\External\Dependencies\wpfui-catppuccin\src\Wpf.Ui\Wpf.Ui.csproj" />
+    <ProjectReference Include="..\GammaItems\GammaItems.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="MainWindow.xaml" />
+    <None Include="old--MainWindow.xaml" />
   </ItemGroup>
 
 </Project>

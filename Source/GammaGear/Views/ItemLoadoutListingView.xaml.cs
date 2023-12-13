@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Controls;
 
 namespace GammaGear.Views
 {
     /// <summary>
-    /// Interaction logic for MasterWindow.xaml
+    /// Interaction logic for ItemLoadoutListingView.xaml
     /// </summary>
-    public partial class MasterWindow : UiWindow
+    public partial class ItemLoadoutListingView : UserControl
     {
-        public MasterWindow()
+        public ItemLoadoutListingView()
         {
             InitializeComponent();
         }

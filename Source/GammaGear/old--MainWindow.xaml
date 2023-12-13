@@ -1,0 +1,897 @@
+﻿<!--<Window x:Class="GammaGear.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:GammaGear"
+        xmlns:localSource="clr-namespace:GammaGear.Source"
+        mc:Ignorable="d"
+        Title="Gamma Gear" Height="600" Width="1200">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="local:W101Commands.OpenWiki" Executed="OnWikiMenuItemClicked"></CommandBinding>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Window.Resources>
+
+        --><!--Big thanks to R.A.Dain for the chrome style and functionality!-->
+        <!--https://www.codeproject.com/script/Articles/ViewDownloads.aspx?aid=5255192-->
+        <!--Base style for title bar buttons-->
+        <!--<Style x:Key="CaptionButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="LayoutRoot" Background="Transparent" Width="44">
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                       Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource LavenderBrush}"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource BaseBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        --><!--Minimize--><!--
+        <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE949;"/>
+        </Style>
+
+        --><!--Maximize--><!--
+        <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE739;"/>
+        </Style>
+
+        --><!--Restore--><!--
+        <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+            <Setter Property="Content" Value="&#xE923;"/>
+        </Style>
+
+        --><!--Close... Duplicated because of template colors...--><!--
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="LayoutRoot" Background="Transparent" Width="44">
+                            <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                       Foreground="{DynamicResource TextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LayoutRoot" Property="Background" Value="{DynamicResource RedBrush}"/>
+                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource BaseBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Content" Value="&#xE106;"/>
+        </Style>--><!--
+
+        <DataTemplate x:Key="itemDisplayTemplate">
+
+
+        </DataTemplate>
+        <local:ItemViewModel x:Key="itemVM"/>
+        <CollectionViewSource x:Key="databaseCVS"
+                              Source="{StaticResource itemVM}"
+                              Filter="CollectionViewSource_Filter">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="DisplaySchool"/>
+                <scm:SortDescription PropertyName="DisplayType" />
+                <scm:SortDescription PropertyName="LevelRequirement" />
+                <scm:SortDescription PropertyName="Name" />
+            </CollectionViewSource.SortDescriptions>
+
+        </CollectionViewSource>
+
+        <localSource:NaturalSorter x:Key="NaturalSorter"/>
+
+        <ControlTemplate x:Key="JewelSocketEquipButton" x:Name="JewelSocketEquipButtonTemplate" TargetType="Button">
+            <Grid>
+                <Grid.Resources>
+                    <Style BasedOn="{StaticResource {x:Type Image}}"
+                           TargetType="{x:Type Image}">
+                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="Height" Value="25"/>
+                    </Style>
+                </Grid.Resources>
+                <Image x:Name="EmptyImage"
+                       Source="Assets/Images/(Icon)_Equipment_SquareJewel.png"
+                       Visibility="Hidden"/>
+                <Image x:Name="FilledImage"
+                       Source="Assets/Images/(Icon)_Equipment_SquareJewel_Filled.png"
+                       Visibility="Visible"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="EquipmentButton"
+               BasedOn="{StaticResource {x:Type Button}}"
+               TargetType="{x:Type Button}">
+            <EventSetter Event="Click" Handler="On_StatsTab_BaseItemButton_Click"/>
+            <EventSetter Event="Loaded" Handler="On_StatsTab_BaseItemButton_Loaded"/>
+
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Margin" Value="3 3 3 3"/>
+        </Style>
+
+    </Window.Resources>
+
+    --><!--<WindowChrome.WindowChrome>
+        <WindowChrome
+            ResizeBorderThickness="6"
+            CaptionHeight="25"
+            CornerRadius="15"/>
+    </WindowChrome.WindowChrome>--><!--
+
+    <DockPanel x:Name="MainWindowPanel" Margin="0">
+
+        --><!--<DockPanel DockPanel.Dock="Top">
+            <Button x:Name="WindowCloseButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource CloseButtonStyle}"
+                    ToolTip="Close"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+            <Button x:Name="WindowMaximizeButton"
+                    DockPanel.Dock="Right"
+                    Visibility="Visible"
+                    Style="{StaticResource MaximizeButtonStyle}"
+                    ToolTip="Maximize"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.MaximizeWindowCommand}"/>
+            <Button x:Name="WindowRestoreButton"
+                    DockPanel.Dock="Right"
+                    Visibility="Collapsed"
+                    Style="{StaticResource RestoreButtonStyle}"
+                    ToolTip="Restore"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.RestoreWindowCommand}"/>
+            <Button x:Name="WindowMinimizeButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource MinimizeButtonStyle}"
+                    ToolTip="Minimize"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+            <Image x:Name="WindowTitleIcon"
+                Source="Assets/Images/(Icon)_Stats_Damage.png" Width="17" Height="17" Margin="5,5,5,5">
+            </Image>
+            <TextBlock x:Name="WindowTitleName" TextAlignment="Left" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" FontWeight="Bold">
+                Gamma Gear 0.1
+            </TextBlock>
+        </DockPanel>--><!--
+
+        <StatusBar DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <StatusBarItem>
+                <TextBlock Margin="3,0,3,0">
+                        Items Loaded: 0
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <DockPanel Margin="3">
+            <Menu DockPanel.Dock="Top">
+                <ui:MenuItem Header="File">
+                    <ui:MenuItem Header="Import From JSON" Click="FileCreateNewDB"/>
+                    <ui:MenuItem Header="Import From DB" Click="FileLoadDB"/>
+                    <ui:MenuItem Header="Save Equipment Set"/>
+                    <ui:MenuItem Header="Load Equipment Set"/>
+                </ui:MenuItem>
+                <ui:MenuItem Header="Settings">
+                    <ui:MenuItem Header="Theme">
+                        <ui:MenuItem x:Name="LatteThemeButton" Header="Latte" Click="LatteTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="FrappeThemeButton" Header="Frappé" Click="FrappeTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="MacchiatoThemeButton" Header="Macchiato" Click="MacchiatoTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                        <ui:MenuItem x:Name="MochaThemeButton" Header="Mocha" Click="MochaTheme_Click" IsCheckable="True" StaysOpenOnClick="True"/>
+                    </ui:MenuItem>
+                </ui:MenuItem>
+                <ui:MenuItem Header="Help">
+                    <ui:MenuItem Header="Wiki" Command="local:W101Commands.OpenWiki"/>
+                    <ui:MenuItem Header="About"/>
+                </ui:MenuItem>
+            </Menu>
+            <TabControl x:Name="MainTabControl"
+                        TabStripPlacement="Left"
+                        SelectedIndex="0"
+                        DockPanel.Dock="Top"
+                        SelectionChanged="TabControlSelectionChanged">
+                <TabItem x:Name="StatsTab">
+                    <TabItem.Header>
+                        <Image Source="Assets/Images/(Icon)_Tab_Character.png" Width="25" Height="25" ToolTip="Stats"/>
+                    </TabItem.Header>
+
+                    <StackPanel ScrollViewer.HorizontalScrollBarVisibility="Visible" CanHorizontallyScroll="True" CanVerticallyScroll="True" Orientation="Horizontal" ScrollViewer.CanContentScroll="True">
+
+                        <Grid Margin="10,10,10,10">
+
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type Image}}"
+                                       TargetType="{x:Type Image}">
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="Width" Value="30"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Width" Value="45"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </Grid.Resources>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Basic Stats
+                            </TextBlock>
+
+                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Stats_Health.png"/>
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Mana.png"/>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Power_Pip.png"/>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Shadow_Pip.png"/>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Stun_Resistance.png"/>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Incoming.png"/>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Outgoing.png"/>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Archmastery.png"/>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Energy.png"/>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Stats_Fishing_Luck.png"/>
+
+                            <TextBox x:Name="BasicStatsMaxHealth" Grid.Column="1" Grid.Row="1">99,999</TextBox>
+                            <TextBox x:Name="BasicStatsMaxMana" Grid.Column="1" Grid.Row="2">99,999</TextBox>
+                            <TextBox x:Name="BasicStatsPipChance" Grid.Column="1" Grid.Row="3">999%</TextBox>
+                            <TextBox x:Name="BasicStatsShadowRating" Grid.Column="1" Grid.Row="4">999</TextBox>
+                            <TextBox x:Name="BasicStatsStunResist" Grid.Column="1" Grid.Row="5">999%</TextBox>
+                            <TextBox x:Name="BasicStatsIncHealing" Grid.Column="1" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="BasicStatsOutHealing" Grid.Column="1" Grid.Row="7">999%</TextBox>
+                            <TextBox x:Name="BasicStatsArchmastery" Grid.Column="1" Grid.Row="8">999</TextBox>
+                            <TextBox x:Name="BasicStatsMaxEnergy" Grid.Column="1" Grid.Row="9">999</TextBox>
+                            <TextBox x:Name="BasicStatsFishingLuck" Grid.Column="1" Grid.Row="10">999%</TextBox>
+
+                        </Grid>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+
+                        <Grid x:Name="AdvancedStatGrid" Margin="10,10,10,10">
+
+                            <Grid.Resources>
+                                <Style TargetType="{x:Type ColumnDefinition}">
+                                    <Setter Property="Width" Value="Auto"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Setter Property="Width" Value="35"/>
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                </Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="Width" Value="30"/>
+                                </Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Setter Property="RadiusX" Value="6"/>
+                                    <Setter Property="RadiusY" Value="6"/>
+                                </Style>
+                            </Grid.Resources>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Advanced Stats
+                            </TextBlock>
+
+                            <Rectangle Grid.Row="2" Grid.Column="0" Grid.RowSpan="9" Fill="#BDBDBD"/>
+                            <Rectangle Grid.Row="1" Grid.Column="1" Grid.RowSpan="10" Fill="#FF6666"/>
+                            <Rectangle Grid.Row="1" Grid.Column="2" Grid.RowSpan="10" Fill="#66B2FF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="3" Grid.RowSpan="10" Fill="#B266FF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="4" Grid.RowSpan="10" Fill="#FFFF66"/>
+                            <Rectangle Grid.Row="1" Grid.Column="5" Grid.RowSpan="10" Fill="#66FF66"/>
+                            <Rectangle Grid.Row="1" Grid.Column="6" Grid.RowSpan="10" Fill="#A0A0A0"/>
+                            <Rectangle Grid.Row="1" Grid.Column="7" Grid.RowSpan="10" Fill="#FFB266"/>
+                            <Rectangle Grid.Row="1" Grid.Column="8" Grid.RowSpan="10" Fill="#404040"/>
+
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_Damage.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Stats_Flat_Damage.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Stats_Resistance.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Stats_Flat_Resistance.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Stats_Accuracy.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Stats_Critical.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Stats_Critical_Block.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Stats_Armor_Piercing.png"></Image>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Stats_Pip_Conversion.png"></Image>
+
+                            <Image Grid.Column="1" Grid.Row="1" Source="Assets/Images/(Icon)_School_Fire.png"/>
+                            <Image Grid.Column="2" Grid.Row="1" Source="Assets/Images/(Icon)_School_Ice.png"/>
+                            <Image Grid.Column="3" Grid.Row="1" Source="Assets/Images/(Icon)_School_Storm.png"/>
+                            <Image Grid.Column="4" Grid.Row="1" Source="Assets/Images/(Icon)_School_Myth.png"/>
+                            <Image Grid.Column="5" Grid.Row="1" Source="Assets/Images/(Icon)_School_Life.png"/>
+                            <Image Grid.Column="6" Grid.Row="1" Source="Assets/Images/(Icon)_School_Death.png"/>
+                            <Image Grid.Column="7" Grid.Row="1" Source="Assets/Images/(Icon)_School_Balance.png"/>
+                            <Image Grid.Column="8" Grid.Row="1" Source="Assets/Images/(Icon)_School_Shadow.png"/>
+
+
+                            <TextBox x:Name="StatsFireDamage"    Grid.Column="1" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsIceDamage"     Grid.Column="2" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsStormDamage"   Grid.Column="3" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsMythDamage"    Grid.Column="4" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsLifeDamage"    Grid.Column="5" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsDeathDamage"   Grid.Column="6" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceDamage" Grid.Column="7" Grid.Row="2">999%</TextBox>
+                            <TextBox x:Name="StatsShadowDamage"  Grid.Column="8" Grid.Row="2">999%</TextBox>
+
+                            <TextBox x:Name="StatsFireFlatDamage"    Grid.Column="1" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsIceFlatDamage"     Grid.Column="2" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsStormFlatDamage"   Grid.Column="3" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsMythFlatDamage"    Grid.Column="4" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsLifeFlatDamage"    Grid.Column="5" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsDeathFlatDamage"   Grid.Column="6" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceFlatDamage" Grid.Column="7" Grid.Row="3">+999</TextBox>
+                            <TextBox x:Name="StatsShadowFlatDamage"  Grid.Column="8" Grid.Row="3">+999</TextBox>
+
+                            <TextBox x:Name="StatsFireResistance"    Grid.Column="1" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsIceResistance"     Grid.Column="2" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsStormResistance"   Grid.Column="3" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsMythResistance"    Grid.Column="4" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsLifeResistance"    Grid.Column="5" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsDeathResistance"   Grid.Column="6" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceResistance" Grid.Column="7" Grid.Row="4">999%</TextBox>
+                            <TextBox x:Name="StatsShadowResistance"  Grid.Column="8" Grid.Row="4">999%</TextBox>
+
+                            <TextBox x:Name="StatsFireFlatResistance"    Grid.Column="1" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsIceFlatResistance"     Grid.Column="2" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsStormFlatResistance"   Grid.Column="3" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsMythFlatResistance"    Grid.Column="4" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsLifeFlatResistance"    Grid.Column="5" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsDeathFlatResistance"   Grid.Column="6" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceFlatResistance" Grid.Column="7" Grid.Row="5">+999</TextBox>
+                            <TextBox x:Name="StatsShadowFlatResistance"  Grid.Column="8" Grid.Row="5">+999</TextBox>
+
+                            <TextBox x:Name="StatsFireAccuracy"    Grid.Column="1" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsIceAccuracy"     Grid.Column="2" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsStormAccuracy"   Grid.Column="3" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsMythAccuracy"    Grid.Column="4" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsLifeAccuracy"    Grid.Column="5" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsDeathAccuracy"   Grid.Column="6" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsBalanceAccuracy" Grid.Column="7" Grid.Row="6">999%</TextBox>
+                            <TextBox x:Name="StatsShadowAccuracy"  Grid.Column="8" Grid.Row="6">999%</TextBox>
+
+                            <TextBox x:Name="StatsFireCritical"    Grid.Column="1" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsIceCritical"     Grid.Column="2" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsStormCritical"   Grid.Column="3" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsMythCritical"    Grid.Column="4" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsLifeCritical"    Grid.Column="5" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsDeathCritical"   Grid.Column="6" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceCritical" Grid.Column="7" Grid.Row="7">+999</TextBox>
+                            <TextBox x:Name="StatsShadowCritical"  Grid.Column="8" Grid.Row="7">+999</TextBox>
+
+                            <TextBox x:Name="StatsFireCriticalBlock"    Grid.Column="1" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsIceCriticalBlock"     Grid.Column="2" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsStormCriticalBlock"   Grid.Column="3" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsMythCriticalBlock"    Grid.Column="4" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsLifeCriticalBlock"    Grid.Column="5" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsDeathCriticalBlock"   Grid.Column="6" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsBalanceCriticalBlock" Grid.Column="7" Grid.Row="8">+999</TextBox>
+                            <TextBox x:Name="StatsShadowCriticalBlock"  Grid.Column="8" Grid.Row="8">+999</TextBox>
+
+                            <TextBox x:Name="StatsFirePierce"    Grid.Column="1" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsIcePierce"     Grid.Column="2" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsStormPierce"   Grid.Column="3" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsMythPierce"    Grid.Column="4" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsLifePierce"    Grid.Column="5" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsDeathPierce"   Grid.Column="6" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsBalancePierce" Grid.Column="7" Grid.Row="9">999%</TextBox>
+                            <TextBox x:Name="StatsShadowPierce"  Grid.Column="8" Grid.Row="9">999%</TextBox>
+
+                            <TextBox x:Name="StatsFirePipConversion"    Grid.Column="1" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsIcePipConversion"     Grid.Column="2" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsStormPipConversion"   Grid.Column="3" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsMythPipConversion"    Grid.Column="4" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsLifePipConversion"    Grid.Column="5" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsDeathPipConversion"   Grid.Column="6" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsBalancePipConversion" Grid.Column="7" Grid.Row="10">+999</TextBox>
+                            <TextBox x:Name="StatsShadowPipConversion"  Grid.Column="8" Grid.Row="10">+999</TextBox>
+
+                        </Grid>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+
+                        <Grid Margin="10,10,10,10">
+
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type Button}}"
+                                       TargetType="{x:Type Button}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Width" Value="300"/>
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}"
+                                       TargetType="{x:Type xctk:IntegerUpDown}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type ComboBox}}"
+                                       TargetType="{x:Type ComboBox}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                </Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Margin" Value="3 3 3 3"/>
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="Width" Value="30"/>
+                                </Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Setter Property="RadiusX" Value="6"/>
+                                    <Setter Property="RadiusY" Value="6"/>
+                                </Style>
+                            </Grid.Resources>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition MaxWidth="36"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Equipment
+                            </TextBlock>
+
+                            <Image Grid.Column="0" Grid.Row="1" Source="Assets/Images/(Icon)_Button_Equipment_Set.png"/>
+                            <Image Grid.Column="0" Grid.Row="2" Source="Assets/Images/(Icon)_School_Global.png"/>
+                            <Image Grid.Column="2" Grid.Row="2" Source="Assets/Images/(Icon)_Stats_XP.png"/>
+                            <Image Grid.Column="0" Grid.Row="3" Source="Assets/Images/(Icon)_Equipment_Hat.png"/>
+                            <Image Grid.Column="0" Grid.Row="4" Source="Assets/Images/(Icon)_Equipment_Robe.png"/>
+                            <Image Grid.Column="0" Grid.Row="5" Source="Assets/Images/(Icon)_Equipment_Boots.png"/>
+                            <Image Grid.Column="0" Grid.Row="6" Source="Assets/Images/(Icon)_Equipment_Wand.png"/>
+                            <Image Grid.Column="0" Grid.Row="7" Source="Assets/Images/(Icon)_Equipment_Athame.png"/>
+                            <Image Grid.Column="0" Grid.Row="8" Source="Assets/Images/(Icon)_Equipment_Amulet.png"/>
+                            <Image Grid.Column="0" Grid.Row="9" Source="Assets/Images/(Icon)_Equipment_Ring.png"/>
+                            <Image Grid.Column="0" Grid.Row="10" Source="Assets/Images/(Icon)_Equipment_Pet.png"/>
+                            <Image Grid.Column="0" Grid.Row="11" Source="Assets/Images/(Icon)_Equipment_Deck.png"/>
+                            <Image Grid.Column="0" Grid.Row="12" Source="Assets/Images/(Icon)_Equipment_Mount.png"/>
+
+                            <Button x:Name="WizardLoadoutButton"
+                                    Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3"
+                                    Click="LoadoutButton_Click" Foreground="Black">None</Button>
+
+                            <ComboBox x:Name="WizardSchoolBox"
+                                      Grid.Column="1" Grid.Row="2"
+                                      ToolTip="School"
+                                      SelectionChanged="UpdateStatsTabEvent"
+                                      HorizontalContentAlignment="Center"
+                                      HorizontalAlignment="Stretch">
+                                <ComboBoxItem IsSelected="True" Content="None"/>
+                                <ComboBoxItem>Fire</ComboBoxItem>
+                                <ComboBoxItem>Ice</ComboBoxItem>
+                                <ComboBoxItem>Storm</ComboBoxItem>
+                                <ComboBoxItem>Myth</ComboBoxItem>
+                                <ComboBoxItem>Life</ComboBoxItem>
+                                <ComboBoxItem>Death</ComboBoxItem>
+                                <ComboBoxItem>Balance</ComboBoxItem>
+                            </ComboBox>
+                            <xctk:IntegerUpDown x:Name="WizardLevelBox"
+                                                Grid.Column="3" Grid.Row="2"
+                                                AllowTextInput="True"
+                                                DefaultValue="0" Maximum="160" Minimum="0"
+                                                TextAlignment="Center"
+                                                DisplayDefaultValueOnEmptyText="True"
+                                                ValueChanged="UpdateStatsTabEvent"
+                                                MaxLength="3"
+                                                InputScope="Digits"
+                                                MaxWidth="120.963333333333"
+                                                HorizontalContentAlignment="Center"
+                                                HorizontalAlignment="Stretch"/>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Hat"  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Robe" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Boots" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Wand" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Athame" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Amulet" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Ring" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Pet" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Deck" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="3">None</Button>
+                            <Button Style="{StaticResource EquipmentButton}" Tag="Mount" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3">None</Button>
+
+                        </Grid>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+
+                        <StackPanel Margin="10,10,10,10" MinWidth="100">
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                Selected Item
+                            </TextBlock>
+
+                            <StackPanel x:Name="WizardSelectedItemDisplay">
+                                <TextBlock Margin="3,3,3,0" FontWeight="Bold" Text="None"/>
+                            </StackPanel>
+                            <StackPanel x:Name="WizardSelectedItemDetails"
+                                        Orientation="Horizontal"
+                                        Margin="3 3 3 0"/>
+                            --><!--<Button Click="On_StatsTab_BaseItemButtonEquipNew_Click" x:Name="WizardEquipItemBox">Equip New Item</Button>--><!--
+                        </StackPanel>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A" Margin="3,3,3,3"/>
+
+                    </StackPanel>
+                </TabItem>
+                <TabItem x:Name="CompareLoadoutsTabItem" ToolTip="Compare">
+                    <TabItem.Header>
+                        <Image Source="Assets/Images/(Icon)_Tab_PvP.png" Width="25" Height="25"/>
+                    </TabItem.Header>
+                    <TextBlock Text="Comparing functionality coming soon!"></TextBlock>
+                </TabItem>
+                <TabItem x:Name="DatabaseTabItem" HorizontalAlignment="Left" Width="37">
+                    <TabItem.Header>
+                        <Image Source="Assets/Images/(Icon)_Tab_Inventory.png" Width="25" Height="25" ToolTip="Backpack"/>
+                    </TabItem.Header>
+
+                    <DockPanel>
+                        <Grid Width="160" HorizontalAlignment="Left" Margin="3 3 3 3" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                       TargetType="{x:Type TextBlock}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="3 3 3 0"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type TextBox}}"
+                                       TargetType="{x:Type TextBox}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="3 3 3 0"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type ComboBox}}"
+                                       TargetType="{x:Type ComboBox}">
+                                    <Setter Property="Margin" Value="3 3 3 0"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}"
+                                       TargetType="{x:Type xctk:IntegerUpDown}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="TextAlignment" Value="Left"/>
+                                    <Setter Property="DisplayDefaultValueOnEmptyText" Value="True"/>
+                                    <Setter Property="Margin" Value="3 3 3 0"/>
+                                </Style>
+                                <Style BasedOn="{StaticResource {x:Type Button}}"
+                                       TargetType="{x:Type Button}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="3, 3, 3, 0"/>
+                                </Style>
+                            </Grid.Resources>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                <TextBlock.Text>Search &amp; Filter</TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">Item Name</TextBlock>
+                            <TextBox x:Name="DBNameBox"
+                                     Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">Type</TextBlock>
+                            <ComboBox x:Name="DBTypeBox" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+                                <ComboBoxItem IsSelected="True">All</ComboBoxItem>
+                                <ComboBoxItem>Hat</ComboBoxItem>
+                                <ComboBoxItem>Robe</ComboBoxItem>
+                                <ComboBoxItem>Boots</ComboBoxItem>
+                                <ComboBoxItem>Wand</ComboBoxItem>
+                                <ComboBoxItem>Athame</ComboBoxItem>
+                                <ComboBoxItem>Amulet</ComboBoxItem>
+                                <ComboBoxItem>Ring</ComboBoxItem>
+                                <ComboBoxItem>Deck</ComboBoxItem>
+                                <ComboBoxItem>Pet</ComboBoxItem>
+                                <ComboBoxItem>Mount</ComboBoxItem>
+                                <ComboBoxItem>Tear Jewel</ComboBoxItem>
+                                <ComboBoxItem>Circle Jewel</ComboBoxItem>
+                                <ComboBoxItem>Square Jewel</ComboBoxItem>
+                                <ComboBoxItem>Triangle Jewel</ComboBoxItem>
+                                <ComboBoxItem>Power Pin</ComboBoxItem>
+                                <ComboBoxItem>Shield Pin</ComboBoxItem>
+                                <ComboBoxItem>Sword Pin</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2">School</TextBlock>
+                            <ComboBox x:Name="DBSchoolBox" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
+                                <ComboBoxItem IsSelected="True">All</ComboBoxItem>
+                                <ComboBoxItem>Any</ComboBoxItem>
+                                <ComboBoxItem>Fire</ComboBoxItem>
+                                <ComboBoxItem>Ice</ComboBoxItem>
+                                <ComboBoxItem>Storm</ComboBoxItem>
+                                <ComboBoxItem>Myth</ComboBoxItem>
+                                <ComboBoxItem>Life</ComboBoxItem>
+                                <ComboBoxItem>Death</ComboBoxItem>
+                                <ComboBoxItem>Balance</ComboBoxItem>
+                            </ComboBox>
+                            <TextBlock Grid.Column="0" Grid.Row="7">Min Level</TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="7">Max Level</TextBlock>
+                            <xctk:IntegerUpDown x:Name="DBMinLevelBox" Grid.Column="0" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
+                            <xctk:IntegerUpDown x:Name="DBMaxLevelBox" Grid.Column="1" Grid.Row="8" Maximum="160" Minimum="1" DefaultValue="160" DisplayDefaultValueOnEmptyText="True"/>
+                            <Separator Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Margin="0,4,0,2" />
+                            <Button Grid.Column="0" Grid.Row="10"
+                                    Content="Search"
+                                    Click="DBSearchButtonOnClick"
+                                    IsDefault="True"/>
+                            <Button Grid.Column="1" Grid.Row="10"
+                                    Content="Reset"
+                                    Click="DBResetButtonOnClick"/>
+
+                        </Grid>
+
+                        <Rectangle Width="1" Fill="#FF9A9A9A"/>
+
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top"
+                                       TextAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextDecorations="Underline">
+                                <TextBlock.Text>Backpack</TextBlock.Text>
+                            </TextBlock>
+                            <Grid Margin="3 3 3 3" VerticalAlignment="Top">
+                                <DataGrid x:Name="ItemDatabaseGrid"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      SelectionMode="Single"
+                                      CanUserAddRows="False"
+                                      ItemsSource="{Binding Source={StaticResource databaseCVS}}"
+                                      SelectionChanged="DBItemSelected"
+                                      localSource:CustomSortBehaviour.AllowCustomSort="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Type" SortMemberPath="Type">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding DisplayTypeSource}" ToolTip="{Binding DisplayType}" Width="20" Height="20"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="School" SortMemberPath="SchoolRequirement">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding DisplaySchoolSource}" ToolTip="{Binding DisplaySchool}" Width="20" Height="20"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTextColumn Header="Level" Binding="{Binding LevelRequirement}"/>
+                                        <DataGridTextColumn Header="Name"
+                                                            Binding="{Binding Name}"
+                                                            localSource:CustomSortBehaviour.CustomSorter="{StaticResource NaturalSorter}"/>
+
+                                        <DataGridTemplateColumn Header="Crowns" SortMemberPath="IsCrownsOnly">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="Assets/Images/(Icon)_Flag_CrownsOnly.png"
+                                                       ToolTip="Crowns Only"
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsCrownsOnlyVisible}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="PVP" SortMemberPath="IsPVPOnly" Visibility="Hidden">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Image Source="Assets/Images/(Icon)_Flag_PVPOnly.png"
+                                                       ToolTip="PVPOnly"
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsPVPOnlyVisible}"/>
+                                                        <Image Source="Assets/Images/(Icon)_Flag_NoPVP.png"
+                                                       ToolTip="NoPVP"
+                                                       Width="20" Height="20"
+                                                       Visibility="{Binding IsNoPVPVisible}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </DockPanel>
+
+                        <Rectangle Width="1"/>
+
+                        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1">
+                            <StackPanel VerticalAlignment="Top">
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                           TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="3 3 3 0"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock FontWeight="Bold">
+                                    Equipped Item
+                                </TextBlock>
+                                <Separator/>
+                                <TextBlock x:Name="DBEquippedItemName">
+                                    None
+                                </TextBlock>
+                                <StackPanel x:Name="DBEquippedItemContent">
+
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel>
+                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 3 3 3" BorderBrush="#FF9A9A9A" BorderThickness="1" >
+                                <StackPanel VerticalAlignment="Top">
+                                    <StackPanel.Resources>
+                                        <Style BasedOn="{StaticResource {x:Type TextBlock}}"
+                                               TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="3 3 3 0"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <TextBlock FontWeight="Bold">
+                                    Selected Item
+                                    </TextBlock>
+                                    <Separator/>
+                                    <TextBlock x:Name="DBSelectedItemName">
+                                        <Run Text="None"/>
+                                    </TextBlock>
+                                    <StackPanel x:Name="DBSelectedItemContent">
+
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <Button Height="35" Width="35"
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBEquipButton"
+                                    Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Grid>
+                                    <Image x:Name="DBEquipButtonImage"
+                                           Source="Assets/Images/(Icon)_Button_Equip.png"
+                                           Width="35" Height="35"
+                                           Visibility="Visible"
+                                           ToolTip="Equip Item"/>
+                                    <Image x:Name="DBUnequipButtonImage"
+                                           Source="Assets/Images/(Icon)_Button_Unequip.png"
+                                           Width="35" Height="35"
+                                           Visibility="Hidden"
+                                           ToolTip="Unequip Item"/>
+                                </Grid>
+                            </Button>
+                            <Button Height="35" Width="35"
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBTrashButton" Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Image Source="Assets/Images/(Icon)_Button_Trash.png"
+                                       Width="35" Height="35"
+                                       ToolTip="Delete Item"/>
+                            </Button>
+                            <Button Height="35" Width="35"
+                                    BorderThickness="0,0,0,0"
+                                    Click="DBWikiButton" Padding="0,0,0,0" Margin="3,3,3,3">
+                                <Image Source="Assets/Images/(Icon)_Button_Interface.png"
+                                       Width="35" Height="35"
+                                       ToolTip="Open Wiki Page"/>
+                            </Button>
+                        </StackPanel>
+
+                    </DockPanel>
+                </TabItem>
+                <TabItem Visibility="Hidden">
+                    <TabItem.Header>
+                        <Image Source="Assets/Images/(Icon)_Tab_Pet.png" Width="25" Height="25" ToolTip="Pet Customizer"/>
+                    </TabItem.Header>
+                    <TextBlock Text="Pet Customizer coming soon!"/>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </DockPanel>
+</Window>-->

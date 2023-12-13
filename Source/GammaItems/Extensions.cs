@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using GammaItems.Source.Database;
 
 namespace GammaItems
 {
@@ -24,21 +23,21 @@ namespace GammaItems
             }
         }
 
-        public static Dictionary<School, int> GetDictionaryFromCanonical(this Item item, Canonical canonical)
-        {
-            return canonical switch
-            {
-                Canonical.Accuracy => item.Accuracies,
-                Canonical.ArmorPiercing => item.Pierces,
-                Canonical.Block => item.Blocks,
-                Canonical.CriticalHit => item.Criticals,
-                Canonical.Damage => item.Damages,
-                Canonical.FlatDamage => item.FlatDamages,
-                Canonical.ReduceDamage => item.Resists,
-                Canonical.FlatReduceDamage => item.FlatResists,
-                Canonical.PipConversion => item.PipConversions,
-                _ => null,
-            };
-        }
+        //public static Dictionary<School, int> GetDictionaryFromCanonical(this Item item, Canonical canonical)
+        //{
+        //    return canonical switch
+        //    {
+        //        Canonical.Accuracy => item.Accuracies,
+        //        Canonical.ArmorPiercing => item.Pierces,
+        //        Canonical.Block => item.Blocks,
+        //        Canonical.CriticalHit => item.Criticals,
+        //        Canonical.Damage => item.Damages,
+        //        Canonical.FlatDamage => item.FlatDamages,
+        //        Canonical.ReduceDamage => item.Resists,
+        //        Canonical.FlatReduceDamage => item.FlatResists,
+        //        Canonical.PipConversion => item.PipConversions,
+        //        _ => null,
+        //    };
+        //}
     }
 }
