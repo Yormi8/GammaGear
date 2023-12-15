@@ -72,8 +72,7 @@
             </ui:NavigationStore.Footer>
         </ui:NavigationStore>
 
-        <Border
-                DockPanel.Dock="Right"
+        <Border DockPanel.Dock="Right"
                 Background="{DynamicResource ControlFillColorDefaultBrush}"
                 CornerRadius="8,0,0,0">
             <Grid>
@@ -82,13 +81,12 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Frame x:Name="RootFrame" Grid.Row="1"/>
-                <ui:Breadcrumb
-                        Grid.Row="0"
-                        Margin="18"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="24"
-                        Navigation="{Binding ElementName=RootNavigation}"/>
+                <ui:Breadcrumb Grid.Row="0"
+                               Margin="18"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               FontSize="24"
+                               Navigation="{Binding ElementName=RootNavigation}"/>
             </Grid>
         </Border>
 
