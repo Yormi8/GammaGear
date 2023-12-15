@@ -21,8 +21,6 @@ namespace GammaGear.ViewModels
         public string Creator => _loadout.Creator;
         public string TimeCreated => _loadout.TimeCreated.ToString("g");
         public string TimeUpdated => _loadout.TimeUpdated.ToString("g");
-        public string InfoLine => $"Lvl {WizardLevel}  |  {WizardName}  |  {Creator}";
-        //public Uri Icon => _loadout.WizardSchool.ToIconUri();
         public ReadOnlyCollection<Item> Items => _loadout.Items.AsReadOnly();
         public string WizardName => _loadout.WizardName;
         public int WizardLevel => _loadout.WizardLevel;

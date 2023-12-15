@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
-namespace GammaGear.Views
+namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for ItemLoadoutListingView.xaml
+    /// Interaction logic for Items.xaml
     /// </summary>
-    public partial class ItemLoadoutListingView : UserControl
+    public partial class Items : UiPage
     {
-        public ItemLoadoutListingView()
+        public Items()
         {
             InitializeComponent();
         }

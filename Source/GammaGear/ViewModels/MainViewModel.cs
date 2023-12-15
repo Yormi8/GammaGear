@@ -13,7 +13,7 @@ namespace GammaGear.ViewModels
 
         public MainViewModel()
         {
-            CurrentViewModel = new ItemLoadoutListingViewModel();
+            CurrentViewModel = new LoadoutsViewModel();
         }
     }
 }

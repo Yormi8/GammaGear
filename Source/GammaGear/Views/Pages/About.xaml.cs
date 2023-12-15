@@ -10,17 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 
-namespace GammaGear
+namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for MasterWindow.xaml
+    /// Interaction logic for About.xaml
     /// </summary>
-    public partial class MainWindow : UiWindow
+    public partial class About : UiPage
     {
-        public MainWindow()
+        public About()
         {
             InitializeComponent();
         }

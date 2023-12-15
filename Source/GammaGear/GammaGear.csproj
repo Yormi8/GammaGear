@@ -129,6 +129,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
@@ -397,6 +398,7 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Windows\" />
   </ItemGroup>
 
   <ItemGroup>

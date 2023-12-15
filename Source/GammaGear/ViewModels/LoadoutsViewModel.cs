@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace GammaGear.ViewModels
 {
-    public class ItemLoadoutListingViewModel : ViewModelBase
+    public class LoadoutsViewModel : ViewModelBase
     {
         private readonly ObservableCollection<ItemLoadoutViewModel> _itemLoadouts;
 
@@ -19,7 +19,7 @@ namespace GammaGear.ViewModels
         public ICommand EditLoadoutCommand { get; }
         public ICommand NewLoadoutCommand { get; }
 
-        public ItemLoadoutListingViewModel()
+        public LoadoutsViewModel()
         {
             _itemLoadouts = new ObservableCollection<ItemLoadoutViewModel>();
 
