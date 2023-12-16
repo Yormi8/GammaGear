@@ -8,14 +8,23 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>GammaGear.App</StartupObject>
+    <Title>Gamma Gear</Title>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyVersion>0.1.0.*</AssemblyVersion>
+    <FileVersion></FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>7</WarningLevel>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Deterministic>False</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <WarningLevel>7</WarningLevel>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Deterministic>False</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -126,7 +135,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
@@ -409,11 +417,4 @@
   <ItemGroup>
     <None Include="old--MainWindow.xaml" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Wpf.Ui">
-      <HintPath>..\..\External\Dependencies\wpfui\src\Wpf.Ui\bin\Debug\net7.0-windows\Wpf.Ui.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
