@@ -7,13 +7,38 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="About">
+      Title="About Gamma Gear">
 
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock FontSize="22"
-                       Text="About Gamma Gear"/>
-            <TextBlock Text="Version 0.1"/>
+
+            <ui:Card Margin="0 2 0 2">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Info24"
+                                   FontSize="24"/>
+                    <ui:TextBlock Margin="12 0 0 0"
+                                  Text="{Binding ViewModel.VersionInfo}"
+                                  VerticalAlignment="Center"/>
+                </StackPanel>
+            </ui:Card>
+
+            <ui:CardAction Margin="0 2 0 2"
+                           Content="License: MIT License"
+                           Click="LicenseCard_Click"
+                           Icon="{ui:SymbolIcon Scales24}"/>
+
+            <ui:CardAction Margin="0 2 0 2"
+                           Content="View the source code on Github!"
+                           Click="SourceCodeCard_Click"
+                           Icon="{ui:SymbolIcon Code24}"/>
+
+            <ui:CardAction Margin="0 2 0 2"
+                           Content="Report issues here!"
+                           Click="FeedbackCard_Click"
+                           Icon="{ui:SymbolIcon PersonFeedback24}"/>
+
+            <!--TODO: List packages and their license info, maybe use a card expander?-->
+            <!--TODO: List credits-->
         </StackPanel>
     </Grid>
 </Page>

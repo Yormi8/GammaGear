@@ -8,5 +8,6 @@ namespace GammaGear.ViewModels
 {
     public class AboutPageViewModel : ViewModelBase
     {
+        public string VersionInfo => ApplicationInfo.AppDisplayVersion;
     }
 }
