@@ -1,5 +1,4 @@
-﻿using GammaGear.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,16 +17,12 @@ using Wpf.Ui.Controls;
 namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class Home : UiPage
+    public partial class SettingsPage : Page
     {
-        public HomeViewModel ViewModel { get; }
-
-        public Home(HomeViewModel viewModel)
+        public SettingsPage()
         {
-            ViewModel = viewModel;
-
             InitializeComponent();
         }
     }

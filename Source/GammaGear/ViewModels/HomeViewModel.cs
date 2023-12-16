@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Wpf.Ui.Mvvm.Contracts;
-using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Input;
+using Wpf.Ui.Controls;
+using Wpf.Ui;
 
 namespace GammaGear.ViewModels
 {
@@ -38,7 +38,7 @@ namespace GammaGear.ViewModels
             switch (parameter)
             {
                 case "navigate_to_items":
-                    _navigationService.Navigate(typeof(Views.Pages.Items));
+                    _navigationService.Navigate(typeof(Views.Pages.ItemsPage));
                     return;
             }
         }

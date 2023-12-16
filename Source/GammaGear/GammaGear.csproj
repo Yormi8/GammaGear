@@ -132,6 +132,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="WPF-UI" Version="3.0.0-preview.13" />
   </ItemGroup>
 
   <ItemGroup>
@@ -402,12 +403,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\External\Dependencies\wpfui-catppuccin\src\Wpf.Ui\Wpf.Ui.csproj" />
     <ProjectReference Include="..\GammaItems\GammaItems.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="old--MainWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Wpf.Ui">
+      <HintPath>..\..\External\Dependencies\wpfui\src\Wpf.Ui\bin\Debug\net7.0-windows\Wpf.Ui.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

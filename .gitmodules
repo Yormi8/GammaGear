@@ -1,3 +1,6 @@
 [submodule "external/dependencies/wpfui-catppuccin"]
 	path = external/dependencies/wpfui-catppuccin
 	url = git@github.com:Yormi8/wpfui-catppuccin.git
+[submodule "External/Dependencies/wpfui"]
+	path = External/Dependencies/wpfui
+	url = https://github.com/lepoco/wpfui.git

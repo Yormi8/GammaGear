@@ -17,12 +17,14 @@ using Wpf.Ui.Controls;
 namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for About.xaml
+    /// Interaction logic for Debug.xaml
     /// </summary>
-    public partial class About : UiPage
+    public partial class DebugPage : Page
     {
-        public About()
+        public DebugPage()
         {
+            DataContext = this;
+
             InitializeComponent();
         }
     }

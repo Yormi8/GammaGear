@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GammaGear.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +18,17 @@ using Wpf.Ui.Controls;
 namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for Debug.xaml
+    /// Interaction logic for ItemLoadoutListingView.xaml
     /// </summary>
-    public partial class Debug : UiPage
+    public partial class LoadoutsPage : INavigableView<LoadoutsViewModel>
     {
-        public Debug()
+        public LoadoutsViewModel ViewModel { get; }
+
+        public LoadoutsPage(LoadoutsViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = this;
+
             InitializeComponent();
         }
     }

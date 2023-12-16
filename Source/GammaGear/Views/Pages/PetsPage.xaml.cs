@@ -17,11 +17,11 @@ using Wpf.Ui.Controls;
 namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for Settings.xaml
+    /// Interaction logic for Pets.xaml
     /// </summary>
-    public partial class Settings : UiPage
+    public partial class PetsPage : Page
     {
-        public Settings()
+        public PetsPage()
         {
             InitializeComponent();
         }

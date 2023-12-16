@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GammaGear.ViewModels
 {
-    class AboutViewModel : ViewModelBase
+    public class AboutPageViewModel : ViewModelBase
     {
     }
 }

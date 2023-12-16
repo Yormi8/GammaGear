@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using GammaGear;
 using GammaGear.Services;
+using GammaGear.Services.Contracts;
 using GammaGear.ViewModels;
 using GammaGear.Views;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Extensions;
-using Wpf.Ui.Mvvm.Contracts;
-using Wpf.Ui.Mvvm.Services;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace GammaGear
 {
@@ -42,37 +43,37 @@ namespace GammaGear
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
 
-                // Page service
-                services.AddSingleton<IPageService, PageService>();
+                // Provides windows service
+                services.AddSingleton<WindowsProviderService>();
 
                 // Navigation service without INavigationWindow
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // Main window navigation
-                services.AddScoped<INavigationWindow, Views.MainWindow>();
-                services.AddScoped<MainViewModel>();
+                services.AddSingleton<IWindow, MainWindow>();
+                services.AddSingleton<MainViewModel>();
 
                 // Views and ViewModels
-                services.AddScoped<Views.Pages.Home>();
-                services.AddScoped<HomeViewModel>();
+                services.AddSingleton<Views.Pages.HomePage>();
+                services.AddSingleton<HomeViewModel>();
 
-                services.AddScoped<Views.Pages.Loadouts>();
-                services.AddScoped<LoadoutsViewModel>();
+                services.AddSingleton<Views.Pages.LoadoutsPage>();
+                services.AddSingleton<LoadoutsViewModel>();
 
-                services.AddScoped<Views.Pages.Items>();
-                services.AddScoped<ItemsViewModel>();
+                services.AddSingleton<Views.Pages.ItemsPage>();
+                services.AddSingleton<ItemsViewModel>();
 
-                services.AddScoped<Views.Pages.Pets>();
-                services.AddScoped<PetsViewModel>();
+                services.AddSingleton<Views.Pages.PetsPage>();
+                services.AddSingleton<PetsViewModel>();
 
-                services.AddScoped<Views.Pages.Settings>();
-                services.AddScoped<SettingsViewModel>();
+                services.AddSingleton<Views.Pages.SettingsPage>();
+                services.AddSingleton<SettingsViewModel>();
 
-                services.AddScoped<Views.Pages.Debug>();
-                services.AddScoped<DebugViewModel>();
+                services.AddSingleton<Views.Pages.DebugPage>();
+                services.AddSingleton<DebugViewModel>();
 
-                services.AddScoped<Views.Pages.About>();
-                services.AddScoped<AboutViewModel>();
+                services.AddSingleton<Views.Pages.AboutPage>();
+                services.AddSingleton<AboutPageViewModel>();
 
             })
             .Build();
@@ -82,14 +83,14 @@ namespace GammaGear
             return _host.Services.GetService(typeof(T)) as T;
         }
 
-        protected async void OnStartup(object sender, StartupEventArgs e)
+        protected void OnStartup(object sender, StartupEventArgs e)
         {
-            await _host.StartAsync();
+            _host.Start();
         }
 
-        protected async void OnExit(object sender, ExitEventArgs e)
+        protected void OnExit(object sender, ExitEventArgs e)
         {
-            await _host.StopAsync();
+            _host.StopAsync().Wait();
 
             _host.Dispose();
         }

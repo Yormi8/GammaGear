@@ -14,44 +14,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
-using Wpf.Ui.Controls.Interfaces;
-using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui;
+using GammaGear.Services.Contracts;
+using Wpf.Ui.Extensions;
 
 namespace GammaGear.Views
 {
     /// <summary>
     /// Interaction logic for MasterWindow.xaml
     /// </summary>
-    public partial class MainWindow : UiWindow, INavigationWindow
+    public partial class MainWindow : FluentWindow, IWindow
     {
         public MainViewModel ViewModel { get; }
 
         public MainWindow(
             MainViewModel viewModel,
             INavigationService navigationService,
-            IPageService pageService)
+            IServiceProvider serviceProvider)
         {
             ViewModel = viewModel;
             DataContext = this;
 
             InitializeComponent();
 
-            SetPageService(pageService);
-
             navigationService.SetNavigationControl(RootNavigation);
+
+            RootNavigation.SetServiceProvider(serviceProvider);
+
+            Loaded += (_, _) => OnLoaded();
         }
-
-        public void CloseWindow() => Close();
-
-        public Frame GetFrame() => RootFrame;
-
-        public INavigation GetNavigation() => RootNavigation;
-
-        public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
-
-        public void SetPageService(IPageService pageService) => RootNavigation.PageService = pageService;
-
-        public void ShowWindow() => Show();
 
         protected override void OnClosed(EventArgs e)
         {
@@ -61,6 +52,16 @@ namespace GammaGear.Views
             Application.Current.Shutdown();
         }
 
+        private void OnLoaded()
+        {
+            FixNavigationAppearance();
+        }
+
+        private void FixNavigationAppearance()
+        {
+            // This gets overridden somewhere and needs to be set on startup instead...
+            RootNavigation.FrameMargin = new Thickness(8, 0, 0, 0);
+        }
 
     }
 }

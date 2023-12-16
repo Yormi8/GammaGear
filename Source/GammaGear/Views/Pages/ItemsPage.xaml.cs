@@ -19,9 +19,9 @@ namespace GammaGear.Views.Pages
     /// <summary>
     /// Interaction logic for Items.xaml
     /// </summary>
-    public partial class Items : UiPage
+    public partial class ItemsPage : Page
     {
-        public Items()
+        public ItemsPage()
         {
             InitializeComponent();
         }

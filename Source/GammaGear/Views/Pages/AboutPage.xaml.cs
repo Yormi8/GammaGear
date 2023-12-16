@@ -18,15 +18,16 @@ using Wpf.Ui.Controls;
 namespace GammaGear.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for ItemLoadoutListingView.xaml
+    /// Interaction logic for About.xaml
     /// </summary>
-    public partial class Loadouts : UiPage
+    public partial class AboutPage : Page, INavigableView<AboutPageViewModel>
     {
-        public LoadoutsViewModel ViewModel { get; }
+        public AboutPageViewModel ViewModel { get; }
 
-        public Loadouts(LoadoutsViewModel viewModel)
+        public AboutPage(AboutPageViewModel viewModel)
         {
             ViewModel = viewModel;
+            DataContext = this;
 
             InitializeComponent();
         }
