@@ -28,7 +28,7 @@
         <ui:TitleBar x:Name="TitleBar"
                      Grid.Row="0"
                      DockPanel.Dock="Top"
-                     Title="Gamma Gear (Pre-release)"
+                     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
                      ForceShutdown="False"
                      ShowHelp="False"
                      ShowClose="True"

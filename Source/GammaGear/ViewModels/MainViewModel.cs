@@ -14,6 +14,8 @@ namespace GammaGear.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        public static string ApplicationTitle => ApplicationInfo.AppDisplayTitle;
+
         private readonly ICollection<object> _menuItems = new ObservableCollection<object>()
         {
             new NavigationViewItem("Home", SymbolRegular.Home24, typeof(HomePage))
@@ -50,9 +52,10 @@ namespace GammaGear.ViewModels
                 FontSize = 22,
                 Visibility = System.Windows.Visibility.Collapsed
             },
-            new NavigationViewItem("About", SymbolRegular.Info24, typeof(AboutPage))
+            new NavigationViewItem("About Gamma Gear", SymbolRegular.Info24, typeof(AboutPage))
             {
-                FontSize = 22
+                FontSize = 22,
+                Margin = new Thickness(0, 0, 0, 10)
             }
         };
 
