@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:GammaGear"
+    xmlns:local="clr-namespace:GammaGear.Views"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:pages="clr-namespace:GammaGear.Views.Pages"
     mc:Ignorable="d"
@@ -13,6 +13,7 @@
     Height="654"
     d:DesignHeight="650"
     d:DesignWidth="900"
+    d:DataContext="{d:DesignInstance local:MainWindow, IsDesignTimeCreatable=False}"
     ExtendsContentIntoTitleBar="True"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
@@ -28,63 +29,33 @@
                      Grid.Row="0"
                      DockPanel.Dock="Top"
                      Title="Gamma Gear (Pre-release)"
-                     Icon="pack://application:,,,/Assets/Images/(Icon)_Stats_Damage.png"
                      ForceShutdown="False"
                      ShowHelp="False"
                      ShowClose="True"
                      ShowMaximize="True"
-                     ShowMinimize="True"/>
+                     ShowMinimize="True">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/Images/(Icon)_Stats_Damage.png"/>
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
 
         <ui:NavigationView x:Name="RootNavigation"
                            Grid.Row="1"
                            Margin="10 0 0 0"
+                           Padding="20 5 20 20"
                            TransitionDuration="200"
                            Transition="FadeInWithSlide"
-                           BreadcrumbBar="{Binding ElementName=BreadcrumbBar, Mode=OneWay}"
-                           TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
                            IsBackButtonVisible="Collapsed"
                            IsPaneToggleVisible="False"
-                           PaneDisplayMode="LeftFluent"
+                           PaneDisplayMode="LeftMinimal"
+                           MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
+                           FooterMenuItemsSource="{Binding ViewModel.FooterItems, Mode=OneWay}"
+                           BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
                            FrameMargin="8 0 0 0"> <!--FrameMargin doesn't get set at launch ;_; see OnLoaded-->
             <ui:NavigationView.Header>
-                <ui:BreadcrumbBar Name="BreadcrumbBar"/>
+                <ui:BreadcrumbBar x:Name="BreadcrumbBar"
+                                  Margin="20 5 20 0"/>
             </ui:NavigationView.Header>
-            <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon Home24}"
-                                       TargetPageTag="home"
-                                       TargetPageType="{x:Type pages:HomePage}" FontSize="36">
-                    <TextBlock Text="Home" FontSize="12"/>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItemSeparator/>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon BriefCase24}"
-                                       TargetPageType="{x:Type pages:LoadoutsPage}">
-                    <TextBlock Text="Loadouts" FontSize="12"/>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon HatGraduation24}"
-                                       TargetPageType="{x:Type pages:ItemsPage}">
-                    <TextBlock Text="Items" FontSize="12"/>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon AnimalCat24}"
-                                       TargetPageType="{x:Type pages:PetsPage}">
-                    <TextBlock Text="Pets" FontSize="12"/>
-                </ui:NavigationViewItem>
-            </ui:NavigationView.MenuItems>
-
-            <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon Settings24}"
-                                       TargetPageType="{x:Type pages:SettingsPage}">
-                    <TextBlock Text="Settings" FontSize="12"/>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon Bug24}"
-                                       Visibility="Collapsed"
-                                       TargetPageType="{x:Type pages:DebugPage}">
-                    <TextBlock Text="Debug" FontSize="12"/>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem Icon="{ui:SymbolIcon Info24}"
-                                       TargetPageType="{x:Type pages:AboutPage}">
-                    <TextBlock Text="About" FontSize="12"/>
-                </ui:NavigationViewItem>
-            </ui:NavigationView.FooterMenuItems>
         </ui:NavigationView>
 
         <!--<views:ItemLoadoutListingView DockPanel.Dock="Bottom" DataContext="{Binding CurrentViewModel}"/>-->

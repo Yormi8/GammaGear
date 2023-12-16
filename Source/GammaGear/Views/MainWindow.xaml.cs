@@ -35,6 +35,7 @@ namespace GammaGear.Views
             ViewModel = viewModel;
             DataContext = this;
 
+
             InitializeComponent();
 
             navigationService.SetNavigationControl(RootNavigation);
@@ -55,13 +56,24 @@ namespace GammaGear.Views
         private void OnLoaded()
         {
             FixNavigationAppearance();
+            SyncToSystemTheme();
         }
 
         private void FixNavigationAppearance()
         {
             // This gets overridden somewhere and needs to be set on startup instead...
-            RootNavigation.FrameMargin = new Thickness(8, 0, 0, 0);
+            RootNavigation.IsPaneOpen = false;
+            RootNavigation.FrameMargin = new Thickness(-5, 0, 0, 0);
         }
 
+        private void SyncToSystemTheme()
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme(true);
+            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
+                this,                    // Window class
+                WindowBackdropType.Mica, // Background type
+                true                     // Whether to change accents automatically
+            );
+        }
     }
 }
