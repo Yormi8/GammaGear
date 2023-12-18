@@ -17,6 +17,8 @@ using Wpf.Ui.Controls;
 using Wpf.Ui;
 using GammaGear.Services.Contracts;
 using Wpf.Ui.Extensions;
+using Microsoft.Extensions.Configuration;
+using GammaGear.Services;
 
 namespace GammaGear.Views
 {
@@ -27,17 +29,20 @@ namespace GammaGear.Views
     {
         public MainViewModel ViewModel { get; }
         public IAppearanceService AppearanceService { get; }
+        public UserPreferencesService UserPrefs { get; }
 
         public MainWindow(
             MainViewModel viewModel,
             INavigationService navigationService,
             IServiceProvider serviceProvider,
-            IAppearanceService appearanceService)
+            IAppearanceService appearanceService,
+            UserPreferencesService prefs)
         {
             ViewModel = viewModel;
             DataContext = this;
 
             AppearanceService = appearanceService;
+            UserPrefs = prefs;
 
             InitializeComponent();
 
@@ -74,8 +79,7 @@ namespace GammaGear.Views
             // Workaround for the theme not being properly set on startup.
             AppearanceService.SetTheme(Models.ApplicationTheme.Light);
             AppearanceService.SetTheme(Models.ApplicationTheme.Dark);
-            // No config yet :( set to dark for the time being
-            //AppearanceService.SetTheme(FromConfig());
+            AppearanceService.SetTheme(UserPrefs.Theme);
         }
     }
 }

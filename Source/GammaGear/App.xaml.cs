@@ -33,7 +33,7 @@ namespace GammaGear
             })
             .ConfigureAppConfiguration(config =>
             {
-
+                //config.AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
             })
             .ConfigureServices(services =>
             {
@@ -43,6 +43,9 @@ namespace GammaGear
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
                 services.AddSingleton<IAppearanceService, AppearanceService>();
+
+                // Persistant user preferences
+                services.AddSingleton<UserPreferencesService>();
 
                 // Provides windows service
                 services.AddSingleton<WindowsProviderService>();

@@ -1,4 +1,5 @@
 ﻿using GammaGear.Models;
+using GammaGear.Services;
 using GammaGear.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace GammaGear.ViewModels
     public class SettingsViewModel : ViewModelBase
     {
         private IAppearanceService _appearanceService;
+        private UserPreferencesService _userPreferencesService;
         public ApplicationTheme Theme
         {
             get => _appearanceService.GetTheme();
@@ -20,15 +22,18 @@ namespace GammaGear.ViewModels
                 if (_appearanceService.GetTheme() != value)
                 {
                     _appearanceService.SetTheme(value);
+                    _userPreferencesService.Theme = value;
                     OnPropertyChanged(nameof(Theme));
                 }
             }
         }
 
         public SettingsViewModel(
-            IAppearanceService appearanceService)
+            IAppearanceService appearanceService,
+            UserPreferencesService userPreferencesService)
         {
             _appearanceService = appearanceService;
+            _userPreferencesService = userPreferencesService;
         }
     }
 }
