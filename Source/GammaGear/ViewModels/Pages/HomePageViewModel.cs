@@ -9,13 +9,13 @@ using Wpf.Ui.Input;
 using Wpf.Ui.Controls;
 using Wpf.Ui;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Pages
 {
-    public class HomeViewModel : ViewModelBase, INavigationAware
+    public class HomePageViewModel : ViewModelBase, INavigationAware
     {
         private readonly INavigationService _navigationService;
 
-        public HomeViewModel(INavigationService navigationService)
+        public HomePageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }

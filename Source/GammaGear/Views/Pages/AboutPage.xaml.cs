@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels;
+﻿using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;

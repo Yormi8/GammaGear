@@ -42,7 +42,7 @@
         <ui:NavigationView x:Name="RootNavigation"
                            Grid.Row="1"
                            Margin="10 0 0 0"
-                           Padding="20 5 20 20"
+                           Padding="20 15 20 20"
                            TransitionDuration="200"
                            Transition="FadeInWithSlide"
                            IsBackButtonVisible="Collapsed"
@@ -54,11 +54,8 @@
                            FrameMargin="8 0 0 0"> <!--FrameMargin doesn't get set at launch ;_; see OnLoaded-->
             <ui:NavigationView.Header>
                 <ui:BreadcrumbBar x:Name="BreadcrumbBar"
-                                  Margin="20 5 20 0"/>
+                                  Margin="20 15 20 0"/>
             </ui:NavigationView.Header>
         </ui:NavigationView>
-
-        <!--<views:ItemLoadoutListingView DockPanel.Dock="Bottom" DataContext="{Binding CurrentViewModel}"/>-->
-
     </Grid>
 </ui:FluentWindow>

@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels;
+﻿using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +22,9 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomeViewModel ViewModel { get; }
+        public HomePageViewModel ViewModel { get; }
 
-        public HomePage(HomeViewModel viewModel)
+        public HomePage(HomePageViewModel viewModel)
         {
             ViewModel = viewModel;
 

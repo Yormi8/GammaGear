@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Pages
 {
-    class ItemsViewModel : ViewModelBase
+    class PetsPageViewModel : ViewModelBase
     {
     }
 }

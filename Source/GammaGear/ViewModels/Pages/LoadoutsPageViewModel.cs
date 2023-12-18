@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Pages
 {
-    public class LoadoutsViewModel : ViewModelBase
+    public class LoadoutsPageViewModel : ViewModelBase
     {
         private readonly ObservableCollection<ItemLoadoutViewModel> _itemLoadouts;
 
@@ -19,7 +19,7 @@ namespace GammaGear.ViewModels
         public ICommand EditLoadoutCommand { get; }
         public ICommand NewLoadoutCommand { get; }
 
-        public LoadoutsViewModel()
+        public LoadoutsPageViewModel()
         {
             _itemLoadouts = new ObservableCollection<ItemLoadoutViewModel>();
 

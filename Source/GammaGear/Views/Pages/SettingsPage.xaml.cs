@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels;
+﻿using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,9 +23,9 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
-        public SettingsViewModel ViewModel { get; }
+        public SettingsPageViewModel ViewModel { get; }
 
-        public SettingsPage(SettingsViewModel viewModel)
+        public SettingsPage(SettingsPageViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = this;

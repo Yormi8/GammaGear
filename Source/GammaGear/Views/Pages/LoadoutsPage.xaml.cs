@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels;
+﻿using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +20,11 @@ namespace GammaGear.Views.Pages
     /// <summary>
     /// Interaction logic for ItemLoadoutListingView.xaml
     /// </summary>
-    public partial class LoadoutsPage : INavigableView<LoadoutsViewModel>
+    public partial class LoadoutsPage : INavigableView<LoadoutsPageViewModel>
     {
-        public LoadoutsViewModel ViewModel { get; }
+        public LoadoutsPageViewModel ViewModel { get; }
 
-        public LoadoutsPage(LoadoutsViewModel viewModel)
+        public LoadoutsPage(LoadoutsPageViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = this;

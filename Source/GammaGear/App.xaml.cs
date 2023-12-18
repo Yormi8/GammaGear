@@ -18,6 +18,7 @@ using Wpf.Ui.Appearance;
 using Wpf.Ui.Extensions;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using GammaGear.ViewModels.Pages;
 
 namespace GammaGear
 {
@@ -59,22 +60,22 @@ namespace GammaGear
 
                 // Views and ViewModels
                 services.AddSingleton<Views.Pages.HomePage>();
-                services.AddSingleton<HomeViewModel>();
+                services.AddSingleton<HomePageViewModel>();
 
                 services.AddSingleton<Views.Pages.LoadoutsPage>();
-                services.AddSingleton<LoadoutsViewModel>();
+                services.AddSingleton<LoadoutsPageViewModel>();
 
                 services.AddSingleton<Views.Pages.ItemsPage>();
-                services.AddSingleton<ItemsViewModel>();
+                services.AddSingleton<ItemsPageViewModel>();
 
                 services.AddSingleton<Views.Pages.PetsPage>();
-                services.AddSingleton<PetsViewModel>();
+                services.AddSingleton<PetsPageViewModel>();
 
                 services.AddSingleton<Views.Pages.SettingsPage>();
-                services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<SettingsPageViewModel>();
 
                 services.AddSingleton<Views.Pages.DebugPage>();
-                services.AddSingleton<DebugViewModel>();
+                services.AddSingleton<DebugPageViewModel>();
 
                 services.AddSingleton<Views.Pages.AboutPage>();
                 services.AddSingleton<AboutPageViewModel>();

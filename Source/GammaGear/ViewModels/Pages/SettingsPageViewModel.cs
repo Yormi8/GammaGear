@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Wpf.Ui;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Pages
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsPageViewModel : ViewModelBase
     {
         private IAppearanceService _appearanceService;
         private UserPreferencesService _userPreferencesService;
@@ -28,7 +28,7 @@ namespace GammaGear.ViewModels
             }
         }
 
-        public SettingsViewModel(
+        public SettingsPageViewModel(
             IAppearanceService appearanceService,
             UserPreferencesService userPreferencesService)
         {
