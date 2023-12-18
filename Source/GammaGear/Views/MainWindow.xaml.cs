@@ -26,15 +26,18 @@ namespace GammaGear.Views
     public partial class MainWindow : FluentWindow, IWindow
     {
         public MainViewModel ViewModel { get; }
+        public IAppearanceService AppearanceService { get; }
 
         public MainWindow(
             MainViewModel viewModel,
             INavigationService navigationService,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            IAppearanceService appearanceService)
         {
             ViewModel = viewModel;
             DataContext = this;
 
+            AppearanceService = appearanceService;
 
             InitializeComponent();
 
@@ -56,7 +59,7 @@ namespace GammaGear.Views
         private void OnLoaded()
         {
             FixNavigationAppearance();
-            SyncToSystemTheme();
+            ApplyThemeFromConfig();
         }
 
         private void FixNavigationAppearance()
@@ -66,14 +69,13 @@ namespace GammaGear.Views
             RootNavigation.FrameMargin = new Thickness(-5, 0, 0, 0);
         }
 
-        private void SyncToSystemTheme()
+        private void ApplyThemeFromConfig()
         {
-            Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme(true);
-            Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
-                this,                    // Window class
-                WindowBackdropType.Mica, // Background type
-                true                     // Whether to change accents automatically
-            );
+            // Workaround for the theme not being properly set on startup.
+            AppearanceService.SetTheme(Models.ApplicationTheme.Light);
+            AppearanceService.SetTheme(Models.ApplicationTheme.Dark);
+            // No config yet :( set to dark for the time being
+            //AppearanceService.SetTheme(FromConfig());
         }
     }
 }

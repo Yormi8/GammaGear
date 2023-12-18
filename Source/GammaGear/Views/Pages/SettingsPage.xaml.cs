@@ -1,5 +1,7 @@
-﻿using System;
+﻿using GammaGear.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +23,13 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
-        public SettingsPage()
+        public SettingsViewModel ViewModel { get; }
+
+        public SettingsPage(SettingsViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = this;
+
             InitializeComponent();
         }
     }

@@ -10,6 +10,31 @@
       Title="Settings">
 
     <Grid>
-        <TextBlock Text="Settings Page Placeholder"/>
+        <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type ui:CardControl}" BasedOn="{StaticResource DefaultUiCardControlStyle}">
+                    <Setter Property="Margin" Value="0 5 0 5"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Margin="0 0 0 5"
+                       Text="Appearance"
+                       FontWeight="DemiBold"/>
+            <ui:CardControl >
+                <ui:CardControl.Header>
+                    <StackPanel>
+                        <ui:TextBlock Text="App theme"
+                                      FontTypography="Body"/>
+                        <ui:TextBlock Text="Select which theme to display"
+                                      Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"/>
+                    </StackPanel>
+                </ui:CardControl.Header>
+                <ComboBox MinWidth="150"
+                          SelectedIndex="{Binding ViewModel.Theme, Converter={StaticResource ThemeToIndexConverter}, Mode=TwoWay}">
+                    <ComboBoxItem Content="System Theme"/>
+                    <ComboBoxItem Content="Light"/>
+                    <ComboBoxItem Content="Dark"/>
+                </ComboBox>
+            </ui:CardControl>
+        </StackPanel>
     </Grid>
 </Page>

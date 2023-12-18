@@ -42,6 +42,7 @@ namespace GammaGear
 
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
+                services.AddSingleton<IAppearanceService, AppearanceService>();
 
                 // Provides windows service
                 services.AddSingleton<WindowsProviderService>();
