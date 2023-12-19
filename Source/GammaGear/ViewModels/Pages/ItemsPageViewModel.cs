@@ -1,12 +1,26 @@
-﻿using System;
+﻿using GammaGear.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GammaGear.ViewModels.Pages
 {
-    class ItemsPageViewModel : ViewModelBase
+    public class ItemsPageViewModel : ViewModelBase
     {
+        private readonly ObservableCollection<ItemViewModel> _items;
+        public IEnumerable<ItemViewModel> Items => _items;
+
+        public ItemsPageViewModel()
+        {
+            _items = new ObservableCollection<ItemViewModel>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                _items.Add(new ItemViewModel(GammaExtensions.GenerateRandomItem()));
+            }
+        }
     }
 }

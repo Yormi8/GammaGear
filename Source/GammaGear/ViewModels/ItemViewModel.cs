@@ -1,4 +1,5 @@
-﻿using GammaItems;
+﻿using GammaGear.Extensions;
+using GammaItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,12 @@ namespace GammaGear.ViewModels
         public IReadOnlyDictionary<School, int> PipConversions => _item.PipConversions;
         public IReadOnlyDictionary<string, int> ItemCards => _item.ItemCards;
         public IReadOnlyCollection<School> AltSchoolMasteries => _item.AltSchoolMasteries;
+
+        public Uri SchoolIcon => _item.SchoolRestriction != School.None ?
+                                    _item.SchoolRequirement.ToIconUri() :
+                                    _item.SchoolRestriction.ToSlashedIconUri();
+
+        public Uri EquipmentTypeIcon => _item.Type.ToIconUri();
 
         public ItemViewModel(Item item)
         {

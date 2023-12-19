@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GammaGear.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,14 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class ItemsPage : Page
     {
-        public ItemsPage()
+        public ItemsPageViewModel ViewModel { get; }
+
+        public ItemsPage(
+            ItemsPageViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = this;
+
             InitializeComponent();
         }
     }
