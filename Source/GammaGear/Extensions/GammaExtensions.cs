@@ -62,8 +62,8 @@ namespace GammaGear.Extensions
                 ItemType.SquareJewel => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_SquareJewel.png"),
                 ItemType.TriangleJewel => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_TriangleJewel.png"),
                 ItemType.PinSquarePip => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquarePower.png"),
-                ItemType.PinSquareShield => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PipSquareShield.png"),
-                ItemType.PinSquareSword => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PipSquareSword.png"),
+                ItemType.PinSquareShield => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareShield.png"),
+                ItemType.PinSquareSword => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Equipment_PinSquareSword.png"),
                 _ => new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Button_Trash.png", UriKind.Absolute),
             };
         }
