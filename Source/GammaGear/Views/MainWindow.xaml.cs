@@ -73,6 +73,7 @@ namespace GammaGear.Views
             // This gets overridden somewhere and needs to be set on startup instead...
             RootNavigation.IsPaneOpen = false;
             RootNavigation.FrameMargin = new Thickness(-5, 0, 0, 0);
+            RootNavigation.Navigate(typeof(HomePage));
         }
 
         private void ApplyThemeFromConfig()
@@ -81,13 +82,6 @@ namespace GammaGear.Views
             AppearanceService.SetTheme(Models.ApplicationTheme.Light);
             AppearanceService.SetTheme(Models.ApplicationTheme.Dark);
             AppearanceService.SetTheme(UserPrefs.Theme);
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            // Fix the glitchy navigation
-            RootNavigation.Navigate(typeof(HomePage));
-            base.OnActivated(e);
         }
     }
 }
