@@ -24,17 +24,20 @@
 
             <ui:CardAction Margin="0 2 0 2"
                            Content="License: MIT License"
-                           Click="LicenseCard_Click"
+                           Command="{Binding ViewModel.NavigateWebLinkCommand}"
+                           CommandParameter="https://github.com/Yormi8/GammaGear/blob/master/LICENSE.txt"
                            Icon="{ui:SymbolIcon Scales24}"/>
 
             <ui:CardAction Margin="0 2 0 2"
                            Content="View the source code on Github!"
-                           Click="SourceCodeCard_Click"
+                           Command="{Binding ViewModel.NavigateWebLinkCommand}"
+                           CommandParameter="https://github.com/Yormi8/GammaGear"
                            Icon="{ui:SymbolIcon Code24}"/>
 
             <ui:CardAction Margin="0 2 0 2"
                            Content="Report issues here!"
-                           Click="FeedbackCard_Click"
+                           Command="{Binding ViewModel.NavigateWebLinkCommand}"
+                           CommandParameter="https://github.com/Yormi8/GammaGear/issues/new"
                            Icon="{ui:SymbolIcon PersonFeedback24}"/>
 
             <!--TODO: List packages and their license info, maybe use a card expander?-->

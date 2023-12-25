@@ -31,30 +31,5 @@ namespace GammaGear.Views.Pages
 
             InitializeComponent();
         }
-
-        private static void NavigateWebLink(Uri uri)
-        {
-            System.Diagnostics.Process.Start(
-                new System.Diagnostics.ProcessStartInfo(uri.AbsoluteUri)
-                {
-                    UseShellExecute = true
-                }
-            );
-        }
-
-        private void SourceCodeCard_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateWebLink(new Uri("https://www.github.com/Yormi8/GammaGear"));
-        }
-
-        private void LicenseCard_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateWebLink(new Uri("https://github.com/Yormi8/GammaGear/blob/master/LICENSE.txt"));
-        }
-
-        private void FeedbackCard_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateWebLink(new Uri("https://github.com/Yormi8/GammaGear/issues/new"));
-        }
     }
 }
