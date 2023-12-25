@@ -54,21 +54,9 @@ namespace GammaGear.Services
             }
 
             IWindow mainWindow = _serviceProvider.GetRequiredService<IWindow>();
-            mainWindow.Loaded += OnMainWindowLoaded;
             mainWindow?.Show();
 
             return Task.CompletedTask;
         }
-
-        private void OnMainWindowLoaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is not MainWindow mainWindow)
-            {
-                return;
-            }
-
-            _ = mainWindow.RootNavigation.Navigate(typeof(HomePage));
-        }
     }
-
 }

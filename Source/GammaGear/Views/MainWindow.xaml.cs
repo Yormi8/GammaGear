@@ -19,6 +19,7 @@ using GammaGear.Services.Contracts;
 using Wpf.Ui.Extensions;
 using Microsoft.Extensions.Configuration;
 using GammaGear.Services;
+using GammaGear.Views.Pages;
 
 namespace GammaGear.Views
 {
@@ -80,6 +81,13 @@ namespace GammaGear.Views
             AppearanceService.SetTheme(Models.ApplicationTheme.Light);
             AppearanceService.SetTheme(Models.ApplicationTheme.Dark);
             AppearanceService.SetTheme(UserPrefs.Theme);
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            // Fix the glitchy navigation
+            RootNavigation.Navigate(typeof(HomePage));
+            base.OnActivated(e);
         }
     }
 }
