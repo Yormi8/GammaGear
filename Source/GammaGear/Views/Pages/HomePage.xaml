@@ -7,14 +7,67 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Home">
+      d:DataContext="{d:DesignInstance local:HomePage, IsDesignTimeCreatable=False}"
+      Title="Setup">
 
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Home Page Placeholder"/>
-            <Button Content="Go To Items"
-                Command="{Binding ViewModel.NavigateCommand}"
-                CommandParameter="navigate_to_items"/>
+            <ui:TextBlock Margin="0 5 0 0"
+                          Text="Choose your Wizard101 install location"
+                          FontSize="16"/>
+
+            <RadioButton Margin="0 5 0 0"
+                         x:Name="NativeInstallButton"
+                         GroupName="InstallGroup"
+                         Content="Native"
+                         Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
+                         CommandParameter="native"
+                         IsEnabled="False"/>
+            <RadioButton x:Name="SteamInstallButton"
+                         GroupName="InstallGroup"
+                         Content="Steam"
+                         Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
+                         CommandParameter="steam"
+                         IsEnabled="False"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="CustomInstallButton"
+                             GroupName="InstallGroup"
+                             Content="Custom"
+                             Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
+                             CommandParameter="custom"/>
+                <ui:Button Content="Browse"
+                           IsEnabled="{Binding ElementName=CustomInstallButton, Path=IsChecked, Mode=OneWay}"/>
+                <ui:TextBlock Margin="5 0 0 0"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              FontSize="16"
+                              Text="C:\ProgramData\KingsIsle Entertainment\Wizard101"/>
+            </StackPanel>
+            <RadioButton GroupName="InstallGroup"
+                         Content="None"
+                         Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
+                         CommandParameter="none"
+                         Visibility="Collapsed"/>
+
+            <Rectangle Margin="0 15 0 15"
+                       Width="Auto"
+                       Height="3"
+                       Fill="{ui:ThemeResource ControlFillColorSecondaryBrush}"/>
+
+            <ui:Button Margin="0 5 0 0"
+                       Content="Create Database"
+                       Command="{Binding ViewModel.CreateDatabaseCommand, Mode=OneWay}"/>
+
+            <ui:TextBlock Margin="0 5 0 0"
+                          Text="Creation not yet started"/>
+            <ProgressBar Margin="0 5 0 0"
+                         Height="10"
+                         Value="10"/>
+
+            <ui:Button Margin="0 15 0 0"
+                       Content="Let's Go!"
+                       Command="{Binding ViewModel.FinishSetupCommand, Mode=OneWay}"
+                       IsEnabled="False"/>
         </StackPanel>
     </Grid>
 </Page>

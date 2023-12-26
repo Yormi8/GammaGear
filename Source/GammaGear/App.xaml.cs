@@ -54,6 +54,9 @@ namespace GammaGear
                 // Navigation service without INavigationWindow
                 services.AddSingleton<INavigationService, NavigationService>();
 
+                // Provides setup service
+                services.AddSingleton<ISetupService, SetupService>();
+
                 // Main window navigation
                 services.AddSingleton<IWindow, MainWindow>();
                 services.AddSingleton<MainViewModel>();

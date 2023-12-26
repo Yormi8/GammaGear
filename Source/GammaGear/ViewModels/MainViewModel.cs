@@ -6,9 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Windows.Networking.Sockets;
 using Windows.Services.Maps;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace GammaGear.ViewModels
 {
@@ -27,15 +29,18 @@ namespace GammaGear.ViewModels
             new NavigationViewItemSeparator(),
             new NavigationViewItem("Loadouts", SymbolRegular.Briefcase24, typeof(LoadoutsPage))
             {
-                FontSize = 22
+                FontSize = 22,
+                Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("Items", SymbolRegular.HatGraduation24, typeof(ItemsPage))
             {
-                FontSize = 22
+                FontSize = 22,
+                Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("Pets", SymbolRegular.AnimalCat24, typeof(PetsPage))
             {
-                FontSize = 22
+                FontSize = 22,
+                Visibility = Visibility.Collapsed
             },
         };
 
@@ -50,7 +55,7 @@ namespace GammaGear.ViewModels
             new NavigationViewItem("Debug", SymbolRegular.Bug24, typeof(DebugPage))
             {
                 FontSize = 22,
-                Visibility = System.Windows.Visibility.Collapsed
+                Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("About Gamma Gear", SymbolRegular.Info24, typeof(AboutPage))
             {

@@ -12,7 +12,7 @@ namespace GammaGear.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
     internal sealed partial class UserPrefs : global::System.Configuration.ApplicationSettingsBase {
         
         private static UserPrefs defaultInstance = ((UserPrefs)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new UserPrefs())));
@@ -32,6 +32,30 @@ namespace GammaGear.Properties {
             }
             set {
                 this["Theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SetupComplete {
+            get {
+                return ((bool)(this["SetupComplete"]));
+            }
+            set {
+                this["SetupComplete"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RootPath {
+            get {
+                return ((string)(this["RootPath"]));
+            }
+            set {
+                this["RootPath"] = value;
             }
         }
     }

@@ -23,10 +23,34 @@ namespace GammaGear.Views.Pages
     public partial class HomePage : Page
     {
         public HomePageViewModel ViewModel { get; }
+        private bool pageInitialized = false;
 
         public HomePage(HomePageViewModel viewModel)
         {
             ViewModel = viewModel;
+
+            Loaded += (_, _) =>
+            {
+                // For some reason this stuff doesn't update when bound to the viewmodel, so we have to set it up here
+                // instead.
+
+                if (!pageInitialized)
+                {
+                    CustomInstallButton.IsChecked = true;
+
+                    if (ViewModel.SteamInstallFound)
+                    {
+                        SteamInstallButton.IsEnabled = true;
+                        SteamInstallButton.IsChecked = true;
+                    }
+                    if (ViewModel.NativeInstallFound)
+                    {
+                        NativeInstallButton.IsEnabled = true;
+                        NativeInstallButton.IsChecked = true;
+                    }
+                    pageInitialized = true;
+                }
+            };
 
             InitializeComponent();
         }
