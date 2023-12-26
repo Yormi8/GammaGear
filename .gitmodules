@@ -1,0 +1,3 @@
+[submodule "Source/GammaGear/Dependencies/wiztype"]
+	path = Source/GammaGear/Dependencies/wiztype
+	url = git@github-public:wizspoil/wiztype.git
