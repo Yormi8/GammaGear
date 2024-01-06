@@ -22,13 +22,13 @@
                          Content="Native"
                          Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
                          CommandParameter="native"
-                         IsEnabled="False"/>
+                         IsEnabled="{Binding ViewModel.NativeInstallFound}"/>
             <RadioButton x:Name="SteamInstallButton"
                          GroupName="InstallGroup"
                          Content="Steam"
                          Command="{Binding ViewModel.ChangeInstallModeCommand, Mode=OneWay}"
                          CommandParameter="steam"
-                         IsEnabled="False"/>
+                         IsEnabled="{Binding ViewModel.NativeInstallFound}"/>
             <StackPanel Orientation="Horizontal">
                 <RadioButton x:Name="CustomInstallButton"
                              GroupName="InstallGroup"

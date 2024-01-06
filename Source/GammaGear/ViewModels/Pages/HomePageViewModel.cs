@@ -58,12 +58,12 @@ namespace GammaGear.ViewModels.Pages
             SteamInstallFound = installLocations.ContainsKey(InstallMode.Steam);
         }
 
-        private ICommand _finishSetupCommand;
-        private ICommand _createDatabaseCommand;
-        private ICommand _changeInstallModeCommand;
-        public ICommand FinishSetupCommand => _finishSetupCommand ??= new RelayCommand(FinishSetup, CanFinishSetup);
-        public ICommand CreateDatabaseCommand => _createDatabaseCommand ??= new RelayCommand(CreateDatabase, CanCreateDatabase);
-        public ICommand ChangeInstallModeCommand => _changeInstallModeCommand ??= new RelayCommand<string>(ChangeInstallMode);
+        private IRelayCommand _finishSetupCommand;
+        private IRelayCommand _createDatabaseCommand;
+        private IRelayCommand _changeInstallModeCommand;
+        public IRelayCommand FinishSetupCommand => _finishSetupCommand ??= new RelayCommand(FinishSetup, CanFinishSetup);
+        public IRelayCommand CreateDatabaseCommand => _createDatabaseCommand ??= new RelayCommand(CreateDatabase, CanCreateDatabase);
+        public IRelayCommand ChangeInstallModeCommand => _changeInstallModeCommand ??= new RelayCommand<string>(ChangeInstallMode);
 
         private void FinishSetup()
         {
@@ -78,6 +78,7 @@ namespace GammaGear.ViewModels.Pages
         private void CreateDatabase()
         {
             System.Diagnostics.Debug.WriteLine($"Create Database called");
+            _setupService.CreateDatabaseAsync(InstallMode);
         }
 
         private bool CanCreateDatabase()
@@ -88,20 +89,14 @@ namespace GammaGear.ViewModels.Pages
         private void ChangeInstallMode(string installMode)
         {
             System.Diagnostics.Debug.WriteLine($"Install mode now {installMode}");
-            switch (installMode)
+            InstallMode = installMode switch
             {
-                case "native":
-                    InstallMode = InstallMode.Native;
-                    break;
-                case "steam":
-                    InstallMode = InstallMode.Steam;
-                    break;
-                case "custom":
-                    InstallMode = InstallMode.Custom;
-                    break;
-                default:
-                    throw new ArgumentException($"{installMode} is not a valid install mode", nameof(installMode));
-            }
+                "native" => InstallMode.Native,
+                "steam" => InstallMode.Steam,
+                "custom" => InstallMode.Custom,
+                _ => throw new ArgumentException($"{installMode} is not a valid install mode", nameof(installMode)),
+            };
+            CreateDatabaseCommand.NotifyCanExecuteChanged();
         }
     }
 }

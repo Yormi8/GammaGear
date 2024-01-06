@@ -1,9 +1,13 @@
 ﻿using GammaGear.Models;
 using GammaGear.Services.Contracts;
+using Python.Included;
+using Python.Runtime;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,7 +58,7 @@ namespace GammaGear.Services
                 return false;
             }
 
-            string rootWadPath = Path.Combine(_validInstallationPaths[installMode], "GameData", "Data", "Root.wad");
+            string rootWadPath = Path.Combine(_validInstallationPaths[installMode], "Data", "GameData", "Root.wad");
 
             if (!Path.Exists(rootWadPath))
             {
@@ -63,6 +67,48 @@ namespace GammaGear.Services
             }
 
             return true;
+        }
+
+        public async Task CreateDatabaseAsync(InstallMode installMode)
+        {
+            if (!CanCreateDatabase(installMode, out _))
+            {
+                return;
+            }
+            await Installer.SetupPython();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string[] list = assembly.GetManifestResourceNames();
+            foreach (string resourceName in list)
+            {
+                if (resourceName.EndsWith(".whl"))
+                {
+                    await Installer.InstallWheel(assembly, resourceName);
+                }
+            }
+
+            //Runtime.PythonDLL = "python311.dll";
+            PythonEngine.Initialize();
+            using (Py.GIL())
+            {
+                // Use wiztype to get types.json
+                //dynamic sys = Py.Import("sys");
+                //dynamic os = Py.Import("os");
+                //sys.path.append(Path.Combine((string)os.getcwd(), "Services"));
+
+                //dynamic ggutils = Py.Import("ggutils");
+                //dynamic get_types = ggutils.get_types;
+
+                //dynamic types = ggutils.types;
+
+                dynamic types = Py.Import("ggutils");
+
+                System.Diagnostics.Debug.WriteLine($"Python: dummy line");
+                types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
+            }
+            PythonEngine.Shutdown();
+
+            System.Diagnostics.Debug.WriteLine($"Python: dummy line {File.ReadAllText("types.json")}");
         }
     }
 }

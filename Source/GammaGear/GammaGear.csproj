@@ -36,6 +36,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PythonProject Include="Python\ggutils" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PythonItems Include=".\**\*.py" />
+    <PythonItems Include=".\**\poetry.lock" />
+    <PythonItems Include=".\**\pyproject.toml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
@@ -44,6 +54,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Python.Included" Version="3.11.6" />
     <PackageReference Include="pythonnet" Version="3.0.3" />
     <PackageReference Include="WPF-UI" Version="3.0.0-preview.13" />
   </ItemGroup>
@@ -75,7 +86,18 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <RuntimeHostConfigurationOption Include="Runtime.PythonDLL" Value="python311.dll" />
-  </ItemGroup>
+  <Target Name="CompilePython" Inputs="@(PythonProject)" Outputs="@(PythonProject->'$(IntermediateOutputPath)\%(FileName).timestamp')">
+    <Exec Command="powershell.exe &quot;Scripts\pre-build.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(PythonProject)'" />
+
+    <ItemGroup>
+      <EmbeddedResource Include="$(IntermediateOutputPath)\*.whl" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython" />
+
+  <Target Name="PreClean" BeforeTargets="BeforeClean" >
+    <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)"/>
+  </Target>
+
 </Project>

@@ -12,5 +12,6 @@ namespace GammaGear.Services.Contracts
     {
         IReadOnlyDictionary<InstallMode, string> GetAllInstallationPaths();
         bool CanCreateDatabase(InstallMode installMode, out InstallationFailReason reason);
+        Task CreateDatabaseAsync(InstallMode installMode);
     }
 }

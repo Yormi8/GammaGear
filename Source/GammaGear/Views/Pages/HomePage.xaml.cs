@@ -28,6 +28,7 @@ namespace GammaGear.Views.Pages
         public HomePage(HomePageViewModel viewModel)
         {
             ViewModel = viewModel;
+            DataContext = this;
 
             Loaded += (_, _) =>
             {
@@ -37,16 +38,17 @@ namespace GammaGear.Views.Pages
                 if (!pageInitialized)
                 {
                     CustomInstallButton.IsChecked = true;
+                    CustomInstallButton.Command.Execute(CustomInstallButton.CommandParameter);
 
                     if (ViewModel.SteamInstallFound)
                     {
-                        SteamInstallButton.IsEnabled = true;
                         SteamInstallButton.IsChecked = true;
+                        SteamInstallButton.Command.Execute(SteamInstallButton.CommandParameter);
                     }
                     if (ViewModel.NativeInstallFound)
                     {
-                        NativeInstallButton.IsEnabled = true;
                         NativeInstallButton.IsChecked = true;
+                        NativeInstallButton.Command.Execute(NativeInstallButton.CommandParameter);
                     }
                     pageInitialized = true;
                 }
