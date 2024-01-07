@@ -54,6 +54,11 @@
                        Height="3"
                        Fill="{ui:ThemeResource ControlFillColorSecondaryBrush}"/>
 
+            <ui:InfoBar Title="You do not need to login to the W101 window that will be opened, it will close itself automatically."
+                        IsClosable="False"
+                        IsOpen="True"
+                        Severity="Warning"/>
+
             <ui:Button Margin="0 5 0 0"
                        Content="Create Database"
                        Command="{Binding ViewModel.CreateDatabaseCommand, Mode=OneWay}"/>

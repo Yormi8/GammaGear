@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PythonProject Include="Python\ggutils" />
+    <PythonProject Include="External\ggutils" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,8 +96,8 @@
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython" />
 
-  <Target Name="PreClean" BeforeTargets="BeforeClean" >
-    <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)"/>
+  <Target Name="PreClean" BeforeTargets="BeforeClean">
+    <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)" />
   </Target>
 
 </Project>

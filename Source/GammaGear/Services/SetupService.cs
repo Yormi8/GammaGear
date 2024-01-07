@@ -89,26 +89,15 @@ namespace GammaGear.Services
 
             //Runtime.PythonDLL = "python311.dll";
             PythonEngine.Initialize();
+            PythonEngine.DebugGIL = true;
             using (Py.GIL())
             {
                 // Use wiztype to get types.json
-                //dynamic sys = Py.Import("sys");
-                //dynamic os = Py.Import("os");
-                //sys.path.append(Path.Combine((string)os.getcwd(), "Services"));
-
-                //dynamic ggutils = Py.Import("ggutils");
-                //dynamic get_types = ggutils.get_types;
-
-                //dynamic types = ggutils.types;
-
                 dynamic types = Py.Import("ggutils");
 
-                System.Diagnostics.Debug.WriteLine($"Python: dummy line");
                 types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
             }
             PythonEngine.Shutdown();
-
-            System.Diagnostics.Debug.WriteLine($"Python: dummy line {File.ReadAllText("types.json")}");
         }
     }
 }

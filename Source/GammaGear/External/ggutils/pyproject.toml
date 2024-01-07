@@ -2,7 +2,7 @@
 name = "ggutils"
 version = "0.1.0"
 description = "A simple function library used in my Gamma Gear project"
-authors = ["Yormi8 <126372786+Yormi8@users.noreply.github.com>"]
+authors = ["Yormi8"]
 
 [tool.poetry.dependencies]
 python = "3.11.0"
