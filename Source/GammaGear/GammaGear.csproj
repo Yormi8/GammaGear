@@ -40,9 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PythonItems Include=".\**\*.py" />
-    <PythonItems Include=".\**\poetry.lock" />
-    <PythonItems Include=".\**\pyproject.toml" />
+    <RustProject Include="External\katsuba-interface" />
   </ItemGroup>
 
   <ItemGroup>
@@ -94,10 +92,22 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython" />
+  <Target Name="CompileRust">
+    <Exec Command="powershell.exe &quot;Scripts\compile-rust.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(RustProject)' -config $(Configuration)" />
+
+    <ItemGroup>
+      <BuiltArtifacts Include="$(IntermediateOutputPath)\ggkatsuba\debug\ggkatsuba.dll"/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython;CompileRust" />
 
   <Target Name="PreClean" BeforeTargets="BeforeClean">
     <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)" />
+  </Target>
+
+  <Target Name="CopyArtifactsToOutputDirectory" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="@(BuiltArtifacts)" DestinationFolder="$(OutDir)" />
   </Target>
 
 </Project>

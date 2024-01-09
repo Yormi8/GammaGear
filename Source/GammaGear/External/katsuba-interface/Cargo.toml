@@ -1,0 +1,12 @@
+﻿[package]
+name = "katsuba-interface"
+description = "Library that exposes katsuba functions as extern C so we can use them in C# land"
+authors = ["Yormi8"]
+version = "0.1.0"
+
+[lib]
+name = "ggkatsuba"
+crate-type = ["cdylib"]
+
+[dependencies]
+katsuba-wad = { git = "https://github.com/vbe0201/katsuba.git", rev = "173018b" }

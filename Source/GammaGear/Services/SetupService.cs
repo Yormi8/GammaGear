@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -98,6 +99,12 @@ namespace GammaGear.Services
                 types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
             }
             PythonEngine.Shutdown();
+
+            int myint = add(1, 2);
+            System.Diagnostics.Debug.WriteLine(myint);
         }
+
+        [DllImport("ggkatsuba.dll")]
+        private static extern Int32 add(Int32 a, Int32 b);
     }
 }
