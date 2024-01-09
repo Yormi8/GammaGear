@@ -87,7 +87,7 @@
   </ItemGroup>
 
   <Target Name="CompilePython" Inputs="@(PythonProject)" Outputs="@(PythonProject->'$(IntermediateOutputPath)\%(FileName).timestamp')">
-    <Exec Command="powershell.exe &quot;Scripts\pre-build.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(PythonProject)'" />
+    <Exec Command="powershell.exe &quot;Scripts\compile-python.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(PythonProject)'" />
 
     <ItemGroup>
       <EmbeddedResource Include="$(IntermediateOutputPath)\*.whl" />
