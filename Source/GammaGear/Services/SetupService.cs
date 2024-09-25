@@ -1,6 +1,9 @@
 ﻿using GammaGear.Models;
 using GammaGear.Services.Contracts;
-using Python.Included;
+using GammaGear.Generated;
+using Microsoft.VisualBasic.Logging;
+using Python.Deployment;
+//using Python.Included;
 using Python.Runtime;
 using System;
 using System.Collections.Generic;
@@ -11,6 +14,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace GammaGear.Services
 {
@@ -76,7 +81,17 @@ namespace GammaGear.Services
             {
                 return;
             }
-            await Installer.SetupPython();
+
+            // Get executable location to install python to.
+            FileInfo executableInfo = new FileInfo(Assembly.GetEntryAssembly().Location);
+            DirectoryInfo executableDirectory = executableInfo.Directory;
+            DirectoryInfo pythonInstallationDirectory = executableDirectory.CreateSubdirectory("modules" + Path.DirectorySeparatorChar + "python");
+            if (!pythonInstallationDirectory.Exists)
+            {
+                throw new DirectoryNotFoundException($"Could not install python to the \"{pythonInstallationDirectory.FullName}\" directory");
+            }
+
+             await SetupPython(pythonInstallationDirectory.FullName);
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] list = assembly.GetManifestResourceNames();
@@ -99,12 +114,20 @@ namespace GammaGear.Services
                 types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
             }
             PythonEngine.Shutdown();
-
-            int myint = add(1, 2);
-            System.Diagnostics.Debug.WriteLine(myint);
         }
 
-        [DllImport("ggkatsuba.dll")]
-        private static extern Int32 add(Int32 a, Int32 b);
+        private static async Task SetupPython(string extractionDirectory)
+        {
+            Python.Runtime.Runtime.PythonDLL ??= PythonInfo.DllName;
+
+            Python.Deployment.Installer.Source = new Python.Deployment.Installer.EmbeddedResourceInstallationSource
+            {
+                Assembly = Assembly.GetExecutingAssembly(),
+                ResourceName = PythonInfo.ResourceName
+            };
+            Python.Deployment.Installer.PythonDirectoryName = extractionDirectory;
+            Python.Deployment.Installer.InstallPath = extractionDirectory;
+            await Python.Deployment.Installer.SetupPython(false);
+        }
     }
 }

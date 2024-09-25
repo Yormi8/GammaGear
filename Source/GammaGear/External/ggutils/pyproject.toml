@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "ggutils"
 version = "0.1.0"
-description = "A simple function library used in my Gamma Gear project"
+description = "A simple function library used in my Gamma Gear project."
 authors = ["Yormi8"]
 
 [tool.poetry.dependencies]
-python = "3.11.0"
+python = ">= 3.11.0, < 3.13.0"
 wiztype = "^0.1.8"
 regex = "2023.8.8"
 

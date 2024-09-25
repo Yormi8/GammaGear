@@ -36,7 +36,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Generated\PythonInfo.t.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PythonProject Include="External\ggutils" />
+    <PythonVersion Include="External\ggutils\pyproject.toml" />
+    <PythonInfo Include="Generated\PythonInfo.t.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,8 +58,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="python" Version="3.12.6" />
     <PackageReference Include="Python.Included" Version="3.11.6" />
-    <PackageReference Include="pythonnet" Version="3.0.3" />
+    <PackageReference Include="pythonnet" Version="3.0.4" />
     <PackageReference Include="WPF-UI" Version="3.0.0-preview.13" />
   </ItemGroup>
 
@@ -66,6 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Generated\PythonInfo.t.cs" />
     <None Include="old--MainWindow.xaml" />
   </ItemGroup>
 
@@ -92,15 +100,23 @@
     </ItemGroup>
   </Target>
 
+  <Target Name="EmbedPython">
+    <Exec Command="powershell.exe python &quot;Scripts\embed-python.py&quot; '@(PythonVersion)' $(IntermediateOutputPath) '@(PythonInfo)'" />
+
+    <ItemGroup>
+      <EmbeddedResource Include="$(IntermediateOutputPath)\python-*-embed-amd64.zip" />
+    </ItemGroup>
+  </Target>
+
   <Target Name="CompileRust">
     <Exec Command="powershell.exe &quot;Scripts\compile-rust.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(RustProject)' -config $(Configuration)" />
 
     <ItemGroup>
-      <BuiltArtifacts Include="$(IntermediateOutputPath)\ggkatsuba\debug\ggkatsuba.dll"/>
+      <BuiltArtifacts Include="$(IntermediateOutputPath)\ggkatsuba\debug\ggkatsuba.dll" />
     </ItemGroup>
   </Target>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython;CompileRust" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython;EmbedPython;CompileRust" />
 
   <Target Name="PreClean" BeforeTargets="BeforeClean">
     <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)" />

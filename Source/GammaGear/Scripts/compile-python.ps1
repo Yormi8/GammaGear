@@ -30,8 +30,10 @@ foreach ($p in $projects)
     }
     New-Item -Path "$outpath" -Name "$name.timestamp" -ItemType "file" -Value $ticks 2>$null | Out-Null
 
+
+    #  Moved installation directory to executable path
     # Python.Included writes to the appdata/local dir, get rid of the stuff that that it writes if we are updating our packages.
-    Remove-Item -Path $env:LOCALAPPDATA\python-3.11.0-embed-amd64 -Recurse 2>$null
-    Remove-Item -Path $env:LOCALAPPDATA\python-3.11.0-embed-amd64.zip 2>$null
+    #Remove-Item -Path $env:LOCALAPPDATA\python-3.11.0-embed-amd64 -Recurse 2>$null
+    #Remove-Item -Path $env:LOCALAPPDATA\python-3.11.0-embed-amd64.zip 2>$null
 }
 exit 0
