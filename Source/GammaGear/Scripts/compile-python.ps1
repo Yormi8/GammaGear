@@ -18,7 +18,7 @@ foreach ($p in $projects)
         continue
     }
 
-    pip wheel "$PWD\$p" -w "$outpath"
+    pip wheel "$PWD\$p" -w "$outpath" --find-links "$outpath"
     if (!$?)
     {
         exit 1

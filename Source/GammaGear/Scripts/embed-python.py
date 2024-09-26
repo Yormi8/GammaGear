@@ -106,11 +106,11 @@ def embed_python() -> int:
     # TODO: Maybe take in multiple values for the requirements file and try to find a
     #       suitable version matching all constraints?
 
-    # Try and get python constraint from poetry
+    # Try and get python constraint from pyproject.toml
     # TODO: Implement all dep version strategies? (caret, tilde, wildcard)
     try:
-        py_strings_unformat = data['tool']['poetry']['dependencies']['python'].split(',')
-        pyconstraintstring = data['tool']['poetry']['dependencies']['python']
+        py_strings_unformat = data['project']['requires-python'].split(',')
+        pyconstraintstring = data['project']['requires-python']
 
         for py_string in py_strings_unformat:
             py_string = py_string.replace(' ', '')

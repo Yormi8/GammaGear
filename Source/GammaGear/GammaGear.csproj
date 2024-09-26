@@ -46,10 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <RustProject Include="External\katsuba-interface" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
@@ -108,15 +104,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="CompileRust">
-    <Exec Command="powershell.exe &quot;Scripts\compile-rust.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(RustProject)' -config $(Configuration)" />
-
-    <ItemGroup>
-      <BuiltArtifacts Include="$(IntermediateOutputPath)\ggkatsuba\debug\ggkatsuba.dll" />
-    </ItemGroup>
-  </Target>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython;EmbedPython;CompileRust" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" DependsOnTargets="CompilePython;EmbedPython" />
 
   <Target Name="PreClean" BeforeTargets="BeforeClean">
     <Exec Command="powershell.exe &quot;Scripts\pre-clean.ps1&quot; -outpath $(IntermediateOutputPath)" />

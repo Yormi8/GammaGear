@@ -1,0 +1,3 @@
+﻿# Python setuptools publishing stuff
+[Bb]uild/
+*.egg-info/

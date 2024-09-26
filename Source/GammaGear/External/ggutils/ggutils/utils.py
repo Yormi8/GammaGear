@@ -3,8 +3,9 @@ import os
 import time
 import subprocess
 import wiztype
+from katsuba.op import *
 
-def get_types(install_folder: str, output_file: str):
+def get_types(install_folder: str, output_file: str) -> str:
     clientOpen = False
     type_tree = None
     dump_type = wiztype.JsonTypeDumperV2
@@ -29,7 +30,15 @@ def get_types(install_folder: str, output_file: str):
             print("Waiting for W101 to be open")
             time.sleep(2)
 
-
     dumper = dump_type(type_tree)
     dumper.dump(output_file)
     process.terminate()
+
+    return "types.json created"
+
+def read_types():
+    type_list = None
+    type_list = TypeList.open("types.json")
+    print(type_list)
+
+    return "types.json read"
