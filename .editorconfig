@@ -1,4 +1,22 @@
-﻿[*.cs]
+﻿# top most file?
+root = true
+
+[*]
+# Unix-style newlines with a newline ending every file
+end_of_line = lf
+insert_final_newline = true
+
+# No trailing whitespace
+trim_trailing_whitespace = true
+
+# Spaces as tabs @ 4 chars wide
+indent_style = space
+indent_size = 4
+
+# UTF-8 charset everywhere
+charset = utf-8
+
+[*.cs]
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = none
