@@ -1,0 +1,23 @@
+Link to grab the latest Root.wad
+http://versionec.us.wizard101.com/WizPatcher/V_r761898.Wizard_1_550/LatestBuild/Data/GameData/Root.wad
+
+Components
+General Link to the patcher: http://versionec.us.wizard101.com/WizPatcher
+Wiz Version: V_r761898.Wizard_1_550
+Test Wiz Version: V_r761898.WizardDev
+Static link?: LatestBuild/
+Path to the file from the install folder: Data/GameData/Root.wad
+
+replace V_rxxxxxx.Wizard_x_xxx with the contents of
+[W101InstallFolder]/Bin/revision.dat (also remove the trailing .) --- Needs V_ prepended for the link.
+
+List of relevant files
+(STA) Data/GameData/Root.wad : Holds basically all item stats and a bunch of other stuff
+(STA) Data/GameData/Recipes-WorldData.wad : Recipes for crafting stuff
+(DYN) Data/GameData/TreasureCards-WorldData.wad : Spell animations and textures
+(DYN) Data/GameData/Equipment-WorldData & HighDetail.wad : Equipment models and textures
+
+To know if you have the latest patch
+1. Copy revision.dat
+2. Try and download revision.dat from the patcher
+if you can download, then success!
