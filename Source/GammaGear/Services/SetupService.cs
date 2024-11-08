@@ -50,6 +50,10 @@ namespace GammaGear.Services
                 }
             }
         }
+        ~SetupService()
+        {
+            PythonEngine.Shutdown();
+        }
         public IReadOnlyDictionary<InstallMode, string> GetAllInstallationPaths()
         {
             return _validInstallationPaths;
@@ -82,43 +86,74 @@ namespace GammaGear.Services
                 return;
             }
 
-            // Get executable location to install python to.
-            FileInfo executableInfo = new FileInfo(Assembly.GetEntryAssembly().Location);
-            DirectoryInfo executableDirectory = executableInfo.Directory;
-            DirectoryInfo pythonInstallationDirectory = executableDirectory.CreateSubdirectory("modules" + Path.DirectorySeparatorChar + "python");
-            if (!pythonInstallationDirectory.Exists)
-            {
-                throw new DirectoryNotFoundException($"Could not install python to the \"{pythonInstallationDirectory.FullName}\" directory");
-            }
 
-             await SetupPython(pythonInstallationDirectory.FullName);
-
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string[] list = assembly.GetManifestResourceNames();
-            foreach (string resourceName in list)
+            if (!PythonEngine.IsInitialized)
             {
-                if (resourceName.EndsWith(".whl"))
+#if DEBUG
+                // If we're in debug mode, delete the modules folder so we can upgrade the wheels
+                DirectoryInfo modulesDirectory = new DirectoryInfo("modules");
+                if (modulesDirectory.Exists)
                 {
-                    await Installer.InstallWheel(assembly, resourceName);
+                    modulesDirectory.Delete(true);
                 }
-            }
+#endif
 
-            //Runtime.PythonDLL = "python311.dll";
-            PythonEngine.Initialize();
+                // Get executable location to install python to.
+                FileInfo executableInfo = new FileInfo(Assembly.GetEntryAssembly().Location);
+                DirectoryInfo executableDirectory = executableInfo.Directory;
+                DirectoryInfo pythonInstallationDirectory = executableDirectory.CreateSubdirectory("modules" + Path.DirectorySeparatorChar + "python");
+                if (!pythonInstallationDirectory.Exists)
+                {
+                    throw new DirectoryNotFoundException($"Could not install python to the \"{pythonInstallationDirectory.FullName}\" directory");
+                }
+
+                await SetupPython(pythonInstallationDirectory.FullName);
+
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string[] list = assembly.GetManifestResourceNames();
+                foreach (string resourceName in list)
+                {
+                    if (resourceName.EndsWith(".whl"))
+                    {
+#if DEBUG
+                        await Installer.InstallWheel(assembly, resourceName, true);
+#else
+                        await Installer.InstallWheel(assembly, resourceName, false);
+#endif
+                    }
+                }
+
+                //Runtime.PythonDLL = "python311.dll";
+                PythonEngine.Initialize();
+            }
             PythonEngine.DebugGIL = true;
             using (Py.GIL())
             {
-                // Use wiztype to get types.json
-                dynamic types = Py.Import("ggutils");
 
-                types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
+                try
+                {
+                    // Use wiztype to get types.json\
+                    dynamic sys = Py.Import("sys");
+                    Console.WriteLine("Python version: " + sys.version);
+                    dynamic types = Py.Import("ggutils");
+                    //types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
+                    types.read_types();
+                }
+                catch (Exception ex)
+                {
+                    // types.get_types (inconsistant) | WinError 6: The handle is invalid.
+                    // types.read_types (Always) | The module has no attribute "read_types"
+                    string exs = ex.Message;
+                }
+                //types.read_types();
             }
-            PythonEngine.Shutdown();
+
+            System.Diagnostics.Debug.WriteLine("We made it to the end of the function!!!");
         }
 
         private static async Task SetupPython(string extractionDirectory)
         {
-            Python.Runtime.Runtime.PythonDLL ??= PythonInfo.DllName;
+            Python.Runtime.Runtime.PythonDLL = PythonInfo.DllName;
 
             Python.Deployment.Installer.Source = new Python.Deployment.Installer.EmbeddedResourceInstallationSource
             {

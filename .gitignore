@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Wheel files generated from pip wheel
 __wheels/
+
+# Generated C# files
+*.g.cs

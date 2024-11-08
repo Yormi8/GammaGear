@@ -41,6 +41,8 @@
 
   <ItemGroup>
     <PythonProject Include="External\ggutils" />
+    <GGUtilsCodeFiles Include="External\ggutils\**\*.py" Exclude="External\ggutils\**\build\**\*.py"/>
+    <GGUtilsCodeFiles Include="External\ggutils\pyproject.toml"/>
     <PythonVersion Include="External\ggutils\pyproject.toml" />
     <PythonInfo Include="Generated\PythonInfo.t.cs" />
   </ItemGroup>
@@ -88,11 +90,11 @@
     </None>
   </ItemGroup>
 
-  <Target Name="CompilePython" Inputs="@(PythonProject)" Outputs="@(PythonProject->'$(IntermediateOutputPath)\%(FileName).timestamp')">
+  <Target Name="CompilePython" Inputs="@(GGUtilsCodeFiles)" Outputs="$(IntermediateOutputPath)\ggutils-0.1.0-py3-none-any.whl">
     <Exec Command="powershell.exe &quot;Scripts\compile-python.ps1&quot; -outpath $(IntermediateOutputPath) -inputs '@(PythonProject)'" />
 
     <ItemGroup>
-      <EmbeddedResource Include="$(IntermediateOutputPath)\*.whl" />
+      <EmbeddedResource Include="$(IntermediateOutputPath)\*.whl" Visible="true" />
     </ItemGroup>
   </Target>
 

@@ -4,8 +4,9 @@ import time
 import subprocess
 import wiztype
 from katsuba.op import *
+from katsuba.utils import string_id
 
-def get_types(install_folder: str, output_file: str) -> str:
+def get_types(install_folder: str, output_file: str):
     clientOpen = False
     type_tree = None
     dump_type = wiztype.JsonTypeDumperV2
@@ -34,11 +35,34 @@ def get_types(install_folder: str, output_file: str) -> str:
     dumper.dump(output_file)
     process.terminate()
 
-    return "types.json created"
+    ## Open a type list from file system
+    #type_list = TypeList.open("types.json")
+    #
+    ## Configure serializer options
+    #opts = SerializerOptions()
+    #opts.flags |= STATEFUL_FLAGS
+    #opts.shallow = False
+    #
+    ## Construct the serializer
+    #ser = Serializer(opts, type_list)
+    #
+    ## Deserialize a file
+    #with open("TemplateManifest.xml", "rb") as f:
+    #    manifest = f.read()
+    #    assert manifest[:4] == b"BINd"
+    #
+    #manifest = ser.deserialize(manifest[4:])
+    #
+    ## Make sure we deserialized the right object:
+    #assert manifest.type_hash == string_id("class TemplateManifest")
+    #
+    ## Iterate the templates in the resulting object:
+    #with open("TemplateManifest.xml.de.txt", 'w') as f:
+    #    for location in manifest["m_serializedTemplates"]:
+    #        f.write(f"Template {location['m_id']} at {location['m_filename']}")
 
 def read_types():
-    type_list = None
-    type_list = TypeList.open("types.json")
-    print(type_list)
+    print("Hello world!")
+    print("Hi2")
 
-    return "types.json read"
+
