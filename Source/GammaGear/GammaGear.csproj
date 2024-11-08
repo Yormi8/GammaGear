@@ -41,14 +41,15 @@
 
   <ItemGroup>
     <PythonProject Include="External\ggutils" />
-    <GGUtilsCodeFiles Include="External\ggutils\**\*.py" Exclude="External\ggutils\**\build\**\*.py"/>
-    <GGUtilsCodeFiles Include="External\ggutils\pyproject.toml"/>
+    <GGUtilsCodeFiles Include="External\ggutils\**\*.py" Exclude="External\ggutils\**\build\**\*.py" />
+    <GGUtilsCodeFiles Include="External\ggutils\pyproject.toml" />
     <PythonVersion Include="External\ggutils\pyproject.toml" />
     <PythonInfo Include="Generated\PythonInfo.t.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="log4net" Version="3.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />

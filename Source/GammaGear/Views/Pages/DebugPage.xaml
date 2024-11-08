@@ -1,4 +1,4 @@
-﻿<Page x:Class="GammaGear.Views.Pages.DebugPage"
+<Page x:Class="GammaGear.Views.Pages.DebugPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,9 +8,38 @@
       mc:Ignorable="d"
       d:DataContext="{d:DesignInstance local:DebugPage, IsDesignTimeCreatable=False}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Debug">
+      Title="Debug"
+      ScrollViewer.CanContentScroll="False">
 
-    <Grid Margin="15 15 15 15">
-        <TextBlock Text="Debug Page Placeholder"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <ui:Card Grid.Row="0"
+                 Margin="0 0 0 5">
+            <ScrollViewer x:Name="LogScrollViewer"
+                          Margin="-8 -8 -8 -8">
+                <ui:TextBlock Name="LogTextBlock"
+                              Text="{Binding ViewModel.LogText}"
+                              FontFamily="Cascadia Mono"
+                              Appearance="Secondary"
+                              FontSize="12"/>
+            </ScrollViewer>
+        </ui:Card>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0 0 0 5">
+            <ui:Button Content="Export to File"
+                       Margin="0 0 5 0"
+                       Click="Button_Click"/>
+            <ui:NumberBox Value="{Binding ElementName=LogTextBlock, Path=FontSize}"
+                          Minimum="1"
+                          Maximum="50"
+                          SpinButtonPlacementMode="Inline"
+                          MinWidth="140"/>
+        </StackPanel>
     </Grid>
 </Page>

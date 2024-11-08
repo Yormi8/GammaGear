@@ -1,4 +1,4 @@
-﻿using GammaGear.Views.Pages;
+using GammaGear.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,17 +30,17 @@ namespace GammaGear.ViewModels
             new NavigationViewItem("Loadouts", SymbolRegular.Briefcase24, typeof(LoadoutsPage))
             {
                 FontSize = 22,
-                Visibility = Visibility.Collapsed
+                //Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("Items", SymbolRegular.HatGraduation24, typeof(ItemsPage))
             {
                 FontSize = 22,
-                Visibility = Visibility.Collapsed
+                //Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("Pets", SymbolRegular.AnimalCat24, typeof(PetsPage))
             {
                 FontSize = 22,
-                Visibility = Visibility.Collapsed
+                //Visibility = Visibility.Collapsed
             },
         };
 
@@ -55,7 +55,7 @@ namespace GammaGear.ViewModels
             new NavigationViewItem("Debug", SymbolRegular.Bug24, typeof(DebugPage))
             {
                 FontSize = 22,
-                Visibility = Visibility.Collapsed
+                //Visibility = Visibility.Collapsed
             },
             new NavigationViewItem("About Gamma Gear", SymbolRegular.Info24, typeof(AboutPage))
             {

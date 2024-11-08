@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -14,11 +14,13 @@ using GammaGear.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Extensions;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using GammaGear.ViewModels.Pages;
+using log4net.Core;
 
 namespace GammaGear
 {
@@ -40,6 +42,9 @@ namespace GammaGear
             {
                 // App Host
                 services.AddHostedService<ApplicationHostService>();
+
+                // Logging
+                services.AddLogging(builder => builder.AddConsole());
 
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();

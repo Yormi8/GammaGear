@@ -1,5 +1,7 @@
-﻿using System;
+using GammaGear.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +23,28 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class DebugPage : Page
     {
-        public DebugPage()
+        public DebugPageViewModel ViewModel { get; }
+
+        public DebugPage(DebugPageViewModel viewModel)
         {
+            ViewModel = viewModel;
             DataContext = this;
+            viewModel.PropertyChanged += OnLogTextUpdated;
 
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.LogText += "Line added\n";
+        }
+
+        private void OnLogTextUpdated(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "LogText")
+            {
+                LogScrollViewer.ScrollToEnd();
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels.Pages;
+using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,5 +32,8 @@ namespace GammaGear.Views.Pages
 
             InitializeComponent();
         }
+
+        // Theme colors:
+        // https://github.com/lepoco/wpfui/blob/3.0.5/src/Wpf.Ui/Resources/Theme/Dark.xaml
     }
 }

@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import os
 import time
 import subprocess
@@ -64,5 +64,3 @@ def get_types(install_folder: str, output_file: str):
 def read_types():
     print("Hello world!")
     print("Hi2")
-
-

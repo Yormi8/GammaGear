@@ -1,4 +1,4 @@
-﻿using GammaGear.Models;
+using GammaGear.Models;
 using GammaGear.Services.Contracts;
 using GammaGear.Generated;
 using Microsoft.VisualBasic.Logging;
@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 
 namespace GammaGear.Services
 {
@@ -38,8 +39,13 @@ namespace GammaGear.Services
             "Copying character information into Database",
         }.AsReadOnly();
         private Dictionary<InstallMode, string> _validInstallationPaths;
-        public SetupService()
+
+        private ILogger _logger = null;
+
+        public SetupService(ILogger<SetupService> logger)
         {
+            _logger = logger;
+
             _validInstallationPaths = new(_defaultInstallationPaths);
 
             foreach (var install in _validInstallationPaths)
@@ -50,14 +56,17 @@ namespace GammaGear.Services
                 }
             }
         }
+
         ~SetupService()
         {
             PythonEngine.Shutdown();
         }
+
         public IReadOnlyDictionary<InstallMode, string> GetAllInstallationPaths()
         {
             return _validInstallationPaths;
         }
+
         public bool CanCreateDatabase(InstallMode installMode, out InstallationFailReason reason)
         {
             reason = InstallationFailReason.None;
@@ -94,6 +103,7 @@ namespace GammaGear.Services
                 DirectoryInfo modulesDirectory = new DirectoryInfo("modules");
                 if (modulesDirectory.Exists)
                 {
+                    _logger.LogDebug("Deleting modules folder.");
                     modulesDirectory.Delete(true);
                 }
 #endif
@@ -126,6 +136,11 @@ namespace GammaGear.Services
                 //Runtime.PythonDLL = "python311.dll";
                 PythonEngine.Initialize();
             }
+            else
+            {
+                _logger.LogInformation("Python was already initialized");
+            }
+
             PythonEngine.DebugGIL = true;
             using (Py.GIL())
             {
@@ -144,6 +159,7 @@ namespace GammaGear.Services
                     // types.get_types (inconsistant) | WinError 6: The handle is invalid.
                     // types.read_types (Always) | The module has no attribute "read_types"
                     string exs = ex.Message;
+                    _logger.LogError(ex, "Python commands returned an exception.");
                 }
                 //types.read_types();
             }

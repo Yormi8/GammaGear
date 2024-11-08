@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels;
+using GammaGear.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -72,7 +72,7 @@ namespace GammaGear.Views
         {
             // This gets overridden somewhere and needs to be set on startup instead...
             RootNavigation.IsPaneOpen = false;
-            RootNavigation.FrameMargin = new Thickness(-5, 0, 0, 0);
+            RootNavigation.FrameMargin = new Thickness(0, 0, 0, 0);
             RootNavigation.Navigate(typeof(HomePage));
         }
 
