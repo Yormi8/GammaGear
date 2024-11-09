@@ -1,4 +1,5 @@
 using GammaGear.ViewModels.Pages;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,9 +26,12 @@ namespace GammaGear.Views.Pages
     {
         public DebugPageViewModel ViewModel { get; }
 
-        public DebugPage(DebugPageViewModel viewModel)
+        private ILogger _logger;
+
+        public DebugPage(DebugPageViewModel viewModel, ILogger<DebugPage> logger)
         {
             ViewModel = viewModel;
+            _logger = logger;
             DataContext = this;
             viewModel.PropertyChanged += OnLogTextUpdated;
 
@@ -36,12 +40,15 @@ namespace GammaGear.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.LogText += "Line added\n";
+            _logger.LogError("Example Error Log");
+            _logger.LogWarning("Example Warning Log");
+            _logger.LogDebug("Example Debug Log");
+            ViewModel.UpdateLogText();
         }
 
         private void OnLogTextUpdated(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "LogText")
+            if (LogTextAutoScrollToggle.IsChecked == true && e.PropertyName == "LogText")
             {
                 LogScrollViewer.ScrollToEnd();
             }

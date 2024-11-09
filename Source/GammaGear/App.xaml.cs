@@ -20,7 +20,8 @@ using Wpf.Ui.Extensions;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using GammaGear.ViewModels.Pages;
-using log4net.Core;
+using NReco.Logging.File;
+using System.Runtime.CompilerServices;
 
 namespace GammaGear
 {
@@ -30,21 +31,29 @@ namespace GammaGear
     public partial class App : Application
     {
         private static readonly IHost _host = Host.CreateDefaultBuilder()
-            .ConfigureLogging(l =>
-            {
-
-            })
             .ConfigureAppConfiguration(config =>
             {
-                //config.AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
+                config.AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
             })
-            .ConfigureServices(services =>
+            .ConfigureLogging((context, logging) =>
+            {
+                // Unsure what this function is supposed to accomplish? Application Host level logging?
+                //var loggingConfig = context.Configuration.GetSection("Logging");
+                //logging.AddFile(loggingConfig);
+                //logging.AddConsole();
+            })
+            .ConfigureServices((context, services) =>
             {
                 // App Host
                 services.AddHostedService<ApplicationHostService>();
 
                 // Logging
-                services.AddLogging(builder => builder.AddConsole());
+                services.AddLogging(loggingBuilder =>
+                {
+                    var loggingConfig = context.Configuration.GetSection("Logging");
+                    loggingBuilder.AddFile(loggingConfig);
+                    loggingBuilder.AddConsole();
+                });
 
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
@@ -99,6 +108,9 @@ namespace GammaGear
         protected void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
+
+            // Get the service because it needs to be initialized before it gets selected in the menu.
+            var d = _host.Services.GetService<DebugPageViewModel>();
         }
 
         protected void OnExit(object sender, ExitEventArgs e)

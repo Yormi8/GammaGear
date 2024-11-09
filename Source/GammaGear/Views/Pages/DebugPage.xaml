@@ -18,28 +18,66 @@
         </Grid.RowDefinitions>
 
         <ui:Card Grid.Row="0"
-                 Margin="0 0 0 5">
+                 Margin="0 0 0 5"
+                 VerticalAlignment="Stretch"
+                 VerticalContentAlignment="Top">
             <ScrollViewer x:Name="LogScrollViewer"
                           Margin="-8 -8 -8 -8">
                 <ui:TextBlock Name="LogTextBlock"
                               Text="{Binding ViewModel.LogText}"
                               FontFamily="Cascadia Mono"
-                              Appearance="Secondary"
                               FontSize="12"/>
             </ScrollViewer>
         </ui:Card>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    Margin="0 0 0 5">
-            <ui:Button Content="Export to File"
-                       Margin="0 0 5 0"
-                       Click="Button_Click"/>
-            <ui:NumberBox Value="{Binding ElementName=LogTextBlock, Path=FontSize}"
+        <Grid Grid.Row="1"
+              Margin="0 0 0 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ui:Button Grid.Column="0"
+                       Grid.Row="1"
+                       Margin="3 2 3 2"
+                       Content="Export to File"
+                       Click="Button_Click"
+                       HorizontalAlignment="Center"/>
+            <Label Grid.Row="0"
+                   Grid.Column="1"
+                   Margin="3 2 3 2"
+                   Target="{Binding ElementName=LogTextFontSize}"
+                   Content="Font Size"
+                   HorizontalAlignment="Center"/>
+            <ui:NumberBox Grid.Row="1"
+                          Grid.Column="1"
+                          Margin="3 2 3 2"
+                          Value="{Binding ElementName=LogTextBlock, Path=FontSize}"
+                          x:Name="LogTextFontSize"
                           Minimum="1"
                           Maximum="50"
                           SpinButtonPlacementMode="Inline"
-                          MinWidth="140"/>
-        </StackPanel>
+                          MinWidth="140"
+                          HorizontalAlignment="Center"/>
+            <Label Grid.Row="0"
+                   Grid.Column="2"
+                   Margin="3 2 3 2"
+                   Target="{Binding ElementName=LogTextFontSize}"
+                   Content="Auto Scroll"
+                   HorizontalAlignment="Center"/>
+            <ui:ToggleSwitch Grid.Row="1"
+                             Grid.Column="2"
+                             Margin="3 2 3 2"
+                             x:Name="LogTextAutoScrollToggle"
+                             IsChecked="True"
+                             HorizontalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Page>
