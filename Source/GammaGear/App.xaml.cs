@@ -22,6 +22,7 @@ using Wpf.Ui.Controls;
 using GammaGear.ViewModels.Pages;
 using NReco.Logging.File;
 using System.Runtime.CompilerServices;
+using GammaGear.Logging;
 
 namespace GammaGear
 {
@@ -35,24 +36,18 @@ namespace GammaGear
             {
                 config.AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
             })
-            .ConfigureLogging((context, logging) =>
-            {
-                // Unsure what this function is supposed to accomplish? Application Host level logging?
-                //var loggingConfig = context.Configuration.GetSection("Logging");
-                //logging.AddFile(loggingConfig);
-                //logging.AddConsole();
-            })
             .ConfigureServices((context, services) =>
             {
                 // App Host
                 services.AddHostedService<ApplicationHostService>();
 
                 // Logging
+                services.AddSingleton<ILogViewService, LogViewService>();
                 services.AddLogging(loggingBuilder =>
                 {
                     var loggingConfig = context.Configuration.GetSection("Logging");
                     loggingBuilder.AddFile(loggingConfig);
-                    loggingBuilder.AddConsole();
+                    loggingBuilder.AddBufferedStringListLogger();
                 });
 
                 // Theme manipulation
@@ -109,12 +104,15 @@ namespace GammaGear
         {
             _host.Start();
 
-            // Get the service because it needs to be initialized before it gets selected in the menu.
-            var d = _host.Services.GetService<DebugPageViewModel>();
+            var logger = _host.Services.GetService<ILogger<App>>();
+            logger.LogInformation("Application Starting up");
         }
 
         protected void OnExit(object sender, ExitEventArgs e)
         {
+            var logger = _host.Services.GetService<ILogger<App>>();
+            logger.LogInformation("Application Shutting down");
+
             _host.StopAsync().Wait();
 
             _host.Dispose();

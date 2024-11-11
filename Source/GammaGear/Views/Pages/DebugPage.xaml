@@ -9,7 +9,8 @@
       d:DataContext="{d:DesignInstance local:DebugPage, IsDesignTimeCreatable=False}"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Debug"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      x:Name="DebugPageView">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,12 +22,21 @@
                  Margin="0 0 0 5"
                  VerticalAlignment="Stretch"
                  VerticalContentAlignment="Top">
-            <ScrollViewer x:Name="LogScrollViewer"
+            <ScrollViewer x:Name="LogTextContainer"
+                          HorizontalScrollBarVisibility="Auto"
                           Margin="-8 -8 -8 -8">
-                <ui:TextBlock Name="LogTextBlock"
-                              Text="{Binding ViewModel.LogText}"
-                              FontFamily="Cascadia Mono"
-                              FontSize="12"/>
+                <ItemsControl ItemsSource="{Binding ViewModel.LogMessages}"
+                              Margin="0 0 10 10">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Message}"
+                                       Foreground="{Binding Path=LogLevel, Converter={StaticResource LogLevelToBrushConverter}}"
+                                       FontSize="{Binding DataContext.ViewModel.FontSize, ElementName=DebugPageView}"
+                                       FontFamily="Cascadia Mono">
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </ui:Card>
 
@@ -47,7 +57,7 @@
             <ui:Button Grid.Column="0"
                        Grid.Row="1"
                        Margin="3 2 3 2"
-                       Content="Export to File"
+                       Content="Clear"
                        Click="Button_Click"
                        HorizontalAlignment="Center"/>
             <Label Grid.Row="0"
@@ -59,7 +69,7 @@
             <ui:NumberBox Grid.Row="1"
                           Grid.Column="1"
                           Margin="3 2 3 2"
-                          Value="{Binding ElementName=LogTextBlock, Path=FontSize}"
+                          Value="{Binding Path=ViewModel.FontSize}"
                           x:Name="LogTextFontSize"
                           Minimum="1"
                           Maximum="50"

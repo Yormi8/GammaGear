@@ -2,6 +2,7 @@ using GammaGear.ViewModels.Pages;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -26,31 +27,26 @@ namespace GammaGear.Views.Pages
     {
         public DebugPageViewModel ViewModel { get; }
 
-        private ILogger _logger;
-
-        public DebugPage(DebugPageViewModel viewModel, ILogger<DebugPage> logger)
+        public DebugPage(DebugPageViewModel viewModel)
         {
             ViewModel = viewModel;
-            _logger = logger;
             DataContext = this;
-            viewModel.PropertyChanged += OnLogTextUpdated;
 
             InitializeComponent();
+
+            ViewModel.LogMessages.CollectionChanged += OnLogTextUpdated;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _logger.LogError("Example Error Log");
-            _logger.LogWarning("Example Warning Log");
-            _logger.LogDebug("Example Debug Log");
-            ViewModel.UpdateLogText();
+            ViewModel.LogMessages.Clear();
         }
 
-        private void OnLogTextUpdated(object sender, PropertyChangedEventArgs e)
+        private void OnLogTextUpdated(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (LogTextAutoScrollToggle.IsChecked == true && e.PropertyName == "LogText")
+            if (LogTextAutoScrollToggle.IsChecked == true)
             {
-                LogScrollViewer.ScrollToEnd();
+                LogTextContainer.ScrollToBottom();
             }
         }
     }
