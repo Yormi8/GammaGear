@@ -1,6 +1,7 @@
-﻿using GammaGear.Models;
+using GammaGear.Models;
 using GammaGear.Services.Contracts;
 using GammaGear.Views;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace GammaGear.Services
         private ApplicationTheme _currentTheme = (ApplicationTheme)(-1);
         private bool _isHooked = false;
         private readonly IThemeService _themeService;
+        private readonly ILogger _logger;
 
-        public AppearanceService(IThemeService themeService)
+        public AppearanceService(IThemeService themeService, ILogger<AppearanceService> logger)
         {
             _themeService = themeService;
+            _logger = logger;
         }
 
         private Wpf.Ui.Appearance.ApplicationTheme ToWpfUiTheme(ApplicationTheme theme) =>
@@ -50,6 +53,8 @@ namespace GammaGear.Services
 
             UnhookFromSystemTheme();
             _themeService.SetTheme(ToWpfUiTheme(theme));
+
+            _logger.LogInformation("Set theme to {theme}", theme);
         }
 
         private void HookToSystemTheme()
@@ -71,10 +76,13 @@ namespace GammaGear.Services
                 WindowBackdropType.Mica, // Background type
                 true                     // Whether to change accents automatically);
             );
+            _logger.LogInformation("Started to watch system theme");
 
             Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme(true);
+            _logger.LogInformation("Set theme to system");
 
             _isHooked = true;
+
         }
 
         private void UnhookFromSystemTheme()
@@ -96,6 +104,8 @@ namespace GammaGear.Services
             );
 
             _isHooked = false;
+
+            _logger.LogInformation("No longer watching system theme");
         }
     }
 }

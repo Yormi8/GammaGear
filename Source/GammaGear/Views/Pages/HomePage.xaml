@@ -9,7 +9,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       d:DataContext="{d:DesignInstance local:HomePage, IsDesignTimeCreatable=False}"
       Title="Setup"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
 
     <Grid>
         <StackPanel Orientation="Vertical">

@@ -8,7 +8,8 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="About Gamma Gear"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
 
     <Grid>
         <StackPanel Orientation="Vertical">

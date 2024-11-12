@@ -8,7 +8,8 @@
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -30,21 +31,22 @@
                        Icon="Add20"
                        Appearance="Primary"/>
 
-            <TextBlock Grid.Row="1"
-                       Margin="20 10 0 0">
+            <ui:TextBlock Grid.Row="1"
+                          Margin="20 10 0 0"
+                          FontSize="14">
                 <Run Text="{Binding ViewModel.ItemLoadoutCount, Mode=OneWay}"/>
                 <Run Text="loadouts  | "/>
                 <Run Text="0"/>
                 <Run Text="filters"/>
-            </TextBlock>
+            </ui:TextBlock>
 
         </Grid>
 
-        <ListView Grid.Row="1"
+        <ui:ListView Grid.Row="1"
                   Margin="20 0 20 20"
                   SelectionMode="Single"
                   ItemsSource="{Binding ViewModel.ItemLoadouts}">
-            <ListView.ItemTemplate>
+            <ui:ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -66,9 +68,10 @@
                                Margin="10 0 0 0"
                                Source="{Binding WizardSchoolIcon}"/>
 
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="0"
-                                   Margin="10 0 0 0" TextTrimming="CharacterEllipsis">
+                        <ui:TextBlock Grid.Column="1"
+                                      Grid.Row="0"
+                                      Margin="10 0 0 0"
+                                      TextTrimming="CharacterEllipsis">
                             <Run FontSize="18"
                                  FontWeight="Bold"
                                  Text="{Binding Name, Mode=OneWay}"/>
@@ -77,20 +80,20 @@
                             <Run FontSize="14"
                                  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
                                  Text="{Binding Creator, Mode=OneWay}"/>
-                        </TextBlock>
+                        </ui:TextBlock>
 
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="1"
-                                   Margin="10 0 0 0"
-                                   FontSize="14"
-                                   Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}">
+                        <ui:TextBlock Grid.Column="1"
+                                      Grid.Row="1"
+                                      Margin="10 0 0 0"
+                                      FontSize="14"
+                                      Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}">
                             <Run Text="Level"/>
                             <Run Text="{Binding WizardLevel, Mode=OneWay}"/>
                             <Run Text=" | "/>
                             <Run Text="{Binding WizardName, Mode=OneWay}"/>
                             <Run Text=" | "/>
                             <Run Text="{Binding TimeUpdated, Mode=OneWay}"/>
-                        </TextBlock>
+                        </ui:TextBlock>
 
                         <ui:Button Grid.Column="2"
                                    Grid.Row="0"
@@ -101,7 +104,7 @@
                                    Command="{Binding ViewModel.EditLoadoutCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=pages:LoadoutsPage}}"/>
                     </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ui:ListView.ItemTemplate>
+        </ui:ListView>
     </Grid>
 </Page>

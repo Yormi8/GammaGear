@@ -8,9 +8,11 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Pets"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
 
     <Grid>
-        <TextBlock Text="Pets Page Placeholder"/>
+        <ui:TextBlock Text="Pets Page Placeholder"
+                      FontSize="14"/>
     </Grid>
 </Page>

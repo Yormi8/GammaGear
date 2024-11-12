@@ -20,6 +20,7 @@ using Wpf.Ui.Extensions;
 using Microsoft.Extensions.Configuration;
 using GammaGear.Services;
 using GammaGear.Views.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace GammaGear.Views
 {
@@ -31,19 +32,23 @@ namespace GammaGear.Views
         public MainViewModel ViewModel { get; }
         public IAppearanceService AppearanceService { get; }
         public UserPreferencesService UserPrefs { get; }
+        private ILogger _logger;
 
         public MainWindow(
             MainViewModel viewModel,
             INavigationService navigationService,
             IServiceProvider serviceProvider,
             IAppearanceService appearanceService,
-            UserPreferencesService prefs)
+            UserPreferencesService prefs,
+            ILogger<MainWindow> logger)
         {
             ViewModel = viewModel;
             DataContext = this;
 
             AppearanceService = appearanceService;
             UserPrefs = prefs;
+
+            _logger = logger;
 
             InitializeComponent();
 
@@ -52,6 +57,8 @@ namespace GammaGear.Views
             RootNavigation.SetServiceProvider(serviceProvider);
 
             Loaded += (_, _) => OnLoaded();
+
+            App.Current.Startup += (_, _) => _logger.LogInformation("Application Startup event fired");
         }
 
         protected override void OnClosed(EventArgs e)
@@ -78,9 +85,6 @@ namespace GammaGear.Views
 
         private void ApplyThemeFromConfig()
         {
-            // Workaround for the theme not being properly set on startup.
-            AppearanceService.SetTheme(Models.ApplicationTheme.Light);
-            AppearanceService.SetTheme(Models.ApplicationTheme.Dark);
             AppearanceService.SetTheme(UserPrefs.Theme);
         }
     }

@@ -9,12 +9,13 @@
       d:DesignHeight="450" d:DesignWidth="800"
       d:DataContext="{d:DesignInstance local:ItemsPage, IsDesignTimeCreatable=False}"
       Title="Items"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0"
               Margin="0 0 10 10">
@@ -30,11 +31,11 @@
             <ui:DropDownButton Grid.Column="1"
                                Content="Filter"/>
         </Grid>
-        <ListView Grid.Row="1"
-                  Margin="0 0 20 10"
-                  SelectionMode="Single"
-                  ItemsSource="{Binding ViewModel.Items}">
-            <ListView.ItemTemplate>
+        <ui:ListView Grid.Row="1"
+                     Margin="0 0 20 10"
+                     SelectionMode="Single"
+                     ItemsSource="{Binding ViewModel.Items}">
+            <ui:ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -60,17 +61,19 @@
                                Source="{Binding SchoolIcon}"
                                ToolTip="{Binding SchoolRequirement}"/>
 
-                        <TextBlock Grid.Column="2"
-                                   Width="30"
-                                   Margin="10 0 0 0"
-                                   Text="{Binding LevelRequirement}"
-                                   VerticalAlignment="Center"/>
+                        <ui:TextBlock Grid.Column="2"
+                                      Width="30"
+                                      Margin="10 0 0 0"
+                                      Text="{Binding LevelRequirement}"
+                                      VerticalAlignment="Center"
+                                      FontSize="14"/>
 
-                        <TextBlock Grid.Column="3"
-                                   Margin="10 0 0 0"
-                                   TextTrimming="CharacterEllipsis"
-                                   Text="{Binding Name}"
-                                   VerticalAlignment="Center"/>
+                        <ui:TextBlock Grid.Column="3"
+                                      Margin="10 0 0 0"
+                                      TextTrimming="CharacterEllipsis"
+                                      Text="{Binding Name}"
+                                      VerticalAlignment="Center"
+                                      FontSize="14"/>
 
                         <ui:Button Grid.Column="4"
                                    Margin="5 0 20 0"
@@ -79,7 +82,7 @@
                         <!--Command="{Binding ViewModel.EditLoadoutCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=pages:LoadoutsPage}}"/>-->
                     </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ui:ListView.ItemTemplate>
+        </ui:ListView>
     </Grid>
 </Page>

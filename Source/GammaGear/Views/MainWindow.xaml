@@ -18,7 +18,8 @@
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
     WindowBackdropType="None"
-    Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+    Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+    Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

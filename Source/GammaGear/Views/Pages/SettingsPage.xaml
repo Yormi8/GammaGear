@@ -8,7 +8,8 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Settings"
-      ScrollViewer.CanContentScroll="False">
+      ScrollViewer.CanContentScroll="False"
+      Foreground="{ui:ThemeResource TextFillColorPrimaryBrush}">
 
     <Grid>
         <StackPanel Orientation="Vertical">
@@ -17,9 +18,10 @@
                     <Setter Property="Margin" Value="0 5 0 5"/>
                 </Style>
             </StackPanel.Resources>
-            <TextBlock Margin="0 0 0 5"
-                       Text="Appearance"
-                       FontWeight="DemiBold"/>
+            <ui:TextBlock Margin="0 0 0 5"
+                          Text="Appearance"
+                          FontWeight="DemiBold"
+                          FontSize="14"/>
             <ui:CardControl >
                 <ui:CardControl.Header>
                     <StackPanel>
