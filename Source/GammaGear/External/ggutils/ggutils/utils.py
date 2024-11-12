@@ -28,7 +28,8 @@ def get_types(install_folder: str, output_file: str):
             type_tree = wiztype.get_type_tree()
             clientOpen = True
         except ValueError as e:
-            print("Waiting for W101 to be open")
+            #print("Waiting for W101 to be open")
+            log_info("Waiting for W101 to be opened")
             time.sleep(2)
 
     dumper = dump_type(type_tree)
@@ -61,6 +62,5 @@ def get_types(install_folder: str, output_file: str):
     #    for location in manifest["m_serializedTemplates"]:
     #        f.write(f"Template {location['m_id']} at {location['m_filename']}")
 
-def read_types():
-    print("Hello world!")
-    print("Hi2")
+def read_types(log_info):
+    log_info("Hello world!")

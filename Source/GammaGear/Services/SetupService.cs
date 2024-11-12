@@ -17,10 +17,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Microsoft.Extensions.Logging;
+using System.Windows.Controls;
 
 namespace GammaGear.Services
 {
-    public class SetupService : ISetupService
+    public sealed class SetupService : ISetupService, IDisposable
     {
         private static readonly IReadOnlyDictionary<InstallMode, string> _defaultInstallationPaths = new Dictionary<InstallMode, string>()
         {
@@ -55,11 +56,22 @@ namespace GammaGear.Services
                     _validInstallationPaths.Remove(install.Key);
                 }
             }
+
+            App.Current.Exit += (_,_) =>
+            {
+                // Shutdown Python if it is initialized
+                _logger.LogInformation("App Exit triggered");
+            };
         }
 
-        ~SetupService()
+        public void Dispose()
         {
-            PythonEngine.Shutdown();
+            _logger.LogInformation("Checking if Python needs to be shutdown");
+            if (PythonEngine.IsInitialized)
+            {
+                _logger.LogInformation("Shutting down Python");
+                PythonEngine.Shutdown();
+            }
         }
 
         public IReadOnlyDictionary<InstallMode, string> GetAllInstallationPaths()
@@ -148,11 +160,15 @@ namespace GammaGear.Services
                 try
                 {
                     // Use wiztype to get types.json\
-                    dynamic sys = Py.Import("sys");
-                    Console.WriteLine("Python version: " + sys.version);
-                    dynamic types = Py.Import("ggutils");
-                    //types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
-                    types.read_types();
+                    using (var scope = Py.CreateScope())
+                    {
+                        // Create a python objects to pass our logger functions to python.
+                        dynamic log_info = (new Action<string>(s => _logger.LogInformation("{s}", s))).ToPython();
+                        dynamic log_error = (new Action<string>(s => _logger.LogError("{s}", s))).ToPython();
+                        dynamic types = Py.Import("ggutils");
+                        //types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
+                        types.read_types(log_info);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -163,8 +179,6 @@ namespace GammaGear.Services
                 }
                 //types.read_types();
             }
-
-            System.Diagnostics.Debug.WriteLine("We made it to the end of the function!!!");
         }
 
         private static async Task SetupPython(string extractionDirectory)

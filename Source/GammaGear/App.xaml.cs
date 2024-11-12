@@ -111,7 +111,7 @@ namespace GammaGear
         protected void OnExit(object sender, ExitEventArgs e)
         {
             var logger = _host.Services.GetService<ILogger<App>>();
-            logger.LogInformation("Application Shutting down");
+            logger.LogInformation("Application shutting down");
 
             _host.StopAsync().Wait();
 
