@@ -3,7 +3,6 @@ using GammaGear.Services.Contracts;
 using GammaGear.Generated;
 using Microsoft.VisualBasic.Logging;
 using Python.Deployment;
-//using Python.Included;
 using Python.Runtime;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,7 @@ using System.Windows.Controls;
 
 namespace GammaGear.Services
 {
-    public sealed class SetupService : ISetupService, IDisposable
+    public sealed partial class PythonNetService : IPythonService, IDisposable
     {
         private static readonly IReadOnlyDictionary<InstallMode, string> _defaultInstallationPaths = new Dictionary<InstallMode, string>()
         {
@@ -41,9 +40,9 @@ namespace GammaGear.Services
         }.AsReadOnly();
         private Dictionary<InstallMode, string> _validInstallationPaths;
 
-        private ILogger _logger = null;
+        private readonly ILogger _logger = null;
 
-        public SetupService(ILogger<SetupService> logger)
+        public PythonNetService(ILogger<PythonNetService> logger)
         {
             _logger = logger;
 
@@ -57,11 +56,7 @@ namespace GammaGear.Services
                 }
             }
 
-            App.Current.Exit += (_,_) =>
-            {
-                // Shutdown Python if it is initialized
-                _logger.LogInformation("App Exit triggered");
-            };
+            InitializePython();
         }
 
         public void Dispose()
@@ -100,63 +95,15 @@ namespace GammaGear.Services
             return true;
         }
 
-        public async Task CreateDatabaseAsync(InstallMode installMode)
+        public void CreateDatabase(InstallMode installMode)
         {
             if (!CanCreateDatabase(installMode, out _))
             {
                 return;
             }
 
-
-            if (!PythonEngine.IsInitialized)
-            {
-#if DEBUG
-                // If we're in debug mode, delete the modules folder so we can upgrade the wheels
-                DirectoryInfo modulesDirectory = new DirectoryInfo("modules");
-                if (modulesDirectory.Exists)
-                {
-                    _logger.LogDebug("Deleting modules folder.");
-                    modulesDirectory.Delete(true);
-                }
-#endif
-
-                // Get executable location to install python to.
-                FileInfo executableInfo = new FileInfo(Assembly.GetEntryAssembly().Location);
-                DirectoryInfo executableDirectory = executableInfo.Directory;
-                DirectoryInfo pythonInstallationDirectory = executableDirectory.CreateSubdirectory("modules" + Path.DirectorySeparatorChar + "python");
-                if (!pythonInstallationDirectory.Exists)
-                {
-                    throw new DirectoryNotFoundException($"Could not install python to the \"{pythonInstallationDirectory.FullName}\" directory");
-                }
-
-                await SetupPython(pythonInstallationDirectory.FullName);
-
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                string[] list = assembly.GetManifestResourceNames();
-                foreach (string resourceName in list)
-                {
-                    if (resourceName.EndsWith(".whl"))
-                    {
-#if DEBUG
-                        await Installer.InstallWheel(assembly, resourceName, true);
-#else
-                        await Installer.InstallWheel(assembly, resourceName, false);
-#endif
-                    }
-                }
-
-                //Runtime.PythonDLL = "python311.dll";
-                PythonEngine.Initialize();
-            }
-            else
-            {
-                _logger.LogInformation("Python was already initialized");
-            }
-
-            PythonEngine.DebugGIL = true;
             using (Py.GIL())
             {
-
                 try
                 {
                     // Use wiztype to get types.json\
@@ -166,19 +113,65 @@ namespace GammaGear.Services
                         dynamic log_info = (new Action<string>(s => _logger.LogInformation("{s}", s))).ToPython();
                         dynamic log_error = (new Action<string>(s => _logger.LogError("{s}", s))).ToPython();
                         dynamic types = Py.Import("ggutils");
-                        //types.get_types(_validInstallationPaths[installMode].ToPython(), "types.json");
-                        types.read_types(log_info);
+                        string types_location = "types.json";
+                        if (!File.Exists(types_location))
+                        {
+                            types.generate_types(_validInstallationPaths[installMode].ToPython(), types_location, log_info);
+                        }
+                        //types.read_types(log_info);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // types.get_types (inconsistant) | WinError 6: The handle is invalid.
-                    // types.read_types (Always) | The module has no attribute "read_types"
                     string exs = ex.Message;
                     _logger.LogError(ex, "Python commands returned an exception.");
                 }
-                //types.read_types();
             }
+        }
+
+        private async Task InitializePython()
+        {
+#if DEBUG
+            // If we're in debug mode, delete the modules folder so we can upgrade the wheels
+            DirectoryInfo modulesDirectory = new DirectoryInfo("modules");
+            if (modulesDirectory.Exists)
+            {
+                _logger.LogDebug("Deleting modules folder.");
+                modulesDirectory.Delete(true);
+            }
+#endif
+
+            // Get executable location to install python to.
+            FileInfo executableInfo = new FileInfo(Assembly.GetEntryAssembly().Location);
+            DirectoryInfo executableDirectory = executableInfo.Directory;
+            DirectoryInfo pythonInstallationDirectory = executableDirectory.CreateSubdirectory("modules" + Path.DirectorySeparatorChar + "python");
+            if (!pythonInstallationDirectory.Exists)
+            {
+                throw new DirectoryNotFoundException($"Could not install python to the \"{pythonInstallationDirectory.FullName}\" directory");
+            }
+
+            await SetupPython(pythonInstallationDirectory.FullName);
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string[] list = assembly.GetManifestResourceNames();
+            foreach (string resourceName in list)
+            {
+                if (resourceName.EndsWith(".whl"))
+                {
+#if DEBUG
+                    await Installer.InstallWheel(assembly, resourceName, true);
+#else
+                        await Installer.InstallWheel(assembly, resourceName, false);
+#endif
+                }
+            }
+
+            //Runtime.PythonDLL = "python311.dll";
+            PythonEngine.Initialize();
+
+#if DEBUG
+            PythonEngine.DebugGIL = true;
+#endif
         }
 
         private static async Task SetupPython(string extractionDirectory)

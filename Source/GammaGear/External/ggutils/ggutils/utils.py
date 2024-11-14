@@ -6,7 +6,7 @@ import wiztype
 from katsuba.op import *
 from katsuba.utils import string_id
 
-def get_types(install_folder: str, output_file: str):
+def generate_types(install_folder: str, output_file: str, log_info):
     clientOpen = False
     type_tree = None
     dump_type = wiztype.JsonTypeDumperV2

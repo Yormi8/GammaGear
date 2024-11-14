@@ -1,4 +1,4 @@
-﻿using GammaGear.Models;
+using GammaGear.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace GammaGear.Services.Contracts
 {
-    public interface ISetupService
+    public interface IPythonService
     {
         IReadOnlyDictionary<InstallMode, string> GetAllInstallationPaths();
         bool CanCreateDatabase(InstallMode installMode, out InstallationFailReason reason);
-        Task CreateDatabaseAsync(InstallMode installMode);
+        void CreateDatabase(InstallMode installMode);
     }
 }

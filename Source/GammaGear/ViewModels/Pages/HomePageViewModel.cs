@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,7 @@ namespace GammaGear.ViewModels.Pages
     public class HomePageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly ISetupService _setupService;
+        private readonly IPythonService _setupService;
         private bool _nativeInstallFound = true;
         public bool NativeInstallFound
         {
@@ -48,7 +48,7 @@ namespace GammaGear.ViewModels.Pages
 
         public HomePageViewModel(
             INavigationService navigationService,
-            ISetupService setupService)
+            IPythonService setupService)
         {
             _navigationService = navigationService;
             _setupService = setupService;
@@ -78,7 +78,7 @@ namespace GammaGear.ViewModels.Pages
         private void CreateDatabase()
         {
             System.Diagnostics.Debug.WriteLine($"Create Database called");
-            _setupService.CreateDatabaseAsync(InstallMode);
+            _setupService.CreateDatabase(InstallMode);
         }
 
         private bool CanCreateDatabase()

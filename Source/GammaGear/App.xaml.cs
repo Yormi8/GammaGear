@@ -64,7 +64,7 @@ namespace GammaGear
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // Provides setup service
-                services.AddSingleton<ISetupService, SetupService>();
+                services.AddSingleton<IPythonService, PythonNetService>();
 
                 // Main window navigation
                 services.AddSingleton<IWindow, MainWindow>();
