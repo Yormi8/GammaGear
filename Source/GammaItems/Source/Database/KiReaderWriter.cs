@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +8,8 @@ namespace GammaItems.Source.Database
 {
     public abstract class KiReaderWriter : IKiReader, IKiWriter
     {
-        public abstract IEnumerable<KiObject> ReadAllToKiObject(string path);
-        public abstract bool Write(string path, IEnumerable<KiObject> values);
-        public abstract bool Write(string path, IEnumerable<KiObject> values, bool append);
+        public abstract IEnumerable<ItemBase> ReadAllToItemBase(string path);
+        public abstract bool Write(string path, IEnumerable<ItemBase> values);
+        public abstract bool Write(string path, IEnumerable<ItemBase> values, bool append);
     }
 }

@@ -17,8 +17,8 @@ namespace GammaItems.Source.Database
         {
             List<Item> items = new List<Item>();
             Dictionary<Guid, Item> itemsDict = new Dictionary<Guid, Item>();
-            List<ItemSetBonus> itemSets = new List<ItemSetBonus>();
-            Dictionary<Guid, ItemSetBonus> itemSetsDict = new Dictionary<Guid, ItemSetBonus>();
+            List<ItemSet> itemSets = new List<ItemSet>();
+            Dictionary<Guid, ItemSet> itemSetsDict = new Dictionary<Guid, ItemSet>();
 
             // Open Database
             using (SqliteConnection db = new SqliteConnection($"Data Source=\"{path}\""))
@@ -50,10 +50,9 @@ namespace GammaItems.Source.Database
                     {
                         while (reader.Read())
                         {
-                            itemSets.Add(new ItemSetBonus()
+                            itemSets.Add(new ItemSet()
                             {
                                 Id = new Guid(reader.GetString(0)),
-                                KiId = new Guid(reader.GetString(1)),
                                 SetName = reader.GetString(2),
                             });
                         }
@@ -75,7 +74,7 @@ namespace GammaItems.Source.Database
                             Item newItem = new Item()
                             {
                                 Id = reader.GetGuid(0),
-                                KiId = reader.GetGuid(1),
+                                //KiId = reader.GetGuid(1),
                                 Type = (ItemType)reader.GetInt32(2),
                                 Name = reader.GetString(3),
                                 LevelRequirement = reader.GetInt32(4),
@@ -97,7 +96,7 @@ namespace GammaItems.Source.Database
                                 OutgoingHealing = reader.GetInt32(20),
                                 PipsGiven = reader.GetInt32(21),
                                 PowerpipsGiven = reader.GetInt32(22),
-                                AltSchoolMastery = (School)reader.GetInt32(23),
+                                //AltSchoolMastery = (School)reader.GetInt32(23),
                                 TearJewelSlots = reader.GetInt32(24),
                                 CircleJewelSlots = reader.GetInt32(25),
                                 SquareJewelSlots = reader.GetInt32(26),
@@ -106,8 +105,8 @@ namespace GammaItems.Source.Database
                                 ShieldPinSlots = reader.GetInt32(29),
                                 SwordPinSlots = reader.GetInt32(30),
                                 SetBonus = !reader.IsDBNull(31) ? itemSetsDict[reader.GetGuid(31)] : null,
-                                KiSetBonusID = reader.GetGuid(32),
-                                SetBonusLevel = reader.GetInt32(33),
+                                //KiSetBonusID = reader.GetGuid(32),
+                                //SetBonusLevel = reader.GetInt32(33),
                             };
                             items.Add(newItem);
                             ii++;
@@ -154,7 +153,7 @@ namespace GammaItems.Source.Database
 
             foreach (var item in items.Where(i => i.Type == ItemType.ItemSetBonusData && i.SetBonus != null))
             {
-                item.SetBonus.Bonuses.Add(item);
+                item.SetBonus.Bonuses.Add((ItemSetBonus)item);
             }
 
             List<ItemBase> ItemBases = items.Cast<ItemBase>().ToList();
@@ -184,11 +183,11 @@ namespace GammaItems.Source.Database
 
                 // Record every item and itemset parsed for reference recount later.
                 List<Item> itemsFinal = new List<Item>(values.Where(i => i is Item).Cast<Item>());
-                List<ItemSetBonus> itemSetsFinal = new List<ItemSetBonus>(values.Where(i => i is ItemSetBonus).Cast<ItemSetBonus>());
-                Dictionary<Guid, ItemSetBonus> replacementDict = new Dictionary<Guid, ItemSetBonus>(itemSetsFinal.Count);
-                foreach (ItemSetBonus itemSetBonus in itemSetsFinal)
+                List<ItemSet> itemSetsFinal = new List<ItemSet>(values.Where(i => i is ItemSet).Cast<ItemSet>());
+                Dictionary<Guid, ItemSet> replacementDict = new Dictionary<Guid, ItemSet>(itemSetsFinal.Count);
+                foreach (ItemSet itemSetBonus in itemSetsFinal)
                 {
-                    replacementDict[itemSetBonus.KiId] = itemSetBonus;
+                    replacementDict[itemSetBonus.Id] = itemSetBonus;
                 }
 
                 List<Item> nonUniqueNames = itemsFinal.Where(i => itemsFinal.Count(j => i.Name == j.Name) > 1).ToList();
@@ -206,11 +205,12 @@ namespace GammaItems.Source.Database
                 // TODO: Fix this (single item dont get renamed) and possibly move to the program for more cohesive code.
 
                 // Replace uint references with new GUIDs for better tracking.
-                var itemsWithSet = itemsFinal.Where(i => !i.KiSetBonusID.Equals(Guid.Empty));
-                foreach (Item item in itemsWithSet)
-                {
-                    item.SetBonus = replacementDict[item.KiSetBonusID];
-                }
+                // TODO: fix itemset detection?
+                //var itemsWithSet = itemsFinal.Where(i => !i.KiSetBonusID.Equals(Guid.Empty));
+                //foreach (Item item in itemsWithSet)
+                //{
+                //    item.SetBonus = replacementDict[item.KiSetBonusID];
+                //}
 
                 using (var transaction = db.BeginTransaction())
                 {
@@ -399,7 +399,7 @@ namespace GammaItems.Source.Database
                     void InsertItem(Item item)
                     {
                         pItemId.Value = item.Id.ToString();
-                        pItemKiId.Value = item.KiId.ToString();
+                        //pItemKiId.Value = item.KiId.ToString();
                         pItemType.Value = (uint)item.Type;
                         pItemName.Value = item.Name != null ? item.Name : DBNull.Value;
                         pItemLevelRequirement.Value = item.LevelRequirement;
@@ -421,7 +421,7 @@ namespace GammaItems.Source.Database
                         pItemOutgoingHealing.Value = item.OutgoingHealing;
                         pItemPipsGiven.Value = item.PipsGiven;
                         pItemPowerpipsGiven.Value = item.PowerpipsGiven;
-                        pItemAltSchoolMastery.Value = (byte)item.AltSchoolMastery;
+                        //pItemAltSchoolMastery.Value = (byte)item.AltSchoolMastery;
                         pItemTearJewelSlots.Value = item.TearJewelSlots;
                         pItemCircleJewelSlots.Value = item.CircleJewelSlots;
                         pItemSquareJewelSlots.Value = item.SquareJewelSlots;
@@ -430,11 +430,11 @@ namespace GammaItems.Source.Database
                         pItemShieldPinSlots.Value = item.ShieldPinSlots;
                         pItemSwordPinSlots.Value = item.SwordPinSlots;
                         pItemSetBonus.Value = item.SetBonus != null ? item.SetBonus.Id.ToString() : DBNull.Value;
-                        pItemKiSetBonusId.Value = item.KiSetBonusID.ToString();
-                        pItemSetBonusLevel.Value = item.SetBonusLevel;
+                        //pItemKiSetBonusId.Value = item.KiSetBonusID.ToString();
+                        //pItemSetBonusLevel.Value = item.SetBonusLevel;
                         commandInsertItem.ExecuteNonQuery();
 
-                        void UpdateInsertComplex(Dictionary<Item.School, int> dict, Canonical type)
+                        void UpdateInsertComplex(Dictionary<School, int> dict, Canonical type)
                         {
                             foreach (var entry in dict)
                             {
@@ -490,8 +490,8 @@ namespace GammaItems.Source.Database
                     foreach (var itemSet in itemSetsFinal)
                     {
                         pItemSetId.Value = itemSet.Id != Guid.Empty ? itemSet.Id.ToString() : DBNull.Value;
-                        pItemSetKiId.Value = itemSet.KiId != Guid.Empty ? itemSet.KiId.ToString() : DBNull.Value;
-                        pItemSetName.Value = itemSet.SetName;
+                        pItemSetKiId.Value = itemSet.Id != Guid.Empty ? itemSet.Id.ToString() : DBNull.Value;
+                        //pItemSetName.Value = itemSet.SetName;
                         commandInsertItemSet.ExecuteNonQuery();
 
                         foreach (var bonus in itemSet.Bonuses)

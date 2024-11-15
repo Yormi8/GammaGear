@@ -1,4 +1,5 @@
-﻿using GammaGear.Source;
+using GammaGear;
+using GammaItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace GammaTest
             return Path.GetDirectoryName(path) ?? "";
         }
 
-        public static string GetErrorString(KiObject a, KiObject b)
+        public static string GetErrorString(ItemBase a, ItemBase b)
         {
             if (a.Equals(b)) return "Items are Equal";
             if (a.GetType() != b.GetType()) return "Items are not the same type";
@@ -25,9 +26,9 @@ namespace GammaTest
 
             foreach (PropertyInfo prop in a.GetType().GetProperties())
             {
-                if (prop.GetValue(a) is Dictionary<Item.School, int>)
+                if (prop.GetValue(a) is Dictionary<School, int>)
                 {
-                    v += $"\t{prop.Name}: {string.Join(',', prop.GetValue(a) as Dictionary<Item.School, int> ?? new Dictionary<Item.School, int>())} | {string.Join(',', prop.GetValue(b) as Dictionary<Item.School, int> ?? new Dictionary<Item.School, int>())}\n";
+                    v += $"\t{prop.Name}: {string.Join(',', prop.GetValue(a) as Dictionary<School, int> ?? new Dictionary<School, int>())} | {string.Join(',', prop.GetValue(b) as Dictionary<School, int> ?? new Dictionary<School, int>())}\n";
                 }
                 else if (prop.GetValue(a) is Dictionary<string, int>)
                 {

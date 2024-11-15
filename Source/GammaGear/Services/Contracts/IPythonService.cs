@@ -14,5 +14,6 @@ namespace GammaGear.Services.Contracts
         bool CanCreateDatabase(InstallMode installMode, out InstallationFailReason reason);
         void CreateDatabase(InstallMode installMode);
         void DeserializeItems();
+        void ExtractLocale();
     }
 }

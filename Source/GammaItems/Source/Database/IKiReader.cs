@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,6 @@ namespace GammaItems.Source.Database
 {
     public interface IKiReader
     {
-        public IEnumerable<KiObject> ReadAllToKiObject(string path);
+        public IEnumerable<ItemBase> ReadAllToItemBase(string path);
     }
 }

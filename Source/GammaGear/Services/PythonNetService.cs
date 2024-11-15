@@ -119,6 +119,25 @@ namespace GammaGear.Services
             }
         }
 
+        public void ExtractLocale()
+        {
+            string out_path = "temp";
+
+            using (Py.GIL())
+            {
+                // Use wiztype to get types.json\
+                using (var scope = Py.CreateScope())
+                {
+                    // Create a python objects to pass our logger functions to python.
+                    dynamic log_info = (new Action<string>(s => _logger.LogInformation("{s}", s))).ToPython();
+                    dynamic log_error = (new Action<string>(s => _logger.LogError("{s}", s))).ToPython();
+                    dynamic types = Py.Import("ggutils");
+                    types.extract_locale(_validInstallationPaths[InstallMode.Native].ToPython(), out_path, log_info);
+                    //types.read_types(log_info);
+                }
+            }
+        }
+
         public void CreateDatabase(InstallMode installMode)
         {
             if (!CanCreateDatabase(installMode, out _))

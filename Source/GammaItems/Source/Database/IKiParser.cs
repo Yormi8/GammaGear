@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using GammaItems;
 
 namespace GammaItems.Source.Database
 {
-    interface IKiParser
+    public interface IKiParser
     {
         PropertyClass ReadToPropertyClass(string path);
         IEnumerable<PropertyClass> ReadAllToPropertyClass(IEnumerable<string> paths);
-        KiObject ReadToKiObject(string path);
-        KiObject ReadToKiObject(PropertyClass propertyClass);
-        IEnumerable<KiObject> ReadAllToKiObject(IEnumerable<string> paths);
-        IEnumerable<KiObject> ReadAllToKiObject(IEnumerable<PropertyClass> propertyClasses);
+        ItemBase ReadToItemBase(string path);
+        ItemBase ReadToItemBase(PropertyClass propertyClass);
+        IEnumerable<ItemBase> ReadAllToItemBase(IEnumerable<string> paths);
+        IEnumerable<ItemBase> ReadAllToItemBase(IEnumerable<PropertyClass> propertyClasses);
     }
 }

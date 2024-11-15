@@ -80,6 +80,18 @@ def deserialize_all(install_folder: str, types_list: str, out_path: str, log_inf
                         num_files += 1
     log_info(f"{num_files} files deserialized")
 
+def extract_locale(install_folder: str, out_path: str, log_info):
+    # Open an archive memory-mapped:
+    a = Archive.mmap(install_folder + "/Data/GameData/Root.wad")
+
+    # With a glob pattern for filtering files:
+    for path in a.iter_glob("Locale/**/*.lang"):
+        data = a[path]
+        p = Path(out_path + "/" + path).parent
+        p.mkdir(parents=True, exist_ok=True)
+        with open(out_path + "/" + path, "xb") as f:
+            f.write(data)
+
 def proprecurse(act, data_types: dict) -> dict:
 
     if act is None:

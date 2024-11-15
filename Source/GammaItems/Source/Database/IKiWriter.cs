@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace GammaItems.Source.Database
 {
     interface IKiWriter
     {
-        public bool Write(string path, IEnumerable<KiObject> values);
-        public bool Write(string path, IEnumerable<KiObject> values, bool append);
+        public bool Write(string path, IEnumerable<ItemBase> values);
+        public bool Write(string path, IEnumerable<ItemBase> values, bool append);
     }
 }

@@ -1,4 +1,4 @@
-﻿using GammaGear.Extensions;
+using GammaGear.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ namespace GammaGear.ViewModels.Pages
 {
     public class ItemsPageViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<ItemViewModel> _items;
+        private ObservableCollection<ItemViewModel> _items;
         public IEnumerable<ItemViewModel> Items => _items;
 
         public ItemsPageViewModel()
@@ -21,6 +21,11 @@ namespace GammaGear.ViewModels.Pages
             {
                 _items.Add(new ItemViewModel(GammaExtensions.GenerateRandomItem()));
             }
+        }
+
+        public void OverrideItems(ObservableCollection<ItemViewModel> items)
+        {
+            _items = items;
         }
     }
 }

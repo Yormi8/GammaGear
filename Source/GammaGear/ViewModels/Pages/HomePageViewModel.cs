@@ -11,15 +11,17 @@ using CommunityToolkit.Mvvm;
 using CommunityToolkit.Mvvm.Input;
 using GammaGear.Services.Contracts;
 using GammaGear.Models;
+using GammaItems.Source.Database;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.FileSystemGlobbing;
+using System.Collections.ObjectModel;
 
 namespace GammaGear.ViewModels.Pages
 {
     public class HomePageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IPythonService _setupService;
+        private readonly IPythonService _pythonService;
         private readonly ILogger _logger;
         private readonly ItemsPageViewModel _itemsPageViewModel;
         private bool _nativeInstallFound = true;
@@ -57,11 +59,11 @@ namespace GammaGear.ViewModels.Pages
             ItemsPageViewModel itemsPageViewModel)
         {
             _navigationService = navigationService;
-            _setupService = setupService;
+            _pythonService = setupService;
             _logger = logger;
             _itemsPageViewModel = itemsPageViewModel;
 
-            var installLocations = _setupService.GetAllInstallationPaths();
+            var installLocations = _pythonService.GetAllInstallationPaths();
             NativeInstallFound = installLocations.ContainsKey(InstallMode.Native);
             SteamInstallFound = installLocations.ContainsKey(InstallMode.Steam);
         }
@@ -93,14 +95,33 @@ namespace GammaGear.ViewModels.Pages
         internal async Task CreateDatabaseWorkAsync()
         {
             await Task.Run(() => {
-                _setupService.CreateDatabase(InstallMode);
-                _setupService.DeserializeItems();
+                _pythonService.CreateDatabase(InstallMode);
+                _pythonService.DeserializeItems();
+                _pythonService.ExtractLocale();
+
+                string localePath = "temp/Locale/English";
+
+                Matcher matcher = new Matcher();
+                matcher.AddInclude("**/*.json");
+                var files = matcher.GetResultsInFullPath("temp");
+                KiJsonParser<KiTextLocaleBank> parser = new(localePath);
+                var collection = parser.ReadAllToItemBase(files);
+                IEnumerable<GammaItems.Item> items = from o in collection where o is GammaItems.Item select o as GammaItems.Item;
+                ObservableCollection<ItemViewModel> itemViewModels = new ObservableCollection<ItemViewModel>();
+                foreach (var item in items)
+                {
+                    itemViewModels.Add(new ItemViewModel(item));
+                }
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    _itemsPageViewModel.OverrideItems(itemViewModels);
+                });
             });
         }
 
         private bool CanCreateDatabase()
         {
-            return _setupService.CanCreateDatabase(InstallMode, out _);
+            return _pythonService.CanCreateDatabase(InstallMode, out _);
         }
 
         private void ChangeInstallMode(string installMode)

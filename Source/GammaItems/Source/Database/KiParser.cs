@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,17 +26,17 @@ namespace GammaItems.Source.Database
             }
             return results;
         }
-        public virtual KiObject ReadToKiObject(string path)
+        public virtual ItemBase ReadToItemBase(string path)
         {
-            return ReadToKiObject(ReadToPropertyClass(path));
+            return ReadToItemBase(ReadToPropertyClass(path));
         }
-        public virtual IEnumerable<KiObject> ReadAllToKiObject(IEnumerable<string> paths)
+        public virtual IEnumerable<ItemBase> ReadAllToItemBase(IEnumerable<string> paths)
         {
-            return ReadAllToKiObject(ReadAllToPropertyClass(paths));
+            return ReadAllToItemBase(ReadAllToPropertyClass(paths));
         }
-        public virtual KiObject ReadToKiObject(PropertyClass propertyClass)
+        public virtual ItemBase ReadToItemBase(PropertyClass propertyClass)
         {
-            KiObject result = null;
+            ItemBase result = null;
 
             if (propertyClass is WizItemTemplate wizItem)
             {
@@ -44,26 +44,26 @@ namespace GammaItems.Source.Database
                 // Get ID
                 byte[] guidBytes = new byte[16];
                 BitConverter.GetBytes(wizItem.m_templateID).CopyTo(guidBytes, 12);
-                newItem.KiId = new Guid(guidBytes);
+                newItem.Id = new Guid(guidBytes);
 
                 // Set Bonus ID
                 guidBytes = new byte[16];
                 BitConverter.GetBytes(wizItem.m_itemSetBonusTemplateID).CopyTo(guidBytes, 12);
-                newItem.KiSetBonusID = new Guid(guidBytes);
+                //newItem.KiSetBonusID = new Guid(guidBytes);
 
                 // Get Display name
                 newItem.Name = LoadDisplayName(wizItem.m_displayName);
                 if (string.IsNullOrEmpty(newItem.Name))
                 {
                     newItem.Name = "Unnamed Item: " + wizItem.m_objectName;
-                    newItem.Flags |= Item.ItemFlags.FLAG_DevItem;
+                    newItem.Flags |= ItemFlags.FLAG_DevItem;
                 }
                 if (newItem.Name.Contains("QA ") ||
                     newItem.Name.ToLower() == "the one ring" ||
                     newItem.Name.Contains("Test") ||
                     newItem.Name.Contains("TEST"))
                 {
-                    newItem.Flags |= Item.ItemFlags.FLAG_DevItem;
+                    newItem.Flags |= ItemFlags.FLAG_DevItem;
                 }
 
                 // Get Description
@@ -78,7 +78,7 @@ namespace GammaItems.Source.Database
                 {
                     // Get flags
                     bool found = false;
-                    foreach (Item.ItemType type in System.Enum.GetValues(typeof(Item.ItemType)))
+                    foreach (ItemType type in System.Enum.GetValues(typeof(ItemType)))
                     {
                         if (tag == type.ToString())
                         {
@@ -88,7 +88,7 @@ namespace GammaItems.Source.Database
                         }
                     }
                     if (found) continue;
-                    foreach (Item.ItemFlags flag in System.Enum.GetValues(typeof(Item.ItemFlags)))
+                    foreach (ItemFlags flag in System.Enum.GetValues(typeof(ItemFlags)))
                     {
                         if (tag == flag.ToString())
                         {
@@ -100,11 +100,11 @@ namespace GammaItems.Source.Database
                     if (found) continue;
                     else if (tag == "Crafted")
                     {
-                        newItem.Flags |= Item.ItemFlags.FLAG_Crafted;
+                        newItem.Flags |= ItemFlags.FLAG_Crafted;
                     }
                     else if (tag == "PVP")
                     {
-                        newItem.Flags |= Item.ItemFlags.FLAG_PVPOnly;
+                        newItem.Flags |= ItemFlags.FLAG_PVPOnly;
                     }
                     //else if (tag == "NoPVP") // No PVP Items not introduced yet... May revisit in the future if these come out.
                     //{
@@ -115,7 +115,7 @@ namespace GammaItems.Source.Database
                 // Equip Effects
                 foreach (GameEffectInfo effectInfo in wizItem.m_equipEffects)
                 {
-                    ParseEffectInfo(effectInfo, ref newItem);
+                    ParseEffectInfo(effectInfo, newItem);
                 }
 
                 // Behaviors
@@ -166,7 +166,7 @@ namespace GammaItems.Source.Database
                         {
                             if (!string.IsNullOrEmpty(reqMagicLevel.m_magicSchool))
                             {
-                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqMagicLevel.m_magicSchool);
+                                newItem.SchoolRequirement = Enum.Parse<School>(reqMagicLevel.m_magicSchool);
                             }
                             newItem.LevelRequirement = (int)reqMagicLevel.m_numericValue;
                         }
@@ -174,11 +174,11 @@ namespace GammaItems.Source.Database
                         {
                             if (reqSchool.m_applyNOT)
                             {
-                                newItem.SchoolRestriction = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                                newItem.SchoolRestriction = Enum.Parse<School>(reqSchool.m_magicSchool);
                             }
                             else
                             {
-                                newItem.SchoolRequirement = Enum.Parse<Item.School>(reqSchool.m_magicSchool);
+                                newItem.SchoolRequirement = Enum.Parse<School>(reqSchool.m_magicSchool);
                             }
                         }
                         else if (requirement is ReqHasBadge)
@@ -192,7 +192,7 @@ namespace GammaItems.Source.Database
             }
             else if (propertyClass is ItemSetBonusTemplate itemSet)
             {
-                ItemSetBonus newItemSet = new ItemSetBonus
+                ItemSet newItemSet = new ItemSet
                 {
                     // Display name
                     SetName = LoadDisplayName(itemSet.m_displayName)
@@ -203,22 +203,22 @@ namespace GammaItems.Source.Database
                 // GUID
                 byte[] guidBytes = new byte[16];
                 BitConverter.GetBytes(itemSet.m_templateID).CopyTo(guidBytes, 12);
-                newItemSet.KiId = new Guid(guidBytes);
+                newItemSet.Id = new Guid(guidBytes);
 
                 // Bonuses
                 for (int i = 0; i < itemSet.m_itemSetBonusDataList.Count; i++)
                 {
-                    Item newItemBonus = new Item()
+                    ItemSetBonus newItemBonus = new ItemSetBonus()
                     {
                         SetBonus = newItemSet,
-                        Type = Item.ItemType.ItemSetBonusData,
+                        Type = ItemType.ItemSetBonusData,
                         SetBonusLevel = itemSet.m_itemSetBonusDataList[i].m_numItemsToEquip,
                     };
                     newItemBonus.Name = newItemSet.SetName + ": Tier " + newItemBonus.SetBonusLevel.ToString() + " Bonus";
 
                     foreach (GameEffectInfo gfi in itemSet.m_itemSetBonusDataList[i].m_equipEffectsGranted)
                     {
-                        ParseEffectInfo(gfi, ref newItemBonus);
+                        ParseEffectInfo(gfi, newItemBonus);
                     }
 
                     newItemSet.Bonuses.Add(newItemBonus);
@@ -233,12 +233,12 @@ namespace GammaItems.Source.Database
 
             return result;
         }
-        public virtual IEnumerable<KiObject> ReadAllToKiObject(IEnumerable<PropertyClass> propertyClasses)
+        public virtual IEnumerable<ItemBase> ReadAllToItemBase(IEnumerable<PropertyClass> propertyClasses)
         {
-            List<KiObject> results = new List<KiObject>();
+            List<ItemBase> results = new List<ItemBase>();
             foreach (PropertyClass propertyClass in propertyClasses)
             {
-                KiObject result = ReadToKiObject(propertyClass);
+                ItemBase result = ReadToItemBase(propertyClass);
                 if (result == null)
                     continue;
                 results.Add(result);
@@ -264,7 +264,7 @@ namespace GammaItems.Source.Database
 
             return bank.GetContent(id);
         }
-        protected virtual bool ParseEffectInfo(GameEffectInfo effectInfo, ref Item newItem)
+        protected virtual Item ParseEffectInfo(GameEffectInfo effectInfo, Item newItem)
         {
             if (effectInfo is StatisticEffectInfo stat)
             {
@@ -316,14 +316,14 @@ namespace GammaItems.Source.Database
                         }
                     }
                 }
-                if (found) return true;
+                if (found) return newItem;
 
                 // Complex stats
                 for (Canonical i = Canonical.MetaStartSchoolSpecific + 1; i < Canonical.MetaEndSchoolSpecific; i++)
                 {
-                    for (Item.School j = Item.School.Any; j < Item.School.Sun; j++)
+                    for (School j = School.Any; j < School.Sun; j++)
                     {
-                        string sch = Enum.GetName(typeof(Item.School), j);
+                        string sch = Enum.GetName(typeof(School), j);
                         sch = sch == "Any" || sch == "Universal" ? "All" : sch;
                         if (stat.m_effectName == "Canonical" + sch + Enum.GetName(typeof(Canonical), i))
                         {
@@ -358,7 +358,7 @@ namespace GammaItems.Source.Database
                                     newItem.PipConversions.AddOrIncrement(j, stat.m_lookupIndex + 1);
                                     break;
                                 case Canonical.Mastery:
-                                    newItem.AltSchoolMastery = j;
+                                    newItem.AltSchoolMasteries.Add(j);
                                     break;
                                 default:
                                     break;
@@ -368,7 +368,7 @@ namespace GammaItems.Source.Database
                     }
                     if (found) break;
                 }
-                if (found) return true;
+                if (found) return newItem;
             }
             // Spells
             else if (effectInfo is ProvideSpellEffectInfo spellInfo)
@@ -377,16 +377,16 @@ namespace GammaItems.Source.Database
                 {
                     newItem.ItemCards[spellInfo.m_spellName] += spellInfo.m_numSpells;
                 }
-                return true;
+                return newItem;
             }
             // Powerpips
             else if (effectInfo is StartingPipEffectInfo pipInfo)
             {
                 newItem.PipsGiven += pipInfo.m_pipsGiven;
                 newItem.PowerpipsGiven += pipInfo.m_powerPipsGiven;
-                return true;
+                return newItem;
             }
-            return false;
+            return newItem;
         }
 
         protected Dictionary<string, T> _banks = new Dictionary<string, T>();

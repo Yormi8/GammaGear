@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using GammaGear.Source;
-using GammaGear.Source.Database;
+using GammaItems.Source.Database;
+using GammaItems;
 using System.Collections;
 
 
@@ -20,7 +20,7 @@ namespace GammaTest.DatabaseTests
             string localeLocation = Path.Combine(TestUtils.GetCurrentDirectory(), "Data", "Locale", "English");
             KiJsonParser<KiTextLocaleBank> kiJsonParser = new KiJsonParser<KiTextLocaleBank>(localeLocation);
 
-            List<(string path, KiObject item)> testData = new List<(string, KiObject)>()
+            List<(string path, ItemBase item)> testData = new List<(string, ItemBase)>()
             {
                 (
                     Path.Combine(TestUtils.GetCurrentDirectory(), "Data", "Json", "Amulet-AQ-Balance-Mastery.json"),
@@ -28,21 +28,21 @@ namespace GammaTest.DatabaseTests
                     {
                         Name = "Exalted Balance Amulet",
                         IncomingHealing = 2,
-                        Blocks = new Dictionary<Item.School, int>
+                        Blocks = new Dictionary<School, int>
                         {
-                            { Item.School.Any, 6 }
+                            { School.Any, 6 }
                         },
-                        Damages = new Dictionary<Item.School, int>
+                        Damages = new Dictionary<School, int>
                         {
-                            { Item.School.Balance, 3 }
+                            { School.Balance, 3 }
                         },
-                        AltSchoolMastery = Item.School.Balance,
-                        SchoolRestriction = Item.School.Balance,
-                        SchoolRequirement = Item.School.Any,
+                        AltSchoolMasteries = new(){ School.Balance },
+                        SchoolRestriction = School.Balance,
+                        SchoolRequirement = School.Any,
                         TearJewelSlots = 1,
                         SquareJewelSlots = 1,
-                        Type = Item.ItemType.Amulet,
-                        Flags = Item.ItemFlags.FLAG_NoAuction,
+                        Type = ItemType.Amulet,
+                        Flags = ItemFlags.FLAG_NoAuction,
                         LevelRequirement = 90
                     }
                 ),
@@ -51,11 +51,11 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Death Class Pet",
-                        Type = Item.ItemType.Pet,
-                        Flags = Item.ItemFlags.FLAG_NoAuction |
-                                Item.ItemFlags.FLAG_NoSell |
-                                Item.ItemFlags.FLAG_NoGift |
-                                Item.ItemFlags.FLAG_CrownsOnly
+                        Type = ItemType.Pet,
+                        Flags = ItemFlags.FLAG_NoAuction |
+                                ItemFlags.FLAG_NoSell |
+                                ItemFlags.FLAG_NoGift |
+                                ItemFlags.FLAG_CrownsOnly
                     }
                 ),
                 (
@@ -63,24 +63,24 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Blade of the Felled Titan",
-                        Type = Item.ItemType.Athame,
+                        Type = ItemType.Athame,
                         LevelRequirement = 90,
                         MaxHealth = 320,
                         MaxMana = 210,
                         PowerpipChance = 17,
-                        Blocks = new Dictionary<Item.School, int>
+                        Blocks = new Dictionary<School, int>
                         {
-                            { Item.School.Any, 15 }
+                            { School.Any, 15 }
                         },
-                        Damages = new Dictionary<Item.School, int>
+                        Damages = new Dictionary<School, int>
                         {
-                            { Item.School.Any, 15 }
+                            { School.Any, 15 }
                         },
                         OutgoingHealing = 17,
                         TearJewelSlots = 1,
                         CircleJewelSlots = 1,
                         TriangleJewelSlots = 1,
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -88,33 +88,33 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Hades' Firestriders",
-                        Type = Item.ItemType.Boots,
+                        Type = ItemType.Boots,
                         LevelRequirement = 90,
-                        SchoolRequirement = Item.School.Fire,
+                        SchoolRequirement = School.Fire,
                         MaxHealth = 195,
                         PowerpipChance = 7,
-                        Accuracies = new Dictionary<Item.School, int>()
+                        Accuracies = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 5 },
+                            { School.Fire, 5 },
                         },
-                        Blocks = new Dictionary<Item.School, int>()
+                        Blocks = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 155 },
+                            { School.Fire, 155 },
                         },
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 12 },
+                            { School.Fire, 12 },
                         },
-                        Resists = new Dictionary<Item.School, int>()
+                        Resists = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 6 },
+                            { School.Any, 6 },
                         },
-                        Pierces = new Dictionary<Item.School, int>()
+                        Pierces = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 10 },
+                            { School.Any, 10 },
                         },
                         OutgoingHealing = 7,
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -122,7 +122,7 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Deck of Immortal Might",
-                        Type = Item.ItemType.Deck,
+                        Type = ItemType.Deck,
                         LevelRequirement = 90,
                         MaxHealth = 50,
                         TearJewelSlots = 1,
@@ -130,7 +130,7 @@ namespace GammaTest.DatabaseTests
                         {
                             { "Fiery Giant - Amulet", 1 }
                         },
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -138,29 +138,29 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Hades' Crown of Blazes",
-                        Type = Item.ItemType.Hat,
+                        Type = ItemType.Hat,
                         LevelRequirement = 90,
-                        SchoolRequirement = Item.School.Fire,
+                        SchoolRequirement = School.Fire,
                         MaxHealth = 235,
                         PowerpipChance = 7,
-                        Accuracies = new Dictionary<Item.School, int>()
+                        Accuracies = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 4 }
+                            { School.Fire, 4 }
                         },
-                        Criticals = new Dictionary<Item.School, int>()
+                        Criticals = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 175 }
+                            { School.Fire, 175 }
                         },
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 14 }
+                            { School.Fire, 14 }
                         },
-                        Pierces = new Dictionary<Item.School, int>()
+                        Pierces = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 5 }
+                            { School.Any, 5 }
                         },
                         OutgoingHealing = 3,
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -168,13 +168,13 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Opaque Blocking Onyx +8",
-                        Type = Item.ItemType.SquareJewel,
+                        Type = ItemType.SquareJewel,
                         LevelRequirement = 75,
-                        Blocks = new Dictionary<Item.School, int>()
+                        Blocks = new Dictionary<School, int>()
                         {
-                            { Item.School.Death, 8 }
+                            { School.Death, 8 }
                         },
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -182,13 +182,13 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Battle Narwhal (PERM)",
-                        Type = Item.ItemType.Mount,
+                        Type = ItemType.Mount,
                         LevelRequirement = 1,
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 2 }
+                            { School.Any, 2 }
                         },
-                        Flags = Item.ItemFlags.FLAG_NoAuction | Item.ItemFlags.FLAG_CrownsOnly
+                        Flags = ItemFlags.FLAG_NoAuction | ItemFlags.FLAG_CrownsOnly
                     }
                 ),
                 (
@@ -196,18 +196,18 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Storm Punishing Pin (160)",
-                        Type = Item.ItemType.SwordPin,
+                        Type = ItemType.SwordPin,
                         LevelRequirement = 160,
-                        SchoolRequirement = Item.School.Life,
-                        Damages = new Dictionary<Item.School, int>()
+                        SchoolRequirement = School.Life,
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Storm, 19 }
+                            { School.Storm, 19 }
                         },
-                        Pierces = new Dictionary<Item.School, int>()
+                        Pierces = new Dictionary<School, int>()
                         {
-                            { Item.School.Storm, 3 }
+                            { School.Storm, 3 }
                         },
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -215,24 +215,24 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Alpha and Omega Ring",
-                        Type = Item.ItemType.Ring,
+                        Type = ItemType.Ring,
                         LevelRequirement = 90,
-                        SchoolRequirement = Item.School.Any,
+                        SchoolRequirement = School.Any,
                         MaxHealth = 370,
                         MaxMana = 135,
                         PowerpipChance = 14,
                         IncomingHealing = 17,
-                        Blocks = new Dictionary<Item.School, int>()
+                        Blocks = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 30 }
+                            { School.Any, 30 }
                         },
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 10 }
+                            { School.Any, 10 }
                         },
                         TearJewelSlots = 1,
                         CircleJewelSlots = 1,
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -240,33 +240,33 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Hades' Inferno Plate",
-                        Type = Item.ItemType.Robe,
+                        Type = ItemType.Robe,
                         LevelRequirement = 90,
-                        SchoolRequirement = Item.School.Fire,
+                        SchoolRequirement = School.Fire,
                         MaxHealth = 440,
                         PowerpipChance = 7,
-                        Accuracies = new Dictionary<Item.School, int>()
+                        Accuracies = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 4 }
+                            { School.Fire, 4 }
                         },
-                        Criticals = new Dictionary<Item.School, int>()
+                        Criticals = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 91 }
+                            { School.Fire, 91 }
                         },
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Fire, 18 }
+                            { School.Fire, 18 }
                         },
-                        Pierces = new Dictionary<Item.School, int>()
+                        Pierces = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 7 }
+                            { School.Any, 7 }
                         },
                         ItemCards = new Dictionary<string, int>()
                         {
                             { "Storm Lord Lava - Amulet", 1 }
                         },
                         OutgoingHealing = 9,
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
                 (
@@ -274,19 +274,19 @@ namespace GammaTest.DatabaseTests
                     new Item()
                     {
                         Name = "Sky Iron Hasta",
-                        Type = Item.ItemType.Wand,
+                        Type = ItemType.Wand,
                         LevelRequirement = 30,
-                        SchoolRequirement = Item.School.Any,
+                        SchoolRequirement = School.Any,
                         PowerpipsGiven = 1,
-                        Damages = new Dictionary<Item.School, int>()
+                        Damages = new Dictionary<School, int>()
                         {
-                            { Item.School.Any, 10 }
+                            { School.Any, 10 }
                         },
                         ItemCards = new Dictionary<string, int>()
                         {
                             { "Wand-Fire-T4-005", 6 }
                         },
-                        Flags = Item.ItemFlags.FLAG_NoAuction
+                        Flags = ItemFlags.FLAG_NoAuction
                     }
                 ),
             };
@@ -294,7 +294,7 @@ namespace GammaTest.DatabaseTests
 
             foreach (var data in testData)
             {
-                KiObject testItem = kiJsonParser.ReadToKiObject(data.path);
+                ItemBase testItem = kiJsonParser.ReadToItemBase(data.path);
                 Assert.IsTrue(testItem.Equals(data.item), TestUtils.GetErrorString(testItem, data.item));
             }
         }
@@ -305,57 +305,57 @@ namespace GammaTest.DatabaseTests
             string localeLocation = Path.Combine(TestUtils.GetCurrentDirectory(), "Data", "Locale", "English");
             KiJsonParser<KiTextLocaleBank> kiJsonParser = new KiJsonParser<KiTextLocaleBank>(localeLocation);
 
-            List<(string path, KiObject item)> testData = new List<(string, KiObject)>()
+            List<(string path, ItemBase item)> testData = new List<(string, ItemBase)>()
             {
                 (
                     Path.Combine(TestUtils.GetCurrentDirectory(), "Data", "Json", "IS-L130-Death-001.json"),
-                    new ItemSetBonus()
+                    new ItemSet()
                     {
                         SetName = "Dragoon's Deadly Set",
-                        Bonuses = new List<Item>()
+                        Bonuses = new List<ItemSetBonus>()
                         {
-                            new Item()
+                            new ItemSetBonus()
                             {
                                 Name = "Dragoon's Deadly Set: Tier 2 Bonus",
-                                Type = Item.ItemType.ItemSetBonusData,
-                                Accuracies = new Dictionary<Item.School, int>()
+                                Type = ItemType.ItemSetBonusData,
+                                Accuracies = new Dictionary<School, int>()
                                 {
-                                    { Item.School.Death, 5 }
+                                    { School.Death, 5 }
                                 },
                                 SetBonusLevel = 2
                             },
-                            new Item()
+                            new ItemSetBonus()
                             {
                                 Name = "Dragoon's Deadly Set: Tier 3 Bonus",
-                                Type = Item.ItemType.ItemSetBonusData,
-                                Damages = new Dictionary<Item.School, int>()
+                                Type = ItemType.ItemSetBonusData,
+                                Damages = new Dictionary<School, int>()
                                 {
-                                    { Item.School.Death, 4 }
+                                    { School.Death, 4 }
                                 },
-                                PipConversions = new Dictionary<Item.School, int>()
+                                PipConversions = new Dictionary<School, int>()
                                 {
-                                    { Item.School.Death, 140 }
+                                    { School.Death, 140 }
                                 },
                                 SetBonusLevel = 3
                             },
-                            new Item()
+                            new ItemSetBonus()
                             {
                                 Name = "Dragoon's Deadly Set: Tier 5 Bonus",
-                                Type = Item.ItemType.ItemSetBonusData,
+                                Type = ItemType.ItemSetBonusData,
                                 PowerpipChance = 12,
                                 SetBonusLevel = 5
                             },
-                            new Item()
+                            new ItemSetBonus()
                             {
                                 Name = "Dragoon's Deadly Set: Tier 7 Bonus",
-                                Type = Item.ItemType.ItemSetBonusData,
-                                Damages = new Dictionary<Item.School, int>()
+                                Type = ItemType.ItemSetBonusData,
+                                Damages = new Dictionary<School, int>()
                                 {
-                                    { Item.School.Death, 6 }
+                                    { School.Death, 6 }
                                 },
-                                Blocks = new Dictionary<Item.School, int>()
+                                Blocks = new Dictionary<School, int>()
                                 {
-                                    { Item.School.Any, 108 }
+                                    { School.Any, 108 }
                                 },
                                 StunResistChance = 25,
                                 SetBonusLevel = 7
@@ -369,8 +369,8 @@ namespace GammaTest.DatabaseTests
             {
                 // This is super ugly, but I cannot think of a way to fix this without completely redesigning the item system
                 // (which should probably be done anyway...)
-                (data.item as ItemSetBonus)?.Bonuses.ForEach(i => i.SetBonus = data.item as ItemSetBonus);
-                KiObject testItem = kiJsonParser.ReadToKiObject(data.path);
+                (data.item as ItemSet)?.Bonuses.ForEach(i => i.SetBonus = data.item as ItemSet);
+                ItemBase testItem = kiJsonParser.ReadToItemBase(data.path);
                 Assert.IsTrue(testItem.Equals(data.item), TestUtils.GetErrorString(testItem, data.item));
             }
         }
