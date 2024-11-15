@@ -221,7 +221,8 @@ namespace GammaItems.Source.Database
                         ParseEffectInfo(gfi, newItemBonus);
                     }
 
-                    newItemSet.Bonuses.Add(newItemBonus);
+                    // TODO: Another spot the itemset has to be fixed
+                    //newItemSet.Bonuses.Add(newItemBonus);
                 }
 
                 result = newItemSet;

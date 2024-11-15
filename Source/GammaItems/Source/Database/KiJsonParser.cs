@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -86,6 +86,9 @@ namespace GammaItems.Source.Database
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
+                // Maybe this works?
+                if (reader.TokenType == JsonToken.Null)
+                    return null;
                 JObject jObject = JObject.Load(reader);
                 string sourceType = jObject["$type"].Value<string>();
 
