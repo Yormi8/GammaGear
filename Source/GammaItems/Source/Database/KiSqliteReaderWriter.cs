@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using static GammaGear.Source.Item;
+using GammaItems;
 
 namespace GammaItems.Source.Database
 {
     public class KiSqliteReaderWriter : KiReaderWriter
     {
-        public override IEnumerable<KiObject> ReadAllToKiObject(string path)
+        public override IEnumerable<ItemBase> ReadAllToItemBase(string path)
         {
             List<Item> items = new List<Item>();
             Dictionary<Guid, Item> itemsDict = new Dictionary<Guid, Item>();
@@ -157,12 +157,12 @@ namespace GammaItems.Source.Database
                 item.SetBonus.Bonuses.Add(item);
             }
 
-            List<KiObject> kiObjects = items.Cast<KiObject>().ToList();
-            kiObjects.AddRange(itemSets);
+            List<ItemBase> ItemBases = items.Cast<ItemBase>().ToList();
+            ItemBases.AddRange(itemSets);
 
-            return kiObjects;
+            return ItemBases;
         }
-        public override bool Write(string path, IEnumerable<KiObject> values)
+        public override bool Write(string path, IEnumerable<ItemBase> values)
         {
             using (SqliteConnection db = new SqliteConnection($"Data Source=\"{path}\""))
             {
@@ -511,7 +511,7 @@ namespace GammaItems.Source.Database
             }
             return File.Exists(path);
         }
-        public override bool Write(string path, IEnumerable<KiObject> values, bool append)
+        public override bool Write(string path, IEnumerable<ItemBase> values, bool append)
         {
             return Write(path, values);
         }

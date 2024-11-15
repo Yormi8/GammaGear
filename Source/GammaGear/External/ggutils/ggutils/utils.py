@@ -5,6 +5,9 @@ import subprocess
 import wiztype
 from katsuba.op import *
 from katsuba.utils import string_id
+from katsuba.wad import Archive
+import json
+from pathlib import Path
 
 def generate_types(install_folder: str, output_file: str, log_info):
     clientOpen = False
@@ -36,31 +39,108 @@ def generate_types(install_folder: str, output_file: str, log_info):
     dumper.dump(output_file)
     process.terminate()
 
-    ## Open a type list from file system
-    #type_list = TypeList.open("types.json")
-    #
-    ## Configure serializer options
-    #opts = SerializerOptions()
-    #opts.flags |= STATEFUL_FLAGS
-    #opts.shallow = False
-    #
-    ## Construct the serializer
-    #ser = Serializer(opts, type_list)
-    #
-    ## Deserialize a file
-    #with open("TemplateManifest.xml", "rb") as f:
-    #    manifest = f.read()
-    #    assert manifest[:4] == b"BINd"
-    #
-    #manifest = ser.deserialize(manifest[4:])
-    #
-    ## Make sure we deserialized the right object:
-    #assert manifest.type_hash == string_id("class TemplateManifest")
-    #
-    ## Iterate the templates in the resulting object:
-    #with open("TemplateManifest.xml.de.txt", 'w') as f:
-    #    for location in manifest["m_serializedTemplates"]:
-    #        f.write(f"Template {location['m_id']} at {location['m_filename']}")
+def deserialize_all(install_folder: str, types_list: str, out_path: str, log_info):
+    # Open a type list from file system
+    type_list = TypeList.open(types_list)
+
+    # Configure serializer options
+    opts = SerializerOptions()
+    opts.flags |= STATEFUL_FLAGS
+    opts.shallow = False
+    opts.skip_unknown_types = True
+    #print(dir(opts))
+
+    # Construct the serializer
+    s = Serializer(opts, type_list)
+
+    # Open an archive memory-mapped:
+    a = Archive.mmap(install_folder + "/Data/GameData/Root.wad")
+    log_info(f"{len(a)} files found in Root.wad")
+
+    valid_ids = {
+        string_id("class WizItemTemplate"): "WizItemTemplate",
+        string_id("class ItemSetBonusTemplate"): "ItemSetBonusTemplate",
+    }
+
+    with open("types.json", "r") as j:
+        data_types: dict = json.load(j)
+
+    # With a glob pattern for filtering files:
+    num_files = 0
+    with open("n.txt", "w") as f:
+        for path in a.iter_glob("ObjectData/**/*.xml"):
+            data = a.deserialize(path, s)
+            if data.type_hash in valid_ids:
+                d = proprecurse(data, data_types)
+                p = Path(out_path + "/" + path).parent
+                p.mkdir(parents=True, exist_ok=True)
+                if not os.path.exists(out_path + "/" + path.replace(".xml", ".json")):
+                    with open(out_path + "/" + path.replace(".xml", ".json"), "x") as f:
+                        json.dump(d, f)
+                        num_files += 1
+    log_info(f"{num_files} files deserialized")
+
+def proprecurse(act, data_types: dict) -> dict:
+
+    if act is None:
+        return None
+    if str(act.__class__) == "<class 'katsuba.op.Vec3'>":
+        return {
+            "x": act.x,
+            "y": act.y,
+            "z": act.z
+        }
+    if str(act.__class__) == "<class 'katsuba.op.Color'>":
+        return {
+            "a": act.a,
+            "b": act.b,
+            "g": act.g,
+            "r": act.r
+        }
+
+    valid_primitives = [
+        "bool",
+        "unsigned char",
+        "char",
+        "unsigned short",
+        "short",
+        "unsigned int",
+        "int",
+        "float",
+        "double",
+        "gid"
+    ]
+    item = dict()
+    item["__type"] = data_types["classes"][str(act.type_hash)]["name"]
+    for prop in data_types["classes"][str(act.type_hash)]["properties"]:
+        #prop.key
+        #print(data_types["classes"][str(act.type_hash)]["properties"][prop])
+        if data_types["classes"][str(act.type_hash)]["properties"][prop]["container"] == "Static":
+            if data_types["classes"][str(act.type_hash)]["properties"][prop]["type"] in valid_primitives:
+                item[prop] = act.get(prop)
+            elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"] == "std::string":
+                item[prop] = str(act.get(prop) or "").removeprefix("b'").removesuffix("'")
+            elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"].startswith("class"):
+                item[prop] = proprecurse(act.get(prop), data_types)
+            elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"].startswith("enum"):
+                item[prop] = act.get(prop)
+            else:
+                log_info(f"deserializer: prop type was unexpected: {data_types["classes"][str(act.type_hash)]["properties"][prop]["type"]}")
+        else:
+            # container is a list-type structure
+            item[prop] = []
+            for p in act.get(prop):
+                if data_types["classes"][str(act.type_hash)]["properties"][prop]["type"] in valid_primitives:
+                    item[prop].append(p)
+                elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"] == "std::string":
+                    item[prop].append(str(p or "").removeprefix("b'").removesuffix("'"))
+                elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"].startswith("class"):
+                    item[prop].append(proprecurse(p, data_types))
+                elif data_types["classes"][str(act.type_hash)]["properties"][prop]["type"].startswith("enum"):
+                    item[prop] = act.get(prop)
+                else:
+                    log_info(f"deserializer: prop type was unexpected: {data_types["classes"][str(act.type_hash)]["properties"][prop]["type"]}")
+    return item
 
 def read_types(log_info):
     log_info("Hello world!")

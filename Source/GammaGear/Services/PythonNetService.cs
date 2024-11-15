@@ -56,7 +56,7 @@ namespace GammaGear.Services
                 }
             }
 
-            InitializePython();
+            _ = InitializePython();
         }
 
         public void Dispose()
@@ -93,6 +93,30 @@ namespace GammaGear.Services
             }
 
             return true;
+        }
+
+        public void DeserializeItems()
+        {
+            string types_location = "types.json";
+            string out_path = "temp";
+            if (!File.Exists(types_location))
+            {
+                CreateDatabase(InstallMode.Native);
+            }
+
+            using (Py.GIL())
+            {
+                // Use wiztype to get types.json\
+                using (var scope = Py.CreateScope())
+                {
+                    // Create a python objects to pass our logger functions to python.
+                    dynamic log_info = (new Action<string>(s => _logger.LogInformation("{s}", s))).ToPython();
+                    dynamic log_error = (new Action<string>(s => _logger.LogError("{s}", s))).ToPython();
+                    dynamic types = Py.Import("ggutils");
+                    types.deserialize_all(_validInstallationPaths[InstallMode.Native].ToPython(), types_location, out_path, log_info);
+                    //types.read_types(log_info);
+                }
+            }
         }
 
         public void CreateDatabase(InstallMode installMode)
@@ -172,6 +196,7 @@ namespace GammaGear.Services
 #if DEBUG
             PythonEngine.DebugGIL = true;
 #endif
+            PythonEngine.BeginAllowThreads();
         }
 
         private static async Task SetupPython(string extractionDirectory)

@@ -11,6 +11,8 @@ using CommunityToolkit.Mvvm;
 using CommunityToolkit.Mvvm.Input;
 using GammaGear.Services.Contracts;
 using GammaGear.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace GammaGear.ViewModels.Pages
 {
@@ -18,6 +20,8 @@ namespace GammaGear.ViewModels.Pages
     {
         private readonly INavigationService _navigationService;
         private readonly IPythonService _setupService;
+        private readonly ILogger _logger;
+        private readonly ItemsPageViewModel _itemsPageViewModel;
         private bool _nativeInstallFound = true;
         public bool NativeInstallFound
         {
@@ -48,10 +52,14 @@ namespace GammaGear.ViewModels.Pages
 
         public HomePageViewModel(
             INavigationService navigationService,
-            IPythonService setupService)
+            IPythonService setupService,
+            ILogger<HomePageViewModel> logger,
+            ItemsPageViewModel itemsPageViewModel)
         {
             _navigationService = navigationService;
             _setupService = setupService;
+            _logger = logger;
+            _itemsPageViewModel = itemsPageViewModel;
 
             var installLocations = _setupService.GetAllInstallationPaths();
             NativeInstallFound = installLocations.ContainsKey(InstallMode.Native);
@@ -62,7 +70,7 @@ namespace GammaGear.ViewModels.Pages
         private IRelayCommand _createDatabaseCommand;
         private IRelayCommand _changeInstallModeCommand;
         public IRelayCommand FinishSetupCommand => _finishSetupCommand ??= new RelayCommand(FinishSetup, CanFinishSetup);
-        public IRelayCommand CreateDatabaseCommand => _createDatabaseCommand ??= new RelayCommand(CreateDatabase, CanCreateDatabase);
+        public IRelayCommand CreateDatabaseCommand => _createDatabaseCommand ??= new RelayCommand(CreateDatabaseAsync, CanCreateDatabase);
         public IRelayCommand ChangeInstallModeCommand => _changeInstallModeCommand ??= new RelayCommand<string>(ChangeInstallMode);
 
         private void FinishSetup()
@@ -75,10 +83,19 @@ namespace GammaGear.ViewModels.Pages
             return false;
         }
 
-        private void CreateDatabase()
+        private async void CreateDatabaseAsync()
         {
-            System.Diagnostics.Debug.WriteLine($"Create Database called");
-            _setupService.CreateDatabase(InstallMode);
+            _logger.LogInformation("Create Database started");
+            await CreateDatabaseWorkAsync();
+            _logger.LogInformation("Create Database finished");
+        }
+
+        internal async Task CreateDatabaseWorkAsync()
+        {
+            await Task.Run(() => {
+                _setupService.CreateDatabase(InstallMode);
+                _setupService.DeserializeItems();
+            });
         }
 
         private bool CanCreateDatabase()
