@@ -11,7 +11,7 @@ namespace GammaGear.ViewModels.Pages
     public class ItemsPageViewModel : ViewModelBase
     {
         private ObservableCollection<ItemViewModel> _items;
-        public IEnumerable<ItemViewModel> Items => _items;
+        public ObservableCollection<ItemViewModel> Items => _items;
 
         public ItemsPageViewModel()
         {
@@ -26,6 +26,10 @@ namespace GammaGear.ViewModels.Pages
         public void OverrideItems(ObservableCollection<ItemViewModel> items)
         {
             _items = items;
+            // Update the view
+            ItemViewModel update = new(new());
+            _items.Add(update);
+            _items.Remove(update);
         }
     }
 }

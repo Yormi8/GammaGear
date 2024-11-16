@@ -1,6 +1,7 @@
-﻿using GammaGear.ViewModels.Pages;
+using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,11 @@ namespace GammaGear.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            WizItemsView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Name", System.ComponentModel.ListSortDirection.Ascending));
         }
     }
 }
