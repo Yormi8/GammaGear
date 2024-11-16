@@ -97,6 +97,12 @@ namespace GammaGear.Services
 
         public void DeserializeItems()
         {
+            if (Path.Exists("temp"))
+            {
+                _logger.LogInformation("Skipping deserializing because temp dir still exists");
+                return;
+            }
+
             string types_location = "types.json";
             string out_path = "temp";
             if (!File.Exists(types_location))
@@ -121,6 +127,11 @@ namespace GammaGear.Services
 
         public void ExtractLocale()
         {
+            if (Path.Exists("temp/locale"))
+            {
+                _logger.LogInformation("Skipping extracting locale because it exists");
+                return;
+            }
             string out_path = "temp";
 
             using (Py.GIL())
