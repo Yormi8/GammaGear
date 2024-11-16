@@ -15,6 +15,14 @@
 
             <converters:ThemeToIndexConverter x:Key="ThemeToIndexConverter"/>
             <converters:LogLevelToBrushConverter x:Key="LogLevelToBrushConverter"/>
+            <converters:BoolToVisibilityConverter
+                x:Key="BoolToHiddenConverter"
+                TrueValue="Visible"
+                FalseValue="Hidden"/>
+            <converters:BoolToVisibilityConverter
+                x:Key="BoolToCollapsedConverter"
+                TrueValue="Visible"
+                FalseValue="Collapsed"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

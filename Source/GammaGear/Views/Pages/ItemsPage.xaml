@@ -46,59 +46,88 @@
             </ui:ListView.ItemsPanel>
             <ui:ListView.ItemTemplate>
                 <DataTemplate>
-                    <ui:Card>
-                        <Grid ToolTipService.InitialShowDelay="0">
+                    <ui:Card Width="300">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Grid.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <ui:TextBlock Text="Hello"/>
-                                        <ui:TextBlock Text="There"/>
-                                    </StackPanel>
-                                </ToolTip>
-                            </Grid.ToolTip>
-
                             <Image Grid.Column="0"
-                               Height="24"
-                               Width="24"
-                               Margin="10 0 0 0"
-                               Source="{Binding EquipmentTypeIcon}"
-                               ToolTip="{Binding Type}"/>
+                                   Height="30"
+                                   Width="30"
+                                   Source="{Binding EquipmentTypeIcon}"
+                                   ToolTip="{Binding Type}"/>
 
                             <Image Grid.Column="1"
-                               Height="24"
-                               Width="24"
-                               Margin="10 0 0 0"
-                               Source="{Binding SchoolIcon}"
-                               ToolTip="{Binding SchoolRequirement}"/>
+                                   Height="30"
+                                   Width="30"
+                                   Source="{Binding SchoolIcon}"
+                                   ToolTip="{Binding SchoolRequirement}"/>
 
-                            <ui:TextBlock Grid.Column="2"
-                                      Width="30"
-                                      Margin="10 0 0 0"
-                                      Text="{Binding LevelRequirement}"
-                                      VerticalAlignment="Center"
-                                      FontSize="14"/>
+                            <Image Grid.Column="3"
+                                   Height="30"
+                                   Width="30"
+                                   Source="pack://application:,,,/Assets/Images/(Icon)_Flag_CrownsOnly.png"
+                                   Visibility="{Binding IsCrownsOnly, Converter={StaticResource BoolToCollapsedConverter}}"
+                                   ToolTip="Crowns Only"/>
 
-                            <ui:TextBlock Grid.Column="3"
-                                      Margin="10 0 0 0"
-                                      TextTrimming="CharacterEllipsis"
-                                      Text="{Binding Name}"
-                                      VerticalAlignment="Center"
-                                      FontSize="14"/>
+                            <Image Grid.Column="4"
+                                   Height="30"
+                                   Width="30"
+                                   Source="pack://application:,,,/Assets/Images/(Icon)_Flag_PVPOnly.png"
+                                   Visibility="{Binding IsPVPOnly, Converter={StaticResource BoolToCollapsedConverter}}"
+                                   ToolTip="PVP Only"/>
 
-                            <ui:Button Grid.Column="4"
-                                   Margin="5 0 20 0"
-                                   HorizontalAlignment="Right"
-                                   Content="Edit"/>
-                            <!--Command="{Binding ViewModel.EditLoadoutCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=pages:LoadoutsPage}}"/>-->
+                            <Image Grid.Column="5"
+                                   Height="30"
+                                   Width="30"
+                                   Source="pack://application:,,,/Assets/Images/(Icon)_Flag_Retired.png"
+                                   Visibility="{Binding IsDebug, Converter={StaticResource BoolToCollapsedConverter}}"
+                                   ToolTip="Retired Item"/>
+
+                            <Image Grid.Column="6"
+                                   Height="30"
+                                   Width="30"
+                                   Source="pack://application:,,,/Assets/Images/(Icon)_Flag_Debug.png"
+                                   Visibility="{Binding IsDebug, Converter={StaticResource BoolToCollapsedConverter}}"
+                                   ToolTip="Developer Item"/>
+
+                            <Image Grid.Column="7"
+                                   Height="30"
+                                   Width="30"
+                                   Source="pack://application:,,,/Assets/Images/(Icon)_Flag_Favorite.png"
+                                   Visibility="{Binding IsFavorite, Converter={StaticResource BoolToCollapsedConverter}}"
+                                   ToolTip="Favorited"/>
+
+                            <ui:TextBlock Grid.Column="0"
+                                          Grid.ColumnSpan="8"
+                                          Grid.Row="1"
+                                          Text="{Binding LevelRequirement, StringFormat=Level: {0}}"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Left"
+                                          FontSize="14"
+                                          TextTrimming="None"/>
+
+                            <ui:TextBlock Grid.Column="0"
+                                          Grid.ColumnSpan="8"
+                                          Grid.Row="2"
+                                          TextTrimming="CharacterEllipsis"
+                                          Text="{Binding Name}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          FontSize="14"/>
                         </Grid>
                     </ui:Card>
                 </DataTemplate>

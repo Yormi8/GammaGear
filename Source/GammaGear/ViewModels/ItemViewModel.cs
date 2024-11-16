@@ -1,4 +1,4 @@
-﻿using GammaGear.Extensions;
+using GammaGear.Extensions;
 using GammaItems;
 using System;
 using System.Collections.Generic;
@@ -22,6 +22,9 @@ namespace GammaGear.ViewModels
         public School SchoolRestriction => _item.SchoolRestriction;
         public bool IsRetired => _item.IsRetired;
         public bool IsDebug => _item.IsDebug;
+        public bool IsCrownsOnly => (_item.Flags & ItemFlags.FLAG_CrownsOnly) == ItemFlags.FLAG_CrownsOnly;
+        public bool IsPVPOnly => (_item.Flags & ItemFlags.FLAG_PVPOnly) == ItemFlags.FLAG_PVPOnly;
+        public bool IsFavorite => false;
         public int MaxHealth => _item.MaxHealth;
         public int MaxMana => _item.MaxMana;
         public int MaxEnergy => _item.MaxEnergy;

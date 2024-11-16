@@ -25,11 +25,11 @@ namespace GammaGear.ViewModels.Pages
 
         public void OverrideItems(ObservableCollection<ItemViewModel> items)
         {
-            _items = items;
-            // Update the view
-            ItemViewModel update = new(new());
-            _items.Add(update);
-            _items.Remove(update);
+            _items.Clear();
+            foreach (ItemViewModel item in items)
+            {
+                _items.Add(item);
+            }
         }
     }
 }
