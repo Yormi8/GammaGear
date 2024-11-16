@@ -95,8 +95,11 @@ namespace GammaGear.ViewModels.Pages
         internal async Task CreateDatabaseWorkAsync()
         {
             await Task.Run(() => {
+                _logger.LogInformation("Creating types.json if it doesn't exist");
                 _pythonService.CreateDatabase(InstallMode);
+                _logger.LogInformation("Deserializing items if they don't exist");
                 _pythonService.DeserializeItems();
+                _logger.LogInformation("Extracting locale if it doesn't exist");
                 _pythonService.ExtractLocale();
 
                 string localePath = "temp/Locale/English";
@@ -104,7 +107,9 @@ namespace GammaGear.ViewModels.Pages
                 Matcher matcher = new Matcher();
                 matcher.AddInclude("**/*.json");
                 var files = matcher.GetResultsInFullPath("temp");
+                _logger.LogInformation("Loading locale");
                 KiJsonParser<KiTextLocaleBank> parser = new(localePath);
+                _logger.LogInformation("Loading items");
                 var collection = parser.ReadAllToItemBase(files);
                 IEnumerable<GammaItems.Item> items = from o in collection where o is GammaItems.Item select o as GammaItems.Item;
                 ObservableCollection<ItemViewModel> itemViewModels = new ObservableCollection<ItemViewModel>();
