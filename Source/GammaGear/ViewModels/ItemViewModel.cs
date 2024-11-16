@@ -21,7 +21,7 @@ namespace GammaGear.ViewModels
         public School SchoolRequirement => _item.SchoolRequirement;
         public School SchoolRestriction => _item.SchoolRestriction;
         public bool IsRetired => _item.IsRetired;
-        public bool IsDebug => _item.IsDebug;
+        public bool IsDebug => _item.Flags.HasFlag(ItemFlags.FLAG_DevItem);
         public bool IsCrownsOnly => (_item.Flags & ItemFlags.FLAG_CrownsOnly) == ItemFlags.FLAG_CrownsOnly;
         public bool IsPVPOnly => (_item.Flags & ItemFlags.FLAG_PVPOnly) == ItemFlags.FLAG_PVPOnly;
         public bool IsFavorite => false;
@@ -58,9 +58,13 @@ namespace GammaGear.ViewModels
         public IReadOnlyDictionary<string, int> ItemCards => _item.ItemCards;
         public IReadOnlyCollection<School> AltSchoolMasteries => _item.AltSchoolMasteries;
 
-        public Uri SchoolIcon => _item.SchoolRestriction != School.None ?
+        public Uri SchoolIcon => _item.SchoolRestriction == School.None ?
                                     _item.SchoolRequirement.ToIconUri() :
                                     _item.SchoolRestriction.ToSlashedIconUri();
+
+        public string SchoolTooltip => _item.SchoolRestriction == School.None ?
+                                        _item.SchoolRequirement.ToString() :
+                                        $"Not {_item.SchoolRestriction}";
 
         public Uri EquipmentTypeIcon => _item.Type.ToIconUri();
 

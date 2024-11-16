@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace GammaItems
@@ -14,7 +14,7 @@ namespace GammaItems
         public School SchoolRequirement = School.None;
         public School SchoolRestriction = School.None;
         public bool IsRetired = false;
-        public bool IsDebug = false;
+        //public bool IsDebug = false;
         public int MaxHealth = 0;
         public int MaxMana = 0;
         public int MaxEnergy = 0;

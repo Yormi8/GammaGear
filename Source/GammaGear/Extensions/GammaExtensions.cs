@@ -1,4 +1,4 @@
-﻿using ABI.Windows.Storage.Streams;
+using ABI.Windows.Storage.Streams;
 using GammaItems;
 using System;
 using System.Collections.Generic;
@@ -156,7 +156,7 @@ namespace GammaGear.Extensions
                 SwordPinSlots = rand.Next(0, 3),
             };
 
-            item.SchoolRestriction = item.SchoolRequirement != School.Any ? School.Any : (School)rand.Next((int)School.Any, (int)School.Shadow);
+            item.SchoolRestriction = item.SchoolRequirement != School.Any ? School.None : (School)rand.Next((int)School.Any, (int)School.Shadow);
             item.Accuracies.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
             item.Blocks.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
             item.Damages.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));

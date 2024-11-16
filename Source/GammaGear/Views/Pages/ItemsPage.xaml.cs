@@ -1,4 +1,6 @@
+using GammaGear.ViewModels;
 using GammaGear.ViewModels.Pages;
+using GammaItems;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +26,8 @@ namespace GammaGear.Views.Pages
     public partial class ItemsPage : Page
     {
         public ItemsPageViewModel ViewModel { get; }
+        public School FilterSchool { get; set; } = School.None;
+        public ItemType FilterItemType { get; set; } = ItemType.None;
 
         public ItemsPage(
             ItemsPageViewModel viewModel)
@@ -32,6 +36,20 @@ namespace GammaGear.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+
+            WizItemsView.Items.Filter = ItemsFilter;
+        }
+
+        private bool ItemsFilter(object obj)
+        {
+            if (obj is not ItemViewModel item)
+            {
+                return false;
+            }
+
+            return !item.IsDebug &&
+                   (FilterSchool == School.None || FilterSchool == item.SchoolRequirement) &&
+                   (FilterItemType == ItemType.None || FilterItemType == item.Type);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

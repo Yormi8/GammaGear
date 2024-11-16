@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace GammaItems
 {
@@ -18,7 +18,7 @@ namespace GammaItems
 
         public bool IsLegal => CalculateLegality().Any();
         public bool ContainsRetired => Items.Any(x => x.IsRetired);
-        public bool ContainsDebug => Items.Any(x => x.IsDebug);
+        public bool ContainsDebug => Items.Any(x => x.Flags.HasFlag(ItemFlags.FLAG_DevItem));
 
         public ItemLoadout()
         {
@@ -56,7 +56,7 @@ namespace GammaItems
                 sum.PvpRankRequirement = (ArenaRank)Math.Max((int)sum.PvpRankRequirement, (int)item.PvpRankRequirement);
                 sum.PetRankRequirement = (ArenaRank)Math.Max((int)sum.PetRankRequirement, (int)item.PetRankRequirement);
                 sum.IsRetired |= item.IsRetired;
-                sum.IsDebug |= item.IsDebug;
+                //sum.IsDebug |= item.IsDebug;
 
                 sum.MaxHealth += item.MaxHealth;
                 sum.MaxMana += item.MaxMana;
