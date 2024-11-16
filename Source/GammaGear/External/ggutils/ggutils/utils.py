@@ -67,17 +67,23 @@ def deserialize_all(install_folder: str, types_list: str, out_path: str, log_inf
 
     # With a glob pattern for filtering files:
     num_files = 0
-    with open("n.txt", "w") as f:
-        for path in a.iter_glob("ObjectData/**/*.xml"):
-            data = a.deserialize(path, s)
-            if data.type_hash in valid_ids:
-                d = proprecurse(data, data_types)
-                p = Path(out_path + "/" + path).parent
-                p.mkdir(parents=True, exist_ok=True)
-                if not os.path.exists(out_path + "/" + path.replace(".xml", ".json")):
-                    with open(out_path + "/" + path.replace(".xml", ".json"), "x") as f:
-                        json.dump(d, f)
-                        num_files += 1
+    for path in a.iter_glob("ObjectData/**/*.xml"):
+        data = a.deserialize(path, s)
+        if data.type_hash in valid_ids:
+            d = proprecurse(data, data_types)
+
+            # If this is an item, check that it has stats before dumping
+            if d["__type"] == "class WizItemTemplate" and \
+                (d["m_equipEffects"] is None or \
+                len(d["m_equipEffects"]) == 0):
+                continue
+
+            p = Path(out_path + "/" + path).parent
+            p.mkdir(parents=True, exist_ok=True)
+            if not os.path.exists(out_path + "/" + path.replace(".xml", ".json")):
+                with open(out_path + "/" + path.replace(".xml", ".json"), "x") as f:
+                    json.dump(d, f)
+                    num_files += 1
     log_info(f"{num_files} files deserialized")
 
 def extract_locale(install_folder: str, out_path: str, log_info):
