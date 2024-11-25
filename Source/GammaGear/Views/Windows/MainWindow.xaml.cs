@@ -1,4 +1,3 @@
-using GammaGear.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -21,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using GammaGear.Services;
 using GammaGear.Views.Pages;
 using Microsoft.Extensions.Logging;
+using GammaGear.ViewModels.Windows;
 
 namespace GammaGear.Views
 {
@@ -29,13 +29,13 @@ namespace GammaGear.Views
     /// </summary>
     public partial class MainWindow : FluentWindow, IWindow
     {
-        public MainViewModel ViewModel { get; }
+        public MainWindowViewModel ViewModel { get; }
         public IAppearanceService AppearanceService { get; }
         public UserPreferencesService UserPrefs { get; }
         private ILogger _logger;
 
         public MainWindow(
-            MainViewModel viewModel,
+            MainWindowViewModel viewModel,
             INavigationService navigationService,
             IServiceProvider serviceProvider,
             IAppearanceService appearanceService,

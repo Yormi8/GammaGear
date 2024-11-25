@@ -64,10 +64,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Windows\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GammaItems\GammaItems.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,6 @@ using System.Windows.Media;
 using GammaGear;
 using GammaGear.Services;
 using GammaGear.Services.Contracts;
-using GammaGear.ViewModels;
 using GammaGear.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +22,7 @@ using GammaGear.ViewModels.Pages;
 using NReco.Logging.File;
 using System.Runtime.CompilerServices;
 using GammaGear.Logging;
+using GammaGear.ViewModels.Windows;
 
 namespace GammaGear
 {
@@ -68,7 +68,7 @@ namespace GammaGear
 
                 // Main window navigation
                 services.AddSingleton<IWindow, MainWindow>();
-                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<MainWindowViewModel>();
 
                 // Views and ViewModels
                 services.AddSingleton<Views.Pages.HomePage>();
@@ -91,6 +91,9 @@ namespace GammaGear
 
                 services.AddSingleton<Views.Pages.AboutPage>();
                 services.AddSingleton<AboutPageViewModel>();
+
+                services.AddTransient<Views.Windows.SandboxWindow>();
+                services.AddTransient<SandboxWindowViewModel>();
 
             })
             .Build();

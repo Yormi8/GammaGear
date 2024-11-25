@@ -12,9 +12,9 @@ using Windows.Services.Maps;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Windows
 {
-    public class MainViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         public static string ApplicationTitle => ApplicationInfo.AppDisplayTitle;
 

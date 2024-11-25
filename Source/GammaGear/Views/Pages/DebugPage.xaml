@@ -17,6 +17,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <ui:Card Grid.Row="0"
@@ -53,6 +55,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <ui:Button Grid.Column="0"
@@ -89,6 +92,12 @@
                              x:Name="LogTextAutoScrollToggle"
                              IsChecked="True"
                              HorizontalAlignment="Center"/>
+
+            <ui:Button Grid.Row="1"
+                       Grid.Column="5"
+                       Content="Launch Sandbox"
+                       Command="{Binding ViewModel.OpenWindowCommand, Mode=OneWay}"
+                       Margin="3 2 3 2"/>
         </Grid>
     </Grid>
 </Page>

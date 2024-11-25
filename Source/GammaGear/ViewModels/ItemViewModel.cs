@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Input;
 using GammaGear.Extensions;
 using GammaItems;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GammaGear.ViewModels
 {
-    public class ItemViewModel : ViewModelBase
+    public partial class ItemViewModel : ViewModelBase
     {
         private readonly Item _item;
 
