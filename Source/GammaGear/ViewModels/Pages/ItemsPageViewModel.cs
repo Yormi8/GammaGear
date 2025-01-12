@@ -21,6 +21,9 @@ namespace GammaGear.ViewModels.Pages
         private IRelayCommand _compareSelectionChangedCommand;
         public IRelayCommand CompareSelectionChangedCommand => _compareSelectionChangedCommand ??= new RelayCommand<bool>(CompareChanged);
 
+        private IRelayCommand _compareUpdate;
+        public IRelayCommand CompareUpdate => _compareUpdate ??= new RelayCommand(OnCompareUpdate);
+
         private ILogger _logger;
 
         public ItemsPageViewModel(
@@ -64,6 +67,12 @@ namespace GammaGear.ViewModels.Pages
                 ComparedItem = null;
                 OnPropertyChanged(nameof(ComparedItem));
             }
+        }
+
+        private void OnCompareUpdate()
+        {
+            ComparedItem = SelectedItem;
+            OnPropertyChanged(nameof(ComparedItem));
         }
 
         public void SelectedItemChanged(ItemViewModel newItem)

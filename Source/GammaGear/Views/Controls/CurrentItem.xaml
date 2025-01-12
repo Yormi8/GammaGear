@@ -9,15 +9,13 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid>
-        <ui:Card
-            Width="300"
-            VerticalAlignment="Stretch"
-            VerticalContentAlignment="Top">
+    <Grid DataContextChanged="OnDataContextChanged">
+        <ui:Card VerticalAlignment="Stretch" VerticalContentAlignment="Top">
             <Grid VerticalAlignment="Top">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -99,12 +97,18 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="8"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     FontSize="14"
                     Text="{Binding Name}"
                     TextTrimming="CharacterEllipsis"
                     ToolTip="{Binding Name}" />
+
+                <StackPanel
+                    x:Name="Stats"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="8" />
             </Grid>
         </ui:Card>
     </Grid>

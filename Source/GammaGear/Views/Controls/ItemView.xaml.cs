@@ -23,39 +23,9 @@ namespace GammaGear.Views.Controls
     /// </summary>
     public partial class ItemView : UserControl
     {
-        public ObservableCollection<TextBlock> Stats;
-
         public ItemView()
         {
-            Stats = new ObservableCollection<TextBlock>();
-
             InitializeComponent();
-        }
-
-        private void OnMouseEnter(object sender, MouseEventArgs e)
-        {
-            if (DataContext is not ItemViewModel ivm)
-            {
-                return;
-            }
-
-            // iterate through ivm stats
-            TextBlock tb = new TextBlock();
-            tb.Inlines.Add(new Image() { Width = 30, Height = 30, Source = new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Health.png")) });
-            tb.Inlines.Add(ivm.MaxHealth.ToString());
-            Stats.Add(tb);
-            TextBlock tb2 = new TextBlock();
-            tb.Inlines.Add(new Image() { Width = 30, Height = 30, Source = new BitmapImage(new Uri(@"pack://application:,,,/GammaGear;component/Assets/Images/(Icon)_Stats_Mana.png")) });
-            tb.Inlines.Add(ivm.MaxMana.ToString());
-            Stats.Add(tb2);
-
-            StatsPanel.ItemsSource = Stats;
-        }
-
-        private void OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            StatsPanel.ItemsSource = null;
-            Stats.Clear();
         }
     }
 }
