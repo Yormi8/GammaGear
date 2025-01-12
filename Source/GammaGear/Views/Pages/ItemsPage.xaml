@@ -41,11 +41,50 @@
             <ui:TextBox
                 Grid.Column="0"
                 Width="250"
+                Margin="3"
                 Icon="Search24"
                 PlaceholderText="Search..." />
-            <ComboBox Grid.Column="1" SelectedValue="{Binding FilterSchool}" />
+            <ToggleButton
+                x:Name="FilterToggle"
+                Grid.Column="1"
+                Margin="3"
+                Content="Filter..." />
+
+            <ui:Flyout
+                Grid.Column="1"
+                IsOpen="{Binding ElementName=FilterToggle, Path=IsChecked}"
+                Placement="Bottom">
+                <Grid>
+                    <ui:Card>
+                        <StackPanel>
+                            <WrapPanel>
+                                <ui:Button>
+                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
+                                </ui:Button>
+                                <ui:Button>
+                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
+                                </ui:Button>
+                                <ui:Button>
+                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
+                                </ui:Button>
+                            </WrapPanel>
+                            <Label Content="Level" Target="{Binding ElementName=FilterLevel}" />
+                            <ui:NumberBox
+                                x:Name="FilterLevel"
+                                LargeChange="1"
+                                MaxDecimalPlaces="0"
+                                Maximum="170"
+                                Minimum="1"
+                                Value="170" />
+                            <ui:Button Content="Filter" />
+                        </StackPanel>
+                    </ui:Card>
+                </Grid>
+            </ui:Flyout>
+
             <ui:Button
                 Grid.Column="2"
+                Margin="3"
                 Click="Button_Click"
                 Content="Sort" />
 

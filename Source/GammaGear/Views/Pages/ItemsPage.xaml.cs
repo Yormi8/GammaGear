@@ -3,6 +3,7 @@ using GammaGear.ViewModels.Pages;
 using GammaItems;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace GammaGear.Views.Pages
@@ -30,7 +32,8 @@ namespace GammaGear.Views.Pages
         public ItemType FilterItemType { get; set; } = ItemType.None;
 
         public ItemsPage(
-            ItemsPageViewModel viewModel)
+            ItemsPageViewModel viewModel,
+            INavigationService navigationService)
         {
             ViewModel = viewModel;
             DataContext = this;
@@ -38,6 +41,17 @@ namespace GammaGear.Views.Pages
             InitializeComponent();
 
             WizItemsView.Items.Filter = ItemsFilter;
+
+            navigationService.GetNavigationControl().Navigating += OnNavigate;
+        }
+
+        private void OnNavigate(NavigationView sender, Wpf.Ui.Controls.NavigatingCancelEventArgs args)
+        {
+            if (args.Page.Equals(this))
+            {
+                // Navigating to this page
+                FilterToggle.IsChecked = false;
+            }
         }
 
         private bool ItemsFilter(object obj)
