@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GammaGear.Views
+namespace GammaGear.Views.Controls
 {
     /// <summary>
     /// Interaction logic for ItemView.xaml

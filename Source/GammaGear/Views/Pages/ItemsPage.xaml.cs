@@ -56,5 +56,16 @@ namespace GammaGear.Views.Pages
         {
             WizItemsView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Name", System.ComponentModel.ListSortDirection.Ascending));
         }
+
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                if (e.AddedItems[0] is ItemViewModel item)
+                {
+                    ViewModel.SelectedItemChanged(item);
+                }
+            }
+        }
     }
 }

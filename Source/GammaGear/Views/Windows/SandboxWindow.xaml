@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GammaGear.Views.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:parent="clr-namespace:GammaGear.Views"
+    xmlns:parent="clr-namespace:GammaGear.Views.Controls"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Sandbox"
     Width="1200"
@@ -48,7 +48,7 @@
             ItemsSource="{Binding ViewModel.Items}">
             <ui:ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ui:VirtualizingWrapPanel SpacingMode="StartAndEndOnly"/>
+                    <ui:VirtualizingWrapPanel SpacingMode="StartAndEndOnly" />
                 </ItemsPanelTemplate>
             </ui:ListView.ItemsPanel>
             <ui:ListView.ItemTemplate>

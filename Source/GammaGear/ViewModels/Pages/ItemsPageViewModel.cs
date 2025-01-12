@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.Input;
 using GammaGear.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,9 +14,19 @@ namespace GammaGear.ViewModels.Pages
     {
         private ObservableCollection<ItemViewModel> _items;
         public ObservableCollection<ItemViewModel> Items => _items;
+        public ItemViewModel ComparedItem { get; private set; } = null;
+        public ItemViewModel SelectedItem { get; private set; } = null;
+        private bool IsComparisonEnabled = false;
 
-        public ItemsPageViewModel()
+        private IRelayCommand _compareSelectionChangedCommand;
+        public IRelayCommand CompareSelectionChangedCommand => _compareSelectionChangedCommand ??= new RelayCommand<bool>(CompareChanged);
+
+        private ILogger _logger;
+
+        public ItemsPageViewModel(
+            ILogger<HomePageViewModel> logger)
         {
+            _logger = logger;
             _items = new ObservableCollection<ItemViewModel>();
 
             for (int i = 0; i < 100; i++)
@@ -30,6 +42,34 @@ namespace GammaGear.ViewModels.Pages
             {
                 _items.Add(item);
             }
+        }
+
+        private void CompareChanged(bool currentState)
+        {
+            IsComparisonEnabled = currentState;
+            if (currentState)
+            {
+                // Swapping from false to true
+                _logger.LogDebug("Compare switch toggled to true");
+
+                // Get currently selected item
+                ComparedItem = SelectedItem;
+                OnPropertyChanged(nameof(ComparedItem));
+            }
+            else
+            {
+                // Swapping from true to false
+                _logger.LogDebug("Compare switch toggled to false");
+
+                ComparedItem = null;
+                OnPropertyChanged(nameof(ComparedItem));
+            }
+        }
+
+        public void SelectedItemChanged(ItemViewModel newItem)
+        {
+            SelectedItem = newItem;
+            OnPropertyChanged(nameof(SelectedItem));
         }
     }
 }
