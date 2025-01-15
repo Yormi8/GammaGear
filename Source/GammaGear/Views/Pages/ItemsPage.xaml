@@ -23,7 +23,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid
@@ -44,39 +45,112 @@
                 Margin="3"
                 Icon="Search24"
                 PlaceholderText="Search..." />
-            <ToggleButton
+            <ui:Button
                 x:Name="FilterToggle"
                 Grid.Column="1"
                 Margin="3"
+                Click="FilterFlyoutButton_Click"
                 Content="Filter..." />
 
             <ui:Flyout
+                x:Name="FilterFlyout"
                 Grid.Column="1"
-                IsOpen="{Binding ElementName=FilterToggle, Path=IsChecked}"
                 Placement="Bottom">
                 <Grid>
                     <ui:Card>
                         <StackPanel>
-                            <WrapPanel>
-                                <ui:Button>
-                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
-                                </ui:Button>
-                                <ui:Button>
-                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
-                                </ui:Button>
-                                <ui:Button>
-                                    <ui:Image Source="../../Assets/Images/(Icon)_Stats_Health.png" />
-                                </ui:Button>
-                            </WrapPanel>
-                            <Label Content="Level" Target="{Binding ElementName=FilterLevel}" />
-                            <ui:NumberBox
-                                x:Name="FilterLevel"
-                                LargeChange="1"
-                                MaxDecimalPlaces="0"
-                                Maximum="170"
-                                Minimum="1"
-                                Value="170" />
-                            <ui:Button Content="Filter" />
+                            <ItemsControl ItemsSource="{Binding FilterOptionButtons}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel MaxWidth="400" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ui:Button Margin="3,3,3,3">
+                                            <ui:Image
+                                                Width="25"
+                                                Height="25"
+                                                Source="{Binding ImageSource}"
+                                                ToolTip="{Binding Tooltip}" />
+                                        </ui:Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Label Content="Min Level" />
+                                <ui:NumberBox
+                                    x:Name="FilterMinLevel"
+                                    Grid.Row="1"
+                                    LargeChange="1"
+                                    MaxDecimalPlaces="0"
+                                    Maximum="170"
+                                    Minimum="1"
+                                    Value="1" />
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    Content="Max Level" />
+                                <ui:NumberBox
+                                    x:Name="FilterMaxLevel"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    LargeChange="1"
+                                    MaxDecimalPlaces="0"
+                                    Maximum="170"
+                                    Minimum="1"
+                                    Value="170" />
+                            </Grid>
+                            <Label Content="School" />
+                            <ComboBox
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding FilterSchools}"
+                                SelectedIndex="0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="25"
+                                                Height="25"
+                                                Source="{Binding ImageSource}" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Label Content="Item Type" />
+                            <ComboBox
+                                IsTextSearchEnabled="False"
+                                ItemsSource="{Binding FilterItemTypes}"
+                                SelectedIndex="0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="25"
+                                                Height="25"
+                                                Source="{Binding ImageSource}" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ui:Button Margin="0,5,0,0" Content="Filter" />
                         </StackPanel>
                     </ui:Card>
                 </Grid>
@@ -100,6 +174,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Margin="0,0,0,10"
+            HorizontalAlignment="Stretch"
             ItemsSource="{Binding ViewModel.Items}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectionChanged="OnSelectionChanged"
@@ -116,18 +191,27 @@
             </ui:ListView.ItemTemplate>
         </ui:ListView>
 
-        <Grid
+        <GridSplitter
             Grid.Row="0"
             Grid.RowSpan="2"
             Grid.Column="1"
-            Width="600">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            Width="5"
+            VerticalAlignment="Stretch"
+            Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
+            ResizeBehavior="PreviousAndNext"
+            ResizeDirection="Columns" />
+
+        <DockPanel
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            Margin="10,0,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
             <Grid
-                Grid.Column="0"
-                Width="300"
+                Margin="0,0,5,0"
+                HorizontalAlignment="Stretch"
+                DockPanel.Dock="Left"
                 Visibility="{Binding ElementName=CompareToggle, Path=IsChecked, Converter={StaticResource BoolToCollapsedConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -156,10 +240,7 @@
                     Content="Add to layout" />
             </Grid>
 
-            <Grid
-                Grid.Column="1"
-                MinWidth="300"
-                MaxWidth="600">
+            <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -181,6 +262,6 @@
                     HorizontalAlignment="Center"
                     Content="Add to layout" />
             </Grid>
-        </Grid>
+        </DockPanel>
     </Grid>
 </Page>
