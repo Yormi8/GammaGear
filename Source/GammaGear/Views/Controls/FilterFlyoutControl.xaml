@@ -1,0 +1,203 @@
+<UserControl
+    x:Class="GammaGear.Views.Controls.FilterFlyoutControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GammaGear.Views.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:GammaGear.Views.Pages"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    x:Name="FilterFlyout"
+    d:DataContext="{d:DesignInstance pages:ItemsPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid ScrollViewer.CanContentScroll="True">
+        <ui:Card MaxHeight="600" VerticalContentAlignment="Stretch">
+            <ScrollViewer Padding="0,0,15,0">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Add another filter" />
+                    <ItemsControl x:Name="FilterOptionButtonsItemsControl" ItemsSource="{Binding FilterOptionButtons}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel MaxWidth="400" />
+                            </ItemsPanelTemplate>
+
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ui:Button
+                                    Margin="3,3,3,3"
+                                    Command="{Binding Path=DataContext.OnFilterAdded, ElementName=FilterFlyout}"
+                                    CommandParameter="{Binding FilterOption}">
+                                    <ui:Image
+                                        Width="25"
+                                        Height="25"
+                                        Source="{Binding ImageSource}"
+                                        ToolTip="{Binding Tooltip}" />
+                                </ui:Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Content="Min Level" />
+                        <!--  TODO: Change UpdateSourceTrigger when bug is fixed https://github.com/lepoco/wpfui/issues/945  -->
+                        <ui:NumberBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            ClearButtonEnabled="False"
+                            LargeChange="1"
+                            MaxDecimalPlaces="0"
+                            Maximum="170"
+                            Minimum="1"
+                            Value="{Binding FilterMinLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                            Content="Max Level" />
+                        <!--  TODO: Change UpdateSourceTrigger when bug is fixed https://github.com/lepoco/wpfui/issues/945  -->
+                        <ui:NumberBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                            ClearButtonEnabled="False"
+                            LargeChange="1"
+                            MaxDecimalPlaces="0"
+                            Maximum="170"
+                            Minimum="1"
+                            Value="{Binding FilterMaxLevel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <Label Content="School" />
+                    <ComboBox
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding FilterSchools}"
+                        SelectedValue="{Binding FilterSchool, Mode=TwoWay}"
+                        SelectedValuePath="Name">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="25"
+                                        Height="25"
+                                        Source="{Binding ImageSource}" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Label Content="Item Type" />
+                    <ComboBox
+                        IsTextSearchEnabled="False"
+                        ItemsSource="{Binding FilterItemTypes}"
+                        SelectedValue="{Binding FilterItemType, Mode=TwoWay}"
+                        SelectedValuePath="Name">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="25"
+                                        Height="25"
+                                        Source="{Binding ImageSource}" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Label Content="Flags" />
+                    <WrapPanel>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterNoAuction}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_NoAuction.png"
+                                ToolTip="Include No Auction Items" />
+                        </ToggleButton>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterNoTrade}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_NoTrade.png"
+                                ToolTip="Include No Trade Items" />
+                        </ToggleButton>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterCrownsOnly}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_CrownsOnly.png"
+                                ToolTip="Include Crowns Only Items" />
+                        </ToggleButton>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterPVPOnly}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_PVPOnly.png"
+                                ToolTip="Include PVP Only Items" />
+                        </ToggleButton>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterRetired}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_Retired.png"
+                                ToolTip="Include Retired Items" />
+                        </ToggleButton>
+                        <ToggleButton Margin="3" IsChecked="{Binding FilterDebug}">
+                            <Image
+                                Width="25"
+                                Height="25"
+                                Source="/Assets/Images/(Icon)_Flag_Debug.png"
+                                ToolTip="Include Developer (Unobtainable) Items" />
+                        </ToggleButton>
+                    </WrapPanel>
+
+                    <ItemsControl ItemsSource="{Binding ActiveFilters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ui:Image Grid.Column="0" Source="{Binding SchoolSource}" />
+                                    <ui:TextBlock Grid.Column="1" Text="{Binding FilterOption}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <ui:Button
+                        Margin="0,5,0,0"
+                        Command="{Binding OnFilterButtonClicked}"
+                        Content="Filter" />
+                </StackPanel>
+            </ScrollViewer>
+        </ui:Card>
+    </Grid>
+</UserControl>

@@ -1,11 +1,12 @@
-<Application x:Class="GammaGear.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GammaGear;assembly=GammaGear"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:converters="clr-namespace:GammaGear.Converters"
-             Exit="OnExit"
-             Startup="OnStartup">
+<Application
+    x:Class="GammaGear.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:GammaGear.Converters"
+    xmlns:local="clr-namespace:GammaGear;assembly=GammaGear"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Exit="OnExit"
+    Startup="OnStartup">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,16 +14,16 @@
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:ThemeToIndexConverter x:Key="ThemeToIndexConverter"/>
-            <converters:LogLevelToBrushConverter x:Key="LogLevelToBrushConverter"/>
+            <converters:ThemeToIndexConverter x:Key="ThemeToIndexConverter" />
+            <converters:LogLevelToBrushConverter x:Key="LogLevelToBrushConverter" />
             <converters:BoolToVisibilityConverter
                 x:Key="BoolToHiddenConverter"
-                TrueValue="Visible"
-                FalseValue="Hidden"/>
+                FalseValue="Hidden"
+                TrueValue="Visible" />
             <converters:BoolToVisibilityConverter
                 x:Key="BoolToCollapsedConverter"
-                TrueValue="Visible"
-                FalseValue="Collapsed"/>
+                FalseValue="Collapsed"
+                TrueValue="Visible" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,7 +1,10 @@
+using CommunityToolkit.Mvvm.Input;
 using GammaGear.Extensions;
 using GammaGear.ViewModels;
 using GammaGear.ViewModels.Pages;
 using GammaItems;
+using Microsoft.Extensions.Logging;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +26,9 @@ using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Button = Wpf.Ui.Controls.Button;
 using Image = Wpf.Ui.Controls.Image;
+using FilterButtonInfo = GammaGear.ViewModels.FilterButtonInfo;
+using FilterSchoolInfo = GammaGear.ViewModels.FilterSchoolInfo;
+using FilterEquipmentInfo = GammaGear.ViewModels.FilterEquipmentInfo;
 
 namespace GammaGear.Views.Pages
 {
@@ -31,66 +37,41 @@ namespace GammaGear.Views.Pages
     /// </summary>
     public partial class ItemsPage : Page
     {
-        public class FilterButtonInfo
-        {
-            public Uri ImageSource { get; set; }
-            public string Tooltip { get; set; }
-
-            public FilterButtonInfo(string path, string tooltip)
-            {
-                ImageSource = new Uri(@"pack://application:,,,/GammaGear;component/" + path);
-                Tooltip = tooltip;
-            }
-        }
-        public class FilterSchoolInfo
-        {
-            public Uri ImageSource { get; set; }
-            public School Name { get; set; }
-
-            public FilterSchoolInfo(School name)
-            {
-                ImageSource = name.ToIconUri();
-                Name = name;
-            }
-        }
-        public class FilterEquipmentInfo
-        {
-            public Uri ImageSource { get; set; }
-            public ItemType Name { get; set; }
-
-            public FilterEquipmentInfo(ItemType name)
-            {
-                ImageSource = name.ToIconUri();
-                Name = name;
-            }
-        }
         public ItemsPageViewModel ViewModel { get; }
-        public School FilterSchool { get; set; } = School.None;
+        public int FilterMinLevel { get; set; } = 1;
+        public int FilterMaxLevel { get; set; } = 170;
+        public School FilterSchool { get; set; } = School.Universal;
         public ItemType FilterItemType { get; set; } = ItemType.None;
+        public bool FilterNoAuction { get; set; } = true;
+        public bool FilterNoTrade { get; set; } = true;
+        public bool FilterCrownsOnly { get; set; } = true;
+        public bool FilterPVPOnly { get; set; } = false;
+        public bool FilterRetired { get; set; } = false;
+        public bool FilterDebug { get; set; } = false;
         public List<FilterButtonInfo> FilterOptionButtons { get; set; } = new List<FilterButtonInfo>()
         {
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Health.png", "Health"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Mana.png", "Mana"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Energy.png", "Energy"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Damage.png", "Damage"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Resistance.png", "Resistance"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Accuracy.png", "Accuracy"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Power_Pip.png", "Powerpip Chance"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Critical.png", "Critical Rating"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Critical_Block.png", "Critical Block Rating"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Armor_Piercing.png", "Armor Piercing"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Pip_Conversion.png", "Pip Conversion"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Shadow_Pip.png", "Shadow Pip Rating"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Stun_Resistance.png", "Stun Resistance"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_SpeedBonus.png", "Speed Bonus"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Fishing_Luck.png", "Fishing Luck"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Archmastery.png", "Archmastery Rating"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Flat_Damage.png", "Flat Damage"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Flat_Resistance.png", "Flat Resistance"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Incoming.png", "Incoming Healing"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Outgoing.png", "Outgoing Healing"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Pip.png", "Extra Pips"),
-            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Power_Pip.png", "Extra Power Pips"),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Health.png", "Health", FilterOption.Health),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Mana.png", "Mana", FilterOption.Mana),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Energy.png", "Energy", FilterOption.Energy),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Damage.png", "Damage", FilterOption.Damage),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Resistance.png", "Resistance", FilterOption.Resistance),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Accuracy.png", "Accuracy", FilterOption.Accuracy),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Power_Pip.png", "Powerpip Chance", FilterOption.PowerPipChance),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Critical.png", "Critical Rating", FilterOption.CriticalRating),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Critical_Block.png", "Critical Block Rating", FilterOption.CriticalBlock),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Armor_Piercing.png", "Armor Piercing", FilterOption.ArmorPiercing),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Pip_Conversion.png", "Pip Conversion", FilterOption.PipConversion),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Shadow_Pip.png", "Shadow Pip Rating", FilterOption.ShadowPipRating),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Stun_Resistance.png", "Stun Resistance", FilterOption.StunResistance),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_SpeedBonus.png", "Speed Bonus", FilterOption.MovementSpeed),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Fishing_Luck.png", "Fishing Luck", FilterOption.FishingLuck),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Archmastery.png", "Archmastery Rating", FilterOption.ArchmasteryRating),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Flat_Damage.png", "Flat Damage", FilterOption.FlatDamage),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Flat_Resistance.png", "Flat Resistance", FilterOption.FlatResistance),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Incoming.png", "Incoming Healing", FilterOption.Incoming),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Outgoing.png", "Outgoing Healing", FilterOption.Outgoing),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Pip.png", "Extra Pips", FilterOption.ExtraPips),
+            new FilterButtonInfo("Assets/Images/(Icon)_Stats_Power_Pip.png", "Extra Power Pips", FilterOption.ExtraPowerPips),
         };
         public List<FilterSchoolInfo> FilterSchools { get; set; } = new List<FilterSchoolInfo>()
         {
@@ -124,15 +105,20 @@ namespace GammaGear.Views.Pages
             new FilterEquipmentInfo(ItemType.PinSquareShield),
             new FilterEquipmentInfo(ItemType.PinSquareSword),
         };
+        public ObservableCollection<FilterData> ActiveFilters { get; set; } = new ObservableCollection<FilterData>();
+
+        private ILogger<ItemsPage> _logger;
 
         public ItemsPage(
             ItemsPageViewModel viewModel,
-            INavigationService navigationService)
+            ILogger<ItemsPage> logger)
         {
             ViewModel = viewModel;
             DataContext = this;
 
             InitializeComponent();
+
+            _logger = logger;
 
             WizItemsView.Items.Filter = ItemsFilter;
 
@@ -147,11 +133,18 @@ namespace GammaGear.Views.Pages
             }
 
             return !item.IsDebug &&
-                   (FilterSchool == School.None || FilterSchool == item.SchoolRequirement) &&
-                   (FilterItemType == ItemType.None || FilterItemType == item.Type);
+                   (FilterSchool == School.Universal || FilterSchool == item.SchoolRequirement || (item.SchoolRequirement == School.Universal && item.SchoolRestriction != FilterSchool)) &&
+                   (FilterItemType == ItemType.None || FilterItemType == item.Type) &&
+                   (FilterMinLevel <= item.LevelRequirement && FilterMaxLevel >= item.LevelRequirement) &&
+                   (FilterNoAuction || !item.Flags.HasFlag(ItemFlags.FLAG_NoAuction)) &&
+                   (FilterNoTrade || !item.Flags.HasFlag(ItemFlags.FLAG_NoTrade)) &&
+                   (FilterCrownsOnly || !item.Flags.HasFlag(ItemFlags.FLAG_CrownsOnly)) &&
+                   (FilterPVPOnly || !item.Flags.HasFlag(ItemFlags.FLAG_PVPOnly)) &&
+                   (FilterRetired || !item.Flags.HasFlag(ItemFlags.FLAG_Retired)) &&
+                   (FilterDebug || !item.Flags.HasFlag(ItemFlags.FLAG_DevItem));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnSortButtonClick(object sender, RoutedEventArgs e)
         {
             WizItemsView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Name", System.ComponentModel.ListSortDirection.Ascending));
         }
@@ -167,9 +160,34 @@ namespace GammaGear.Views.Pages
             }
         }
 
-        private void FilterFlyoutButton_Click(object sender, RoutedEventArgs e)
+        private void OnFilterFlyoutButtonClick(object sender, RoutedEventArgs e)
         {
             FilterFlyout.IsOpen = true;
+        }
+
+        private IRelayCommand _onFilterButtonClicked;
+        public IRelayCommand OnFilterButtonClicked => _onFilterButtonClicked ??= new RelayCommand(FilterButtonClicked);
+        private void FilterButtonClicked()
+        {
+            _logger.LogInformation("Filter button clicked...");
+            _logger.LogInformation("Min Level is: {FilterMinLevel}", FilterMinLevel);
+            _logger.LogInformation("Max Level is: {FilterMaxLevel}", FilterMaxLevel);
+            WizItemsView.Items.Filter = ItemsFilter;
+            FilterFlyout.IsOpen = false;
+        }
+
+        private IRelayCommand<FilterOption?> _onFilterAdded;
+        public IRelayCommand<FilterOption?> OnFilterAdded => _onFilterAdded ??= new RelayCommand<FilterOption?>(FilterAddButtonClicked);
+        private void FilterAddButtonClicked(FilterOption? filterOption)
+        {
+            if (filterOption != null)
+            {
+                if (!ActiveFilters.Any(item => item.FilterOption == filterOption))
+                {
+                    // Filter doesn't exist.
+                    ActiveFilters.Add(new FilterData((FilterOption)filterOption, School.Fire));
+                }
+            }
         }
     }
 }

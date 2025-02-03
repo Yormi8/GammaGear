@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:GammaGear.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    x:Name="ItemsPagePage"
     Title="Items"
     d:DataContext="{d:DesignInstance local:ItemsPage,
                                      IsDesignTimeCreatable=False}"
@@ -22,7 +23,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -49,117 +50,22 @@
                 x:Name="FilterToggle"
                 Grid.Column="1"
                 Margin="3"
-                Click="FilterFlyoutButton_Click"
+                Click="OnFilterFlyoutButtonClick"
                 Content="Filter..." />
 
             <ui:Flyout
                 x:Name="FilterFlyout"
                 Grid.Column="1"
-                Placement="Bottom">
-                <Grid>
-                    <ui:Card>
-                        <StackPanel>
-                            <ItemsControl ItemsSource="{Binding FilterOptionButtons}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel MaxWidth="400" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <ui:Button Margin="3,3,3,3">
-                                            <ui:Image
-                                                Width="25"
-                                                Height="25"
-                                                Source="{Binding ImageSource}"
-                                                ToolTip="{Binding Tooltip}" />
-                                        </ui:Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <Grid HorizontalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Label Content="Min Level" />
-                                <ui:NumberBox
-                                    x:Name="FilterMinLevel"
-                                    Grid.Row="1"
-                                    LargeChange="1"
-                                    MaxDecimalPlaces="0"
-                                    Maximum="170"
-                                    Minimum="1"
-                                    Value="1" />
-                                <Label
-                                    Grid.Column="1"
-                                    Margin="5,0,0,0"
-                                    Content="Max Level" />
-                                <ui:NumberBox
-                                    x:Name="FilterMaxLevel"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="5,0,0,0"
-                                    LargeChange="1"
-                                    MaxDecimalPlaces="0"
-                                    Maximum="170"
-                                    Minimum="1"
-                                    Value="170" />
-                            </Grid>
-                            <Label Content="School" />
-                            <ComboBox
-                                IsTextSearchEnabled="False"
-                                ItemsSource="{Binding FilterSchools}"
-                                SelectedIndex="0">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image
-                                                Width="25"
-                                                Height="25"
-                                                Source="{Binding ImageSource}" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Name}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Label Content="Item Type" />
-                            <ComboBox
-                                IsTextSearchEnabled="False"
-                                ItemsSource="{Binding FilterItemTypes}"
-                                SelectedIndex="0">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image
-                                                Width="25"
-                                                Height="25"
-                                                Source="{Binding ImageSource}" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Name}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <ui:Button Margin="0,5,0,0" Content="Filter" />
-                        </StackPanel>
-                    </ui:Card>
-                </Grid>
+                DataContext="{Binding ElementName=ItemsPagePage, Path=DataContext}"
+                Placement="Bottom"
+                ScrollViewer.CanContentScroll="True">
+                <lc:FilterFlyoutControl ScrollViewer.CanContentScroll="True" />
             </ui:Flyout>
 
-            <ui:Button
+            <ui:DropDownButton
                 Grid.Column="2"
                 Margin="3"
-                Click="Button_Click"
+                Click="OnSortButtonClick"
                 Content="Sort" />
 
             <ui:ToggleSwitch
