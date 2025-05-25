@@ -66,6 +66,9 @@ namespace GammaGear
                 // Provides setup service
                 services.AddSingleton<IPythonService, PythonNetService>();
 
+                // Provides networking to the patch server
+                services.AddSingleton<PatchClientService>();
+
                 // Main window navigation
                 services.AddSingleton<IWindow, MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();

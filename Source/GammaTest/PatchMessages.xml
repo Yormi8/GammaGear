@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<PatchMessages>
+<_ProtocolInfo>
+  <RECORD>
+    <ServiceID TYPE="UBYT">8</ServiceID>
+    <ProtocolType TYPE="STR">PATCH</ProtocolType>
+    <ProtocolVersion TYPE="INT">1</ProtocolVersion>
+    <ProtocolDescription TYPE="STR">Patch Server Messages</ProtocolDescription>
+  </RECORD>
+</_ProtocolInfo>
+<MSG_LATEST_FILE_LIST>
+  <RECORD>
+    <_MsgOrder TYPE="UBYT" NOXFER="TRUE">1</_MsgOrder>
+    <_MsgName TYPE="STR" NOXFER="TRUE">MSG_LATEST_FILE_LIST</_MsgName>
+    <_MsgDescription TYPE="STR" NOXFER="TRUE">Patch Client sends this message to request the latest file list.  Patch Server sends this message to tell the client where to get it.  </_MsgDescription>
+    <_MsgHandler TYPE="STR" NOXFER="TRUE">MSG_LatestFileList</_MsgHandler>
+    <_MsgAccessLvl TYPE="UBYT" NOXFER="TRUE">0</_MsgAccessLvl>
+    <LatestVersion TYPE="UINT"></LatestVersion>
+    <ListFileName TYPE="STR"></ListFileName>
+    <ListFileType TYPE="UINT"></ListFileType>
+    <ListFileTime TYPE="UINT"></ListFileTime>
+    <ListFileSize TYPE="UINT"></ListFileSize>
+    <ListFileCRC TYPE="UINT"></ListFileCRC>
+    <ListFileURL TYPE="STR"></ListFileURL>
+    <URLPrefix TYPE="STR"></URLPrefix>
+    <URLSuffix TYPE="STR"></URLSuffix>
+  </RECORD>
+</MSG_LATEST_FILE_LIST>
+<MSG_LATEST_FILE_LIST_V2>
+  <RECORD>
+    <_MsgOrder TYPE="UBYT" NOXFER="TRUE">2</_MsgOrder>
+    <_MsgName TYPE="STR" NOXFER="TRUE">MSG_LATEST_FILE_LIST_V2</_MsgName>
+    <_MsgDescription TYPE="STR" NOXFER="TRUE">Patch Client sends this message to request the latest file list.  Patch Server sends this message to tell the client where to get it.  </_MsgDescription>
+    <_MsgHandler TYPE="STR" NOXFER="TRUE">MSG_LatestFileListV2</_MsgHandler>
+    <_MsgAccessLvl TYPE="UBYT" NOXFER="TRUE">0</_MsgAccessLvl>
+    <LatestVersion TYPE="UINT"></LatestVersion>
+    <ListFileName TYPE="STR"></ListFileName>
+    <ListFileType TYPE="UINT"></ListFileType>
+    <ListFileTime TYPE="UINT"></ListFileTime>
+    <ListFileSize TYPE="UINT"></ListFileSize>
+    <ListFileCRC TYPE="UINT"></ListFileCRC>
+    <ListFileURL TYPE="STR"></ListFileURL>
+    <URLPrefix TYPE="STR"></URLPrefix>
+    <URLSuffix TYPE="STR"></URLSuffix>
+    <Locale TYPE="STR"></Locale>
+  </RECORD>
+</MSG_LATEST_FILE_LIST_V2>
+<MSG_NEXT_VERSION>
+  <RECORD>
+    <_MsgOrder TYPE="UBYT" NOXFER="TRUE">3</_MsgOrder>
+    <_MsgName TYPE="STR" NOXFER="TRUE">MSG_NEXT_VERSION</_MsgName>
+    <_MsgDescription TYPE="STR" NOXFER="TRUE">Patch Client sends this message with the current version of a specific package.  Patch Server replies with the next version of the specific package.</_MsgDescription>
+    <_MsgHandler TYPE="STR" NOXFER="TRUE">MSG_NextVersion</_MsgHandler>
+    <_MsgAccessLvl TYPE="UBYT" NOXFER="TRUE">0</_MsgAccessLvl>
+    <PkgName TYPE="STR"></PkgName>
+    <Version TYPE="INT"></Version>
+    <URLPrefix TYPE="STR"></URLPrefix>
+    <FileName TYPE="STR"></FileName>
+    <FileType TYPE="INT"></FileType>
+  </RECORD>
+</MSG_NEXT_VERSION>
+</PatchMessages>

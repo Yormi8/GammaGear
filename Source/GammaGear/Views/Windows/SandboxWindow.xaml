@@ -23,6 +23,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ui:TitleBar
@@ -57,5 +58,10 @@
                 </DataTemplate>
             </ui:ListView.ItemTemplate>
         </ui:ListView>
+
+        <ui:Button
+            Grid.Row="2"
+            Click="Button_Click"
+            Content="Test" />
     </Grid>
 </ui:FluentWindow>

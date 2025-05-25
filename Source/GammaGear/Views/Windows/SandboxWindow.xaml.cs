@@ -1,3 +1,4 @@
+using GammaGear.Services;
 using GammaGear.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,20 @@ namespace GammaGear.Views.Windows
     public partial class SandboxWindow : FluentWindow
     {
         public SandboxWindowViewModel ViewModel { get; init; }
+        private PatchClientService _patchClientService = null;
 
-        public SandboxWindow(SandboxWindowViewModel viewModel)
+        public SandboxWindow(SandboxWindowViewModel viewModel, PatchClientService patchClientService)
         {
             ViewModel = viewModel;
+            _patchClientService = patchClientService;
             DataContext = this;
 
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(_patchClientService.GetLiveRevision);
         }
     }
 }
