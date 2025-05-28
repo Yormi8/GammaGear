@@ -312,7 +312,7 @@ namespace GammaItems.Source.Database
                             case Canonical.WispBonus:               // TODO: Implement WispBonus and MaxManaPercentReduce Canonicals
                             case Canonical.MaxManaPercentReduce:
                             default:
-                                Trace.WriteLine("Unhandled stat " + stat.m_effectName);
+                                //Trace.WriteLine("Unhandled stat " + stat.m_effectName);
                                 break;
                         }
                     }

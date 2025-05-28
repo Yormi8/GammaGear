@@ -24,6 +24,10 @@
                 x:Key="BoolToCollapsedConverter"
                 FalseValue="Collapsed"
                 TrueValue="Visible" />
+            <converters:BoolToWidthConverter
+                x:Key="BoolToGridLengthConverter"
+                FalseValue="0*"
+                TrueValue="1*" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

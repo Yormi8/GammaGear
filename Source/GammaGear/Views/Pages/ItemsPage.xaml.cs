@@ -189,5 +189,19 @@ namespace GammaGear.Views.Pages
                 }
             }
         }
+
+        //private IRelayCommand<FilterOption?> _onFilterAdded;
+        //public IRelayCommand<FilterOption?> OnFilterAdded => _onFilterAdded ??= new RelayCommand<FilterOption?>(FilterAddButtonClicked);
+        //private void FilterAddButtonClicked(FilterOption? filterOption)
+        //{
+        //    if (filterOption != null)
+        //    {
+        //        if (!ActiveFilters.Any(item => item.FilterOption == filterOption))
+        //        {
+        //            // Filter doesn't exist.
+        //            ActiveFilters.Add(new FilterData((FilterOption)filterOption, School.Fire));
+        //        }
+        //    }
+        //}
     }
 }
