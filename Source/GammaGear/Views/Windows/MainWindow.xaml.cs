@@ -21,6 +21,8 @@ using GammaGear.Services;
 using GammaGear.Views.Pages;
 using Microsoft.Extensions.Logging;
 using GammaGear.ViewModels.Windows;
+using Wpf.Ui.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GammaGear.Views
 {
@@ -54,7 +56,11 @@ namespace GammaGear.Views
 
             navigationService.SetNavigationControl(RootNavigation);
 
+            var pageProvider = serviceProvider.GetRequiredService<INavigationViewPageProvider>();
+            RootNavigation.SetPageProviderService(pageProvider);
             RootNavigation.SetServiceProvider(serviceProvider);
+
+            BreadcrumbBar.
 
             Loaded += (_, _) => OnLoaded();
 

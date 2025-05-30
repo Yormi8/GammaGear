@@ -1,4 +1,4 @@
-﻿using GammaGear.ViewModels.Pages;
+using GammaGear.ViewModels.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Controls;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace GammaGear.Views.Pages
 {
     /// <summary>
     /// Interaction logic for ItemLoadoutListingView.xaml
     /// </summary>
-    public partial class LoadoutsPage : INavigableView<LoadoutsPageViewModel>
+    public partial class LoadoutsPage : Page
     {
         public LoadoutsPageViewModel ViewModel { get; }
 

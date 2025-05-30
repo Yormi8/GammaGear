@@ -23,6 +23,8 @@ using NReco.Logging.File;
 using System.Runtime.CompilerServices;
 using GammaGear.Logging;
 using GammaGear.ViewModels.Windows;
+using Wpf.Ui.Abstractions;
+using Wpf.Ui.DependencyInjection;
 
 namespace GammaGear
 {
@@ -62,6 +64,7 @@ namespace GammaGear
 
                 // Navigation service without INavigationWindow
                 services.AddSingleton<INavigationService, NavigationService>();
+                services.AddNavigationViewPageProvider();
 
                 // Provides setup service
                 services.AddSingleton<IPythonService, PythonNetService>();
@@ -79,6 +82,9 @@ namespace GammaGear
 
                 services.AddSingleton<Views.Pages.LoadoutsPage>();
                 services.AddSingleton<LoadoutsPageViewModel>();
+
+                services.AddTransient<Views.Pages.LoadoutEditPage>();
+                services.AddTransient<LoadoutEditViewModel>();
 
                 services.AddSingleton<Views.Pages.ItemsPage>();
                 services.AddSingleton<ItemsPageViewModel>();

@@ -60,7 +60,8 @@
     <PackageReference Include="Python.Included" Version="3.11.6" />
     <PackageReference Include="pythonnet" Version="3.0.4" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
-    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <PackageReference Include="WPF-UI" Version="4.0.2" />
+    <PackageReference Include="WPF-UI.DependencyInjection" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>
