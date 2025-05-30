@@ -30,7 +30,7 @@
                 FontWeight="Bold"
                 Text="{Binding Name}" />
         </StackPanel>
-        <
+
         <StackPanel
             x:Name="GridFooter"
             Grid.Row="2"
