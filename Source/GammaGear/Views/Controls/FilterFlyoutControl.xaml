@@ -178,10 +178,24 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <ui:Image Grid.Column="0" Source="{Binding SchoolSource}" />
                                     <ui:TextBlock Grid.Column="1" Text="{Binding FilterOption}" />
+                                    <ui:HyperlinkButton
+                                        Grid.Column="4"
+                                        Width="40"
+                                        Height="40"
+                                        Appearance="Primary"
+                                        ClipToBounds="False"
+                                        Command="{Binding ElementName=FilterFlyout, Path=DataContext.}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}">
+                                        <ui:SymbolIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Symbol="Dismiss48" />
+                                    </ui:HyperlinkButton>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
