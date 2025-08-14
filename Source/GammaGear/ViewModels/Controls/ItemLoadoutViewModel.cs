@@ -1,4 +1,4 @@
-﻿using GammaGear.Extensions;
+using GammaGear.Extensions;
 using GammaItems;
 using System;
 using System.Collections.Generic;
@@ -10,33 +10,31 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Controls
 {
-    public class ItemLoadoutViewModel : ViewModelBase
+    public class ItemLoadoutViewModel(ItemLoadout loadout) : ViewModelBase
     {
-        private readonly ItemLoadout _loadout;
+        public string Name => loadout.Name;
+        public string Description => loadout.Description;
+        public string Creator => loadout.Creator;
+        public string TimeCreated => loadout.TimeCreated.ToString("g");
+        public string TimeUpdated => loadout.TimeUpdated.ToString("g");
+        public ReadOnlyCollection<Item> Items => loadout.Items.AsReadOnly();
+        public string WizardName => loadout.WizardName;
+        public int WizardLevel => loadout.WizardLevel;
+        public Uri WizardSchoolIcon => loadout.WizardSchool.ToIconUri();
+        public School WizardSchool => loadout.WizardSchool;
+        public ArenaRank WizardPvpRank => loadout.WizardPvpRank;
+        public ArenaRank WizardPetRank => loadout.WizardPetRank;
+        public bool IsLegal => loadout.IsLegal;
+        public bool ContainsRetired => loadout.ContainsRetired;
+        public bool ContainsDebug => loadout.ContainsDebug;
 
-        public string Name => _loadout.Name;
-        public string Description => _loadout.Description;
-        public string Creator => _loadout.Creator;
-        public string TimeCreated => _loadout.TimeCreated.ToString("g");
-        public string TimeUpdated => _loadout.TimeUpdated.ToString("g");
-        public ReadOnlyCollection<Item> Items => _loadout.Items.AsReadOnly();
-        public string WizardName => _loadout.WizardName;
-        public int WizardLevel => _loadout.WizardLevel;
-        public Uri WizardSchoolIcon => _loadout.WizardSchool.ToIconUri();
-        public School WizardSchool => _loadout.WizardSchool;
-        public ArenaRank WizardPvpRank => _loadout.WizardPvpRank;
-        public ArenaRank WizardPetRank => _loadout.WizardPetRank;
-        public bool IsLegal => _loadout.IsLegal;
-        public bool ContainsRetired => _loadout.ContainsRetired;
-        public bool ContainsDebug => _loadout.ContainsDebug;
+        // TODO: ItemViewModel.CalculatedStats is not very performant
+        // Don't really like this but cannot think of another way to have it
+        // so that the stats are up to date.
+        public ItemViewModel CalculatedStats => new ItemViewModel(loadout.CalculateStats());
 
         public ICommand EditLoadoutCommand { get; }
-
-        public ItemLoadoutViewModel(ItemLoadout loadout)
-        {
-            _loadout = loadout;
-        }
     }
 }

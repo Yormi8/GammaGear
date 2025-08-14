@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GammaGear.Extensions;
+using GammaGear.ViewModels.Controls;
 using GammaGear.Views.Pages;
 using GammaItems;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ using Wpf.Ui;
 
 namespace GammaGear.ViewModels.Pages
 {
-    public partial class LoadoutEditViewModel : ViewModelBase
+    public partial class LoadoutEditViewModel(ILogger<LoadoutEditViewModel> logger, INavigationService navigationService) : ViewModelBase
     {
         public ItemLoadoutViewModel CurrentLoadout { get; set; }
         private string title;
@@ -28,18 +29,11 @@ namespace GammaGear.ViewModels.Pages
                 OnPropertyChanged(nameof(Title));
             }
         }
-        private ILogger<LoadoutEditViewModel> _logger;
-        private INavigationService _navigationService;
-        public LoadoutEditViewModel(ILogger<LoadoutEditViewModel> logger, INavigationService navigationService)
-        {
-            _logger = logger;
-            _navigationService = navigationService;
-        }
 
         [RelayCommand]
         public void CancelClick()
         {
-            _navigationService.GoBack();
+            navigationService.GoBack();
         }
     }
 }

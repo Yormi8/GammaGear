@@ -103,8 +103,8 @@ namespace GammaGear.Extensions
             Random random = new Random();
             ItemLoadout loadout = new ItemLoadout();
 
-            List<string> names = new List<string>()
-            {
+            List<string> names =
+            [
                 "Merle Ambrose",
                 "Gamma",
                 "Dalia Falmea",
@@ -117,37 +117,37 @@ namespace GammaGear.Extensions
                 "Greyhorn Mercenary",
                 "Morganthe",
                 "Baba Yaga"
-            };
+            ];
 
-            List<string> title1 = new List<string>()
-            {
+            List<string> title1 =
+            [
                 "Cool ",
                 "Dope ",
                 "Super ",
                 "Awesome ",
                 "Epic ",
                 "Legendary "
-            };
+            ];
 
-            List<string> title2 = new List<string>()
-            {
+            List<string> title2 =
+            [
                 "Loadout ",
                 "Gear Set ",
                 "Clothings ",
                 "Backpack ",
                 "Dream Suit ",
                 "Fit "
-            };
+            ];
 
-            List<string> title3 = new List<string>()
-            {
+            List<string> title3 =
+            [
                 "of Wizard City",
                 "of Krokotopia",
                 "of Marleybone",
                 "of Mooshu",
                 "of Dragonspyre",
                 "of Grizzleheim"
-            };
+            ];
 
             loadout.Creator = names[random.Next(names.Count)];
             loadout.Name = title1[random.Next(title1.Count)] + title2[random.Next(title2.Count)] + title3[random.Next(title3.Count)];
@@ -156,6 +156,9 @@ namespace GammaGear.Extensions
             loadout.WizardSchool = (School)random.Next(1, 8);
             loadout.TimeCreated = DateTime.Now + new TimeSpan(random.Next(730) - 365, random.Next(48) - 24, random.Next(120) - 60, random.Next(120) - 60);
             loadout.TimeUpdated = loadout.TimeCreated + new TimeSpan(random.Next(10), 0, 0, 0);
+            loadout.Items.Add(GenerateRandomItem());
+            loadout.Items.Add(GenerateRandomItem());
+            loadout.Items.Add(GenerateRandomItem());
             return loadout;
         }
 
@@ -198,8 +201,8 @@ namespace GammaGear.Extensions
             item.Resists.Add(rand.Next(0, 2) == 0 ? School.Any : item.SchoolRequirement, rand.Next(1, 20));
 
 
-            string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
-            string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
+            string[] consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x"];
+            string[] vowels = ["a", "e", "i", "o", "u", "ae", "y"];
             string name = "";
             name += consonants[rand.Next(consonants.Length)].ToUpper();
             name += vowels[rand.Next(vowels.Length)];

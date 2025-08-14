@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace GammaItems
@@ -153,7 +154,7 @@ namespace GammaItems
 
         public Dictionary<ItemSet, int> CalculateItemSetContribution()
         {
-            return null;
+            return new Dictionary<ItemSet, int>();
         }
     }
 }
