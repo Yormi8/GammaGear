@@ -1,4 +1,5 @@
 using GammaGear.Extensions;
+using GammaGear.ViewModels.Controls;
 using GammaItems;
 using System;
 using System.Collections.Generic;

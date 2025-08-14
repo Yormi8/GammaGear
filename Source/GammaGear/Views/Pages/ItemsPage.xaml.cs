@@ -29,6 +29,7 @@ using Image = Wpf.Ui.Controls.Image;
 using FilterButtonInfo = GammaGear.ViewModels.FilterButtonInfo;
 using FilterSchoolInfo = GammaGear.ViewModels.FilterSchoolInfo;
 using FilterEquipmentInfo = GammaGear.ViewModels.FilterEquipmentInfo;
+using GammaGear.ViewModels.Controls;
 
 namespace GammaGear.Views.Pages
 {

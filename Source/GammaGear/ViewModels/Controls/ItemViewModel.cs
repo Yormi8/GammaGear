@@ -7,71 +7,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GammaGear.ViewModels
+namespace GammaGear.ViewModels.Controls
 {
-    public partial class ItemViewModel : ViewModelBase
+    public partial class ItemViewModel(Item item) : ViewModelBase
     {
-        private readonly Item _item;
+        public string Name => item.Name;
+        public ItemType Type => item.Type;
+        public int LevelRequirement => item.LevelRequirement;
+        public ItemFlags Flags => item.Flags;
+        public ArenaRank PvpRankRequirement => item.PvpRankRequirement;
+        public ArenaRank PetRankRequirement => item.PetRankRequirement;
+        public School SchoolRequirement => item.SchoolRequirement;
+        public School SchoolRestriction => item.SchoolRestriction;
+        public bool IsRetired => item.IsRetired;
+        public bool IsDebug => item.Flags.HasFlag(ItemFlags.FLAG_DevItem);
+        public bool IsCrownsOnly => (item.Flags & ItemFlags.FLAG_CrownsOnly) == ItemFlags.FLAG_CrownsOnly;
+        public bool IsPVPOnly => (item.Flags & ItemFlags.FLAG_PVPOnly) == ItemFlags.FLAG_PVPOnly;
+        public static bool IsFavorite => false;
+        public int MaxHealth => item.MaxHealth;
+        public int MaxMana => item.MaxMana;
+        public int MaxEnergy => item.MaxEnergy;
+        public int SpeedBonus => item.SpeedBonus;
+        public int PowerpipChance => item.PowerpipChance;
+        public int ShadowpipRating => item.ShadowpipRating;
+        public int StunResistChance => item.StunResistChance;
+        public int FishingLuck => item.FishingLuck;
+        public int ArchmasteryRating => item.ArchmasteryRating;
+        public int IncomingHealing => item.IncomingHealing;
+        public int OutgoingHealing => item.OutgoingHealing;
+        public int PipsGiven => item.PipsGiven;
+        public int PowerpipsGiven => item.PowerpipsGiven;
+        public int TearJewelSlots => item.TearJewelSlots;
+        public int CircleJewelSlots => item.CircleJewelSlots;
+        public int SquareJewelSlots => item.SquareJewelSlots;
+        public int TriangleJewelSlots => item.TriangleJewelSlots;
+        public int PowerPinSlots => item.PowerPinSlots;
+        public int ShieldPinSlots => item.ShieldPinSlots;
+        public int SwordPinSlots => item.SwordPinSlots;
+        public ItemSet SetBonus => item.SetBonus;
+        public IReadOnlyDictionary<School, int> Accuracies => item.Accuracies;
+        public IReadOnlyDictionary<School, int> Damages => item.Damages;
+        public IReadOnlyDictionary<School, int> Resists => item.Resists;
+        public IReadOnlyDictionary<School, int> Criticals => item.Criticals;
+        public IReadOnlyDictionary<School, int> Blocks => item.Blocks;
+        public IReadOnlyDictionary<School, int> Pierces => item.Pierces;
+        public IReadOnlyDictionary<School, int> FlatDamages => item.FlatDamages;
+        public IReadOnlyDictionary<School, int> FlatResists => item.FlatResists;
+        public IReadOnlyDictionary<School, int> PipConversions => item.PipConversions;
+        public IReadOnlyDictionary<string, int> ItemCards => item.ItemCards;
+        public IReadOnlyCollection<School> AltSchoolMasteries => item.AltSchoolMasteries;
 
-        public string Name => _item.Name;
-        public ItemType Type => _item.Type;
-        public int LevelRequirement => _item.LevelRequirement;
-        public ItemFlags Flags => _item.Flags;
-        public ArenaRank PvpRankRequirement => _item.PvpRankRequirement;
-        public ArenaRank PetRankRequirement => _item.PetRankRequirement;
-        public School SchoolRequirement => _item.SchoolRequirement;
-        public School SchoolRestriction => _item.SchoolRestriction;
-        public bool IsRetired => _item.IsRetired;
-        public bool IsDebug => _item.Flags.HasFlag(ItemFlags.FLAG_DevItem);
-        public bool IsCrownsOnly => (_item.Flags & ItemFlags.FLAG_CrownsOnly) == ItemFlags.FLAG_CrownsOnly;
-        public bool IsPVPOnly => (_item.Flags & ItemFlags.FLAG_PVPOnly) == ItemFlags.FLAG_PVPOnly;
-        public bool IsFavorite => false;
-        public int MaxHealth => _item.MaxHealth;
-        public int MaxMana => _item.MaxMana;
-        public int MaxEnergy => _item.MaxEnergy;
-        public int SpeedBonus => _item.SpeedBonus;
-        public int PowerpipChance => _item.PowerpipChance;
-        public int ShadowpipRating => _item.ShadowpipRating;
-        public int StunResistChance => _item.StunResistChance;
-        public int FishingLuck => _item.FishingLuck;
-        public int ArchmasteryRating => _item.ArchmasteryRating;
-        public int IncomingHealing => _item.IncomingHealing;
-        public int OutgoingHealing => _item.OutgoingHealing;
-        public int PipsGiven => _item.PipsGiven;
-        public int PowerpipsGiven => _item.PowerpipsGiven;
-        public int TearJewelSlots => _item.TearJewelSlots;
-        public int CircleJewelSlots => _item.CircleJewelSlots;
-        public int SquareJewelSlots => _item.SquareJewelSlots;
-        public int TriangleJewelSlots => _item.TriangleJewelSlots;
-        public int PowerPinSlots => _item.PowerPinSlots;
-        public int ShieldPinSlots => _item.ShieldPinSlots;
-        public int SwordPinSlots => _item.SwordPinSlots;
-        public ItemSet SetBonus => _item.SetBonus;
-        public IReadOnlyDictionary<School, int> Accuracies => _item.Accuracies;
-        public IReadOnlyDictionary<School, int> Damages => _item.Damages;
-        public IReadOnlyDictionary<School, int> Resists => _item.Resists;
-        public IReadOnlyDictionary<School, int> Criticals => _item.Criticals;
-        public IReadOnlyDictionary<School, int> Blocks => _item.Blocks;
-        public IReadOnlyDictionary<School, int> Pierces => _item.Pierces;
-        public IReadOnlyDictionary<School, int> FlatDamages => _item.FlatDamages;
-        public IReadOnlyDictionary<School, int> FlatResists => _item.FlatResists;
-        public IReadOnlyDictionary<School, int> PipConversions => _item.PipConversions;
-        public IReadOnlyDictionary<string, int> ItemCards => _item.ItemCards;
-        public IReadOnlyCollection<School> AltSchoolMasteries => _item.AltSchoolMasteries;
+        public Uri SchoolIcon => item.SchoolRestriction == School.None ?
+                                    item.SchoolRequirement.ToIconUri() :
+                                    item.SchoolRestriction.ToSlashedIconUri();
 
-        public Uri SchoolIcon => _item.SchoolRestriction == School.None ?
-                                    _item.SchoolRequirement.ToIconUri() :
-                                    _item.SchoolRestriction.ToSlashedIconUri();
+        public string SchoolTooltip => item.SchoolRestriction == School.None ?
+                                        item.SchoolRequirement.ToString() :
+                                        $"Not {item.SchoolRestriction}";
 
-        public string SchoolTooltip => _item.SchoolRestriction == School.None ?
-                                        _item.SchoolRequirement.ToString() :
-                                        $"Not {_item.SchoolRestriction}";
-
-        public Uri EquipmentTypeIcon => _item.Type.ToIconUri();
-
-        public ItemViewModel(Item item)
-        {
-            _item = item;
-        }
+        public Uri EquipmentTypeIcon => item.Type.ToIconUri();
     }
 }

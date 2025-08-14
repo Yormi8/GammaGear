@@ -15,6 +15,7 @@ using GammaItems.Source.Database;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.FileSystemGlobbing;
 using System.Collections.ObjectModel;
+using GammaGear.ViewModels.Controls;
 
 namespace GammaGear.ViewModels.Pages
 {

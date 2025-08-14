@@ -33,6 +33,7 @@ namespace GammaGear.ViewModels.Pages
         [RelayCommand]
         public void CancelClick()
         {
+            logger.LogInformation("Cancel Clicked...");
             navigationService.GoBack();
         }
     }
